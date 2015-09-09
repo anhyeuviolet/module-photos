@@ -19,7 +19,7 @@
 	 </div>
 	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/rating.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/photos_rating.js"></script>
 <script type="text/javascript">
 $(function() {
     $('.starbox').starbox({

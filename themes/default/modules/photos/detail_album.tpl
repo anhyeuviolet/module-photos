@@ -1,10 +1,12 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/multi-columns-row.css"type="text/css" rel="stylesheet" media="all" />
-<link href="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css"type="text/css" rel="stylesheet" media="all" />
-<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/lazyload.js" type="text/javascript" ></script>
- 
-<div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
+<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/photos_multi-columns-row.css" type="text/css" rel="StyleSheet"/>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/photos_lazyload.js" type="text/javascript" ></script>
+<!-- BEGIN: bxslider -->
+<link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="StyleSheet"/>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
+<!-- END: bxslider -->
+
+ <div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
 	<a itemprop="url" href="{SELFURL}" style="display:none"> <span itemprop="name">{ALBUM.name}</span></a>
 	<div class="photo-description" itemprop="description" style="display:none"> {ALBUM.description} </div>
 	<span class="contentLocation" itemprop="contentLocation" style="display:none">{ALBUM.capturelocal}</span>

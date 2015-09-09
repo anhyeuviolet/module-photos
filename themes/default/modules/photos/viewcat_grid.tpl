@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/lazyload.js" type="text/javascript" ></script>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/photos_lazyload.js" type="text/javascript" ></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".photo-hover").hover(function(){

@@ -13,19 +13,19 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 if( ! nv_function_exists( 'creat_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_name, $width = 200, $height = 150, $quality = 90 )
+	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;
 
-		$image = NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' . $file;
+		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
  
 		if( $file != '' and file_exists( $image ) )
 		{
-			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $file;
+			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
 			$imginfo = nv_is_image( $image );
 
-			$basename = $module_name . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+			$basename = $module_upload . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
 
 			if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
 			{
@@ -82,7 +82,7 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
  */
 function home_view_grid_by_cat( $array_cat )
 {
-	global $global_config, $global_photo_cat, $module_name, $module_file, $lang_module, $photo_config, $module_info, $op;
+	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
 	$xtpl = new XTemplate( 'home_view_grid_by_cat.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -103,8 +103,8 @@ function home_view_grid_by_cat( $array_cat )
 					
 					$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 					$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-					$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_name, 270, 210, 90 );
-					$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $album['file'];
+					$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
+					$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 					
 					$xtpl->assign( 'ALBUM', $album );
 					$xtpl->parse( 'main.loop_catalog.loop_album' );
@@ -116,6 +116,11 @@ function home_view_grid_by_cat( $array_cat )
 
 	}
 
+	if( ! defined( 'BXSLIDER' ) )
+	{
+		define( 'BXSLIDER', true );
+		$xtpl->parse( 'main.bxslider' );
+	}
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
@@ -127,7 +132,7 @@ function home_view_grid_by_cat( $array_cat )
  */
 function viewcat_grid( $array_catpage, $generate_page )
 {
-	global $global_config, $category_id, $global_photo_cat, $client_info, $module_name, $module_file, $lang_module, $photo_config, $module_info, $op;
+	global $global_config, $category_id, $global_photo_cat, $client_info, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
 	$xtpl = new XTemplate( 'viewcat_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -144,8 +149,8 @@ function viewcat_grid( $array_catpage, $generate_page )
 			
 			$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_name, 270, 210, 90 );
-			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $album['file'];
+			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
+			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 					
 			$xtpl->assign( 'ALBUM', $album );
 			$xtpl->parse( 'main.loop_album' );		 
@@ -157,6 +162,12 @@ function viewcat_grid( $array_catpage, $generate_page )
 		 
 		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
 		$xtpl->parse( 'main.generate_page' );
+	}
+	
+	if( ! defined( 'BXSLIDER' ) )
+	{
+		define( 'BXSLIDER', true );
+		$xtpl->parse( 'main.bxslider' );
 	}
 
 	$xtpl->parse( 'main' );
@@ -171,7 +182,7 @@ function viewcat_grid( $array_catpage, $generate_page )
  */
 function detail_album( $album, $array_photo, $other_category_album )
 {
-	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_file, $lang_module, $photo_config, $module_info, $op;
+	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
 	$xtpl = new XTemplate( 'detail_album.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -205,8 +216,8 @@ function detail_album( $album, $array_photo, $other_category_album )
 			foreach( $array_photo as $photo )
 			{
 				//$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_name, 300, 210, 90 );
-				$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/thumb/' . $photo['thumb'];
-				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $photo['file'];
+				$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
+				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
 				$photo['num'] = $num;
 				$xtpl->assign( 'PHOTO', $photo );
 				$xtpl->parse( 'main.loop_slide' );
@@ -223,13 +234,19 @@ function detail_album( $album, $array_photo, $other_category_album )
 		{
 			$other['description'] = strip_tags( nv_clean60( $other['description'], 100 ) );
 			$other['datePublished'] = date( 'Y-m-d', $other['date_added'] );
-			$other['thumb'] = creat_thumbs( $other['album_id'], $other['file'], $module_name, 270, 210, 90 );
-			$other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $other['file'];
+			$other['thumb'] = creat_thumbs( $other['album_id'], $other['file'], $module_upload, 270, 210, 90 );
+			$other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $other['file'];
 			$other['key'] =	$key;	
 			$xtpl->assign( 'OTHER', $other );
 			$xtpl->parse( 'main.loop_album' );		 
 			++$key;
 		}
+	}
+ 
+	if( ! defined( 'BXSLIDER' ) )
+	{
+		define( 'BXSLIDER', true );
+		$xtpl->parse( 'main.bxslider' );
 	}
  
 	$xtpl->parse( 'main' );

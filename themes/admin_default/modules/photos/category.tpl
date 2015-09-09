@@ -98,8 +98,7 @@
 		<div id="cat-delete-area">&nbsp;</div>
 	</div>
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/footer.js"></script>
-
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <script type="text/javascript">
 
 $('button[type=\'submit\']').on('click', function() {

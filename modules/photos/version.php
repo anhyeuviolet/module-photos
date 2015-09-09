@@ -2,9 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Copyright (C) 2013 tradacongnghe.com. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
@@ -19,12 +18,12 @@ $module_version = array(
 	"virtual" => 1,  
 	"version" => "4.0.01",  
 	"date" => "Wed, 21 Jan 2015 14:00:59 GMT",  
-	"author" => "DANGDINHTU (dlinhvan@gmail.com)",  
+	"author" => "KENNYNGUYEN (nguyentiendat713@gmail.com)",  
 	"uploads_dir" => array(
-		$module_name,
-		$module_name."/images",
-		$module_name."/thumbs",
-		$module_name."/temp"
+		$module_upload,
+		$module_upload."/images",
+		$module_upload."/thumbs",
+		$module_upload."/temp"
 	),  
 	"note" => "" 
 );

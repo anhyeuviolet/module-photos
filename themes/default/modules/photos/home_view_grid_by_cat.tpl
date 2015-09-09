@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/multi-columns-row.css"type="text/css" rel="stylesheet" media="all" />
+<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/photos_multi-columns-row.css"type="text/css" rel="stylesheet" media="all" />
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".photo-hover").hover(function(){
@@ -12,7 +12,7 @@ $(document).ready(function(){
 });
  
 </script>
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/lazyload.js" type="text/javascript" ></script>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/photos_lazyload.js" type="text/javascript" ></script>
 <div id="photo-{OP}"> 
 	<div class="fixed">
 		<div id="photo-album">
