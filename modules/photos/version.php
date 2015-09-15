@@ -12,8 +12,8 @@ if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(  
 	"name" => "Photo", 
-	"modfuncs" => "main, detail, viewcat", 
-	"submenu" => "main, detail, viewcat", 
+	"modfuncs" => "main, detail_album, detail, viewcat", 
+	"submenu" => "main, detail_album, detail, viewcat", 
 	"is_sysmod" => 0, 
 	"virtual" => 1,  
 	"version" => "4.0.01",  

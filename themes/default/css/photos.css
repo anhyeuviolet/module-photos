@@ -48,3 +48,15 @@ div.photo-detail h2{font-size:20px;padding:2px 0px;margin:2px 0px;}
 @media (min-width:480px) AND (max-width:768px){
 	#photo-album .photo-album{width:50%}
 }
+
+/**/
+.panel-body img {
+    margin:auto;
+}
+.view_detail{
+	height: auto;
+	overflow: auto
+}
+.pd5{
+	padding: 5px
+}

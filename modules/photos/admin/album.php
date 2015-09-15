@@ -1139,7 +1139,6 @@ else
 	$sql .= " ASC";
 }
 
-
  
 $num_items = $db->query( 'SELECT COUNT(*) FROM ' . $sql )->fetchColumn();
 
@@ -1195,7 +1194,7 @@ foreach( $global_photo_cat as $key => $value )
 	$xtitle_i .= $value['name'];	
 	$xtpl->assign( 'category', array( 'key'=> $key, 'name'=> $xtitle_i, 'selected'=> ( $key == $data['filter_category'] ) ? 'selected="selected"': '' ) );
 	$xtpl->parse( 'main.filter_category' );
-	
+
 }
 foreach( $array_status as $key => $name )
 {
@@ -1203,21 +1202,19 @@ foreach( $array_status as $key => $name )
 	$xtpl->parse( 'main.filter_status' );
 }
  
- 
 if( ! empty( $array ) )
 {
 	foreach( $array as $item )
 	{
- 
-
 		$item['category'] = isset( $global_photo_cat[$item['category_id']] ) ? $global_photo_cat[$item['category_id']]['name'] : 'N/A';
 		$item['category_link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=album&filter_category=" . $item['category_id'];
+		$item['category_link_out'] = $global_photo_cat[$item['category_id']]['link'];
 		$item['date_added'] = nv_date( 'd/m/Y', $item['date_added'] );
 		$item['token'] = md5( $global_config['sitekey'] . session_id() . $item['album_id'] );
 		
 		$item['link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=album&action=view&token=" . $item['token'] . "&album_id=" . $item['album_id'];
+		$item['link_out'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
 		$item['edit'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=album&action=edit&token=" . $item['token'] . "&album_id=" . $item['album_id'];
-
  
 		$xtpl->assign( 'LOOP', $item );
 		
@@ -1226,10 +1223,8 @@ if( ! empty( $array ) )
 			$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $item['status'] ) ? 'selected="selected"': '' ) );
 			 $xtpl->parse( 'main.loop.status' );
 		}
- 
-		$xtpl->parse( 'main.loop' );
+ 		$xtpl->parse( 'main.loop' );
 	}
-
 }
  
 $generate_page = nv_generate_page( $base_url, $num_items, $per_page, $page );

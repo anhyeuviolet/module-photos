@@ -2,10 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
- * @License GNU/GPL version 2 or any later version
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -84,7 +82,7 @@ function home_view_grid_by_cat( $array_cat )
 {
 	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
-	$xtpl = new XTemplate( 'home_view_grid_by_cat.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl = new XTemplate( 'home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
@@ -110,20 +108,52 @@ function home_view_grid_by_cat( $array_cat )
 					$xtpl->parse( 'main.loop_catalog.loop_album' );
 					$xtpl->set_autoreset();
 				}
-				$xtpl->parse( 'main.loop_catalog' );
+				$xtpl->parse( 'main.loop_catalog.catalog_name' );
 			}
 		}
-
+		$xtpl->parse( 'main.loop_catalog' );
 	}
 
-	if( ! defined( 'BXSLIDER' ) )
-	{
-		define( 'BXSLIDER', true );
-		$xtpl->parse( 'main.bxslider' );
-	}
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
+
+/**
+ * home_view_grid_by_album()
+ * 
+ * @param mixed $array_data
+ * @return
+ */
+function home_view_grid_by_album( $array_cat )
+{
+	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
+
+	$xtpl = new XTemplate( 'home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
+	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
+	$xtpl->assign( 'MODULE_FILE', $module_file );
+	$xtpl->assign( 'OP', $op );
+	if( ! empty( $array_cat ) )
+	{
+		foreach( $array_cat['content'] as $album )
+		{
+			$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
+			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
+			
+			$xtpl->assign( 'ALBUM', $album );
+			$xtpl->parse( 'main.loop_catalog.loop_album' );
+			$xtpl->set_autoreset();
+		}
+		$xtpl->parse( 'main.loop_catalog' );
+	}
+
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
 /**
  * viewcat_grid()
  * 
@@ -195,20 +225,16 @@ function detail_album( $album, $array_photo, $other_category_album )
 	
 	if( ! empty( $album ) )
 	{
-			
 		// $ratingwidth = ( $album['total_rating'] > 0 ) ? ( $album['total_rating'] * 100 / ( $album['click_rating'] * 5 ) ) * 0.01 : 0;
 	 
 		// $xtpl->assign( 'RATINGVALUE', ( $album['total_rating'] > 0 ) ? round( $album['total_rating']/$album['click_rating'], 1) : 0 );
 		// $xtpl->assign( 'RATINGCOUNT', $album['total_rating'] );
 		// $xtpl->assign( 'RATINGWIDTH', round( $ratingwidth, 2) );
 		// $xtpl->assign( 'LINK_RATE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=rating&album_id=' . $album['album_id'] );
-		
-	
+
 		$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
- 
-		
-					
+ 					
 		$xtpl->assign( 'ALBUM', $album );
 		$num = 0;
 		if( ! empty( $array_photo ) )
@@ -218,14 +244,16 @@ function detail_album( $album, $array_photo, $other_category_album )
 				//$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_name, 300, 210, 90 );
 				$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
 				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
+				$photo['description'] = !empty($photo['description'])?$photo['description']:$photo['name'];
 				$photo['num'] = $num;
+				$photo['link_img'] = $global_photo_cat[$category_id]['link'] . '/' . $album['alias'] . '-' . $photo['album_id'] .'/'. $photo['row_id'] . $global_config['rewrite_exturl'];
 				$xtpl->assign( 'PHOTO', $photo );
-				$xtpl->parse( 'main.loop_slide' );
-				$xtpl->parse( 'main.loop_thumb' );
+				$xtpl->parse( 'main.view_grid.loop_img' );
+				//$xtpl->parse( 'main.view_grid' );
+				
 				++$num;
 			}
 		}
-  
 	}
 	if( !empty( $other_category_album ) )
 	{
@@ -243,11 +271,39 @@ function detail_album( $album, $array_photo, $other_category_album )
 		}
 	}
  
-	if( ! defined( 'BXSLIDER' ) )
+	if( $photo_config = 'album_view_grid')
 	{
-		define( 'BXSLIDER', true );
-		$xtpl->parse( 'main.bxslider' );
+		$xtpl->parse( 'main.view_grid' );
+		//$xtpl->parse( 'main.view_grid' );
 	}
+	else
+	{
+		$xtpl->parse( 'main.view_slider' );
+		$xtpl->parse( 'main.view_slider' );
+	}
+
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+function detail( $row )
+{
+	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
+
+	$xtpl = new XTemplate( 'detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
+	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
+	$xtpl->assign( 'MODULE_FILE', $module_file );
+	$xtpl->assign( 'OP', $op );
+	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
+	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+	
+		if( ! empty( $row ) )
+		{
+			$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
+			$xtpl->assign( 'PHOTO', $row );
+		}
  
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

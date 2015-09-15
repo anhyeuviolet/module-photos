@@ -2,10 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
- * @License GNU/GPL version 2 or any later version
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -50,8 +48,27 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 }
 elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 {
-	
-	
+	$array_cat = array();
+	if( ! empty( $global_photo_cat ) )
+	{ 
+		$sql = 'SELECT a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
+				LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
+				WHERE a.status= 1 AND r.defaults = 1 
+				ORDER BY a.date_added DESC 
+				LIMIT 0 , ' . $photo_config['per_page_album'];
+		$result = $db->query( $sql );
+
+		while( $item = $result->fetch() )
+		{
+			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
+			
+			$array_cat['content'][] = $item;
+		}
+		$result->closeCursor();
+		
+	}
+ 
+	$contents = home_view_grid_by_album( $array_cat );	
 }
 
 

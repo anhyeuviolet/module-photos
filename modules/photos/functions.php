@@ -2,10 +2,9 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
  * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
- * @License GNU/GPL version 2 or any later version
+ * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -41,7 +40,6 @@ if( $module_info['rss'] )
 		'src' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=rss' //
 	);
 }
-
 
 foreach( $global_photo_cat as $category_id_i => $array_cat_i )
 {
@@ -92,14 +90,10 @@ unset( $result, $category_id_i, $parent_id_i, $title_i, $alias_i );
 $module_info['submenu'] = 0;
 
 $page = 1;
- 
- 
 $count_op = sizeof( $array_op );
-
 
 if( ! empty( $array_op ) and $op == 'main' )
 {
-	
 	if( $category_id == 0 )
 	{
 		$contents = $lang_module['nocatpage'] . $array_op[0];
@@ -123,6 +117,17 @@ if( ! empty( $array_op ) and $op == 'main' )
 			{
 				$page = intval( substr( $array_op[1], 5 ) );
 			}
+			$parent_id = $category_id;
+			while( $parent_id > 0 )
+			{
+				$array_cat_i = $global_photo_cat[$parent_id];
+				$array_mod_title[] = array(
+					'category_id' => $parent_id,
+					'title' => $array_cat_i['name'],
+					'link' => $array_cat_i['link']
+				);
+				$parent_id = $array_cat_i['parent_id'];
+			}
 		}
 		elseif( $count_op == 2 )
 		{
@@ -132,26 +137,36 @@ if( ! empty( $array_op ) and $op == 'main' )
 			$alias_url = substr( $array_op[1], 0, -$number );
 			if( $album_id > 0 and $alias_url != '' )
 			{
+				$op = 'detail_album';
+			}
+			$array_mod_title[] = array(
+				'category_id' => $album_id,
+				'title' => $global_photo_album[$album_id]['name'],
+				'link' => $global_photo_album[$album_id]['link']
+			);
+		}
+		elseif( $count_op == 3 )
+		{
+			
+			$array_alid = explode( '-', $array_op[1] );
+			$album_id = intval( end( $array_alid ) );
+			$array_page = explode( '-', $array_op[2] );
+			$row_id = intval( end( $array_page ) );
+			$number = strlen( $row_id ) + 1;
+			if( $row_id > 0 )
+			{
 				$op = 'detail';
+				$array_mod_title[] = array(
+				'category_id' => $album_id,
+				'title' => $global_photo_album[$album_id]['name'],
+				'link' => $global_photo_album[$album_id]['link']
+				);
 			}
 		}
- 
-		$parent_id = $category_id;
-		while( $parent_id > 0 )
-		{
-			$array_cat_i = $global_photo_cat[$parent_id];
-			$array_mod_title[] = array(
-				'category_id' => $parent_id,
-				'title' => $array_cat_i['name'],
-				'link' => $array_cat_i['link']
-			);
-			$parent_id = $array_cat_i['parent_id'];
-		}
+
 		sort( $array_mod_title, SORT_NUMERIC );
 	}
 }
- 
-
 
 function gltJsonResponse( $error = array(), $data = array() )
 {

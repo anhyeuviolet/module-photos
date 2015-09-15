@@ -2,10 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
- * @License GNU/GPL version 2 or any later version
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -95,6 +93,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   thumb varchar(255) NOT NULL,
   favorite int(11) NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
+  viewed mediumint(8) unsigned NOT NULL default '0',
   date_added int(11) unsigned NOT NULL DEFAULT '0',
   date_modified int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (row_id)

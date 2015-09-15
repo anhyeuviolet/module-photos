@@ -2,17 +2,15 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
- * @License GNU/GPL version 2 or any later version
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
   
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
-global $global_photo_cat, $photo_config;
+global $global_photo_cat, $global_photo_album, $photo_config;
 
 $photo_config = array();
 $sql = 'SELECT *  FROM ' . NV_PREFIXLANG . '_' . $module_data . '_setting';
@@ -30,6 +28,17 @@ foreach( $list as $l )
 {
 	$global_photo_cat[$l['category_id']] = $l;
 	$global_photo_cat[$l['category_id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $l['alias'];
+	
+}
+unset( $sql, $list );
+
+$global_photo_album = array();
+$sql = 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_album ORDER BY weight ASC';
+$list = nv_db_cache( $sql, 'album_id', $module_name );
+foreach( $list as $l )
+{
+	$global_photo_album[$l['album_id']] = $l;
+	$global_photo_album[$l['album_id']]['link'] = $global_photo_cat[$l['category_id']]['link'] . '/' . $l['alias'] . '-' . $l['album_id'] . $global_config['rewrite_exturl'];
 	
 }
 unset( $sql, $list );
