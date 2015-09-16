@@ -30,7 +30,7 @@ $(document).ready(function() {
  
 	//$('button[type=\'submit\']').on('click', function() {
 	//		$("form[id*='form-']").submit();
-	//});
+	});
  
 	$('.text-danger').each(function() {
 		var element = $(this).parent().parent();
@@ -45,6 +45,18 @@ $(document).ready(function() {
 	});
 
 });
+
+// Calendar */
+$('#input-date-album').datepicker({
+	showOn : "both",
+	dateFormat : "dd/mm/yy",
+	changeMonth : true,
+	changeYear : true,
+	showOtherMonths : true,
+	buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
+	buttonImageOnly : true
+});
+
 // Autofill */
 (function($) {
 	function Autofill(element, options) {
@@ -170,3 +182,25 @@ $(document).ready(function() {
 		});
 	}
 })(window.jQuery);  
+
+// Autofill */
+
+$('input[name=\'filter_name\']').autofill({
+	'source': function(request, response) {
+		$.ajax({
+			url: url_search+'&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['album_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_name\']').val(item['label']);
+	}
+});

@@ -241,11 +241,11 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
 			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
 			$imginfo = nv_is_image( $image );
 
-			$basename = $module_upload . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
 
-			if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+			if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload. '/' . $basename ) )
 			{
-				$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+				$imgsource = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload. '/' . $basename;
 			}
 			else
 			{
@@ -268,11 +268,11 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
 
 				$_image->cropFromCenter( $width, $height );
 
-				$_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename, $quality );
+				$_image->save( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload, $basename, $quality );
 
-				if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+				if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload. '/' . $basename ) )
 				{
-					$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+					$imgsource = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload. '/' . $basename;
 				}
 			}
 		}

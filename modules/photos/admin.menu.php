@@ -9,7 +9,7 @@
  
 if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
 
-$submenu['album'] = $lang_module['album'];
+$submenu['main'] = $lang_module['album'];
 $submenu['category'] = $lang_module['category'];
 $submenu['setting'] = $lang_module['setting'];
 

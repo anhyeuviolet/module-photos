@@ -126,9 +126,9 @@
  								</div>
 						</div>
 						<div class="form-group">
-								<label class="col-sm-4 control-label" for="input-capturedate">{LANG.album_capturedate}</label>
+								<label class="col-sm-4 control-label" for="input-date-album">{LANG.album_capturedate}</label>
 								<div class="col-sm-20">
-									<input type="text" name="capturedate" value="{DATA.capturedate}" placeholder="{LANG.album_capturedate}" id="input-capturedate" class="form-control" maxlength="10"/>
+									<input type="text" name="capturedate" value="{DATA.capturedate}" placeholder="{LANG.album_capturedate}" id="input-date-album" class="form-control" maxlength="10"/>
  								</div>
 						</div>
 						<div class="form-group">
@@ -370,204 +370,13 @@
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>												
 <script type="text/javascript">
-
-$('#input-capturedate').datepicker({
-	showOn : "both",
-	dateFormat : "dd/mm/yy",
-	changeMonth : true,
-	changeYear : true,
-	showOtherMonths : true,
-	buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
-	buttonImageOnly : true
-});
- 
-function checkform()
-{
-	$('.text-danger').remove();
-	var is = true;	
-	var name = $('input[name="name"]');	
-	if( name.val().length < 3 )
-	{		
-		name.after('<div class="text-danger">{LANG.album_error_name}</div>');
-		is = false;
-	}else
-	{
-		var ename = $(name).parent().parent();	
-		if (ename.hasClass('required')) {
-			ename.removeClass('has-error');
-		}
-	}
-	
-	var rel_folder = $('div[rel="folder"]');
- 	var folder = $('input[name="folder"]');
- 	if( $(folder).val().length < 3 )
-	{
-		$(rel_folder).after('<div class="text-danger">{LANG.album_error_folder}</div>');
-		is = false;
-	}else
-	{
-		var efolder = $(rel_folder).parent().parent();	
-		if (efolder.hasClass('required')) {
-			efolder.removeClass('has-error');
-		}
-	}
-	
-	var category = $('select[name="category_id"]');
-	if( category.val() == 0 )
-	{
-		category.after('<div class="text-danger">{LANG.album_error_category}</div>');
-		is = false;
-	}else
-	{
-		var ecategory = $(category).parent().parent();	
-		if (ecategory.hasClass('required')) {
-			ecategory.removeClass('has-error');
-		}
-	}
-	
-	var meta_title = $('input[name="meta_title"]');
-	if( meta_title.val().length < 3 )
-	{
-		meta_title.after('<div class="text-danger">{LANG.album_error_meta_title}</div>');
-		is = false;
-	}else
-	{
-		var emeta_title = $(meta_title).parent().parent();	
-		if (emeta_title.hasClass('required')) {
-			emeta_title.removeClass('has-error');
-		}
-	}
-	
-	
-	$('body .text-danger').each(function() {
-		var element = $(this).parent().parent();
-		
-		if (element.hasClass('form-group')) {
-			element.addClass('has-error');
-		}
-	});
-	
-	
-	if( ! is ) 
-	{
-		$('a[rel="tab-image"]').parent().addClass('disabled');
-		$('a[rel="tab-info-image"]').parent().addClass('disabled');
-		return false;
-	}else 
-	{
-		$('.text-danger').remove();
-		$('a[rel="tab-image"]').parent().removeClass('disabled');
-		$('a[rel="tab-info-image"]').parent().removeClass('disabled');
-	}
-	return is;
-}
-
-$('a[rel="tab-image"], a[rel="tab-info-image"]').hover( function(e) {	
-	return checkform();
-});
-$('a[rel="tab-image"], a[rel="tab-info-image"], input[type="submit"], button[type="submit"], input[type="text"], select[name="category_id"]').on('click keyup blur change', function(e) {	
-	return checkform();
-});
-$('body').on('click', '.fixradio', function(e) {	
- 
-	$('body .fixradio').each(function() 
-	{
-		$(this).prop('checked', false);
-	});
-	$(this).prop('checked', true);
-});
-
-$('body').on('click', '.deleterows', function(e) {	
-	var album_id = '{DATA.album_id}';
-	var row_id = $(this).attr('data-row');
-	var token = $(this).attr('data-token');
-	var token_image = $(this).attr('data-token-image');
-	var token_thumb = $(this).attr('data-token-thumb');
-	var key = $(this).attr('data-key');
-	var thumb = $('input[name="albums['+ key +'][thumb]"]').val();
-	var image_url = $('input[name="albums['+ key +'][image_url]"]').val();
-	if(confirm('{LANG.confirm}') ) {
-		$.ajax({
-			url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=album&action=deleterows&nocache=' + new Date().getTime(),
-			type: 'post',
-			dataType: 'json',
-			data: 'album_id=' + album_id + '&row_id=' + row_id + '&token=' + token + '&token_image=' + token_image + '&token_thumb=' + token_thumb + '&thumb=' + thumb + '&image_url=' + image_url,
-			beforeSend: function() {
-				$('#images-' + key + ' .deleterows .fa-spinner').css('display', 'block');
-			},	
-			complete: function() {
-				$('#images-' + key + ' .fa-spinner').css('display', 'none');
-			},
-			success: function(json) {
-				$('.alert').remove();
-				$("html, body").animate({ scrollTop: 0 }, "slow");
-				
-				if (json['error']) {
-					$('#content').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-				}
-				
-				if (json['success']) {
-					
-					$('#images-' + key).remove();
-					
-					$('#content').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
-					
-					if( $('input[name="albums['+key+'][defaults]"]' ).is(":checked") )
-					{
-						$('body .fixradio').get(0).checked = true;
-					}else
-					{
-						var check = 0;
-						$('body .fixradio').each(function() 
-						{
-							 if( $(this).is(":checked") )
-							 {
-								++check;
-							 }
-						});
-						if( check == 0 )
-						{
-							$('body .fixradio').get(0).checked = true;
-						}
-					}
-					
-				}		
-				 
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	} 
-});
- 
-$('button[type=\'submit\']').on('click', function() 
-{
-	var checked = 0;
-	$('body .fixradio').each(function() 
-	{
-		if( $(this).is(':checked') )
-		{
-			++checked;
-		}
-	});
-	if( checked == 0 )
-	{
-		$('.message_info').show();
-		alert('{LANG.check_form}');
-		return false;
-	}else
-	{
-		$('.message_info').hide();
-	}
-	
-	if( checkform() == true )
-	{
-		$("form[id*='form-']").submit();
-	}
-	
-});
- 
+var album_error_name = '{LANG.album_error_name}';
+var album_error_folder = '{LANG.album_error_folder}';
+var album_error_category = '{LANG.album_error_category}';
+var album_error_meta_title = '{LANG.album_error_meta_title}';
+var album_id = '{DATA.album_id}';
+var lang_confirm = '{LANG.confirm}';
+var lang_check_form = '{LANG.check_form}';
 </script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <!-- BEGIN: getalias -->

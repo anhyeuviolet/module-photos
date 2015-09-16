@@ -172,7 +172,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 		{
 			foreach( $array_photo as $photo )
 			{
-				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_name, 300, 210, 90 );
+				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_upload, 300, 210, 90 );
 				//$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
 				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
 				$photo['description'] = !empty($photo['description'])?$photo['description']:$photo['name'];

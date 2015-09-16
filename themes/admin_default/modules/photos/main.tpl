@@ -23,12 +23,12 @@
 					<form action="{NV_BASE_ADMINURL}index.php" method="get">
 					<input type="hidden" name ="{NV_NAME_VARIABLE}"value="{MODULE_NAME}" />
 					<input type="hidden" name ="{NV_OP_VARIABLE}"value="{OP}" />
-					<div class="col-sm-12">
-						<div class="form-group">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
 							<label class="control-label" for="input-album-name">{LANG.album_name}</label>
 							<input type="text" name="filter_name" value="{DATA.filter_name}" placeholder="{LANG.album_name}" id="input-album-name" class="form-control">
 						</div>
-						<div class="form-group">
+						<div class="form-group col-md-12">
 							<label class="control-label" for="input-category">{LANG.album_category}</label>
 							<select name="filter_category" id="input-category" class="form-control">
 								<option value="*">   --------  </option>
@@ -38,8 +38,8 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-12">
-						<div class="form-group">
+					<div class="col-md-12">
+						<div class="form-group col-md-12">
 							<label class="control-label" for="input-status">{LANG.album_status}</label>
 							<select name="filter_status" id="input-status" class="form-control">
 								<option value="*">   --------  </option>
@@ -48,12 +48,9 @@
 								<!-- END: filter_status -->
 							</select>
 						</div>
-						<div class="form-group">
-							<label class="control-label" for="input-date-added">{LANG.album_date_added}</label>
-							 
-								<input type="text" name="filter_date_added" value="{DATA.filter_date_added}" placeholder="{LANG.column_date_added}" id="input-date-added" class="form-control">
-								 
-							 
+						<div class="form-group col-md-12">
+							<label class="control-label" for="input-date-album">{LANG.album_date_added}</label>
+								<input type="text" name="filter_date_added" value="{DATA.filter_date_added}" placeholder="{LANG.column_date_added}" id="input-date-album" class="form-control">
 						</div>
 						<input type="hidden" name ="checkss" value="{TOKEN}" />
 						<button type="submit" id="button-filter" class="btn btn-primary pull-right" data-toggle="tooltip" title="{LANG.search}"><i class="fa fa-search"></i> {LANG.search}</button>
@@ -70,11 +67,10 @@
 								<td class="col-md-0 text-center" ><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></td>
 								<td class="col-md-8 text-left"><a href="{URL_NAME}">{LANG.album_name}</a> </td>
 								<td class="col-md-4 text-center"> <strong>{LANG.album_category} </strong></td>
-								<td class="col-md-4 text-center"> <strong>{LANG.album_num_photo} </strong></td>
-								<td class="col-md-2 text-center"> <strong>{LANG.album_status} </strong></td>
-								<td class="col-md-2 text-center"> <strong>{LANG.album_date_added} </strong></td>
-								<td class="col-md-2 text-center" ><a href="{URL_WEIGHT}">{LANG.weight}</a></td>
-								<td class="col-md-4 text-right"> <strong>{LANG.action} </strong></td>
+								<td class="col-md-3 text-center"> <strong>{LANG.album_num_photo} </strong></td>
+								<td class="col-md-3 text-center"> <strong>{LANG.album_status} </strong></td>
+								<td class="col-md-3 text-center"> <strong>{LANG.album_date_added} </strong></td>
+								<td class="col-md-3 text-center"> <strong>{LANG.action} </strong></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -103,9 +99,6 @@
 									{LOOP.date_added}
 								</td>
 								<td class="text-center">
-									{LOOP.weight} 
-								</td>
-								<td class="text-right">
 									<a href="{LOOP.edit}" data-toggle="tooltip" title="{LANG.edit}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
 									&nbsp;&nbsp;
 									<a href="javascript:void(0);" onclick="delete_album('{LOOP.album_id}', '{LOOP.token}')" data-toggle="tooltip" title="{LANG.delete}" class="btn btn-danger"><i class="fa fa-trash-o"></i>
@@ -119,12 +112,9 @@
 			<!-- BEGIN: generate_page -->
 			<div class="row">
 				<div class="col-sm-12 text-left">
-				
-				<div style="clear:both"></div>
-				{GENERATE_PAGE}
-				
+					<div style="clear:both"></div>
+					{GENERATE_PAGE}
 				</div>
-				 
 			</div>
 			<!-- END: generate_page -->
 		</div>
@@ -145,134 +135,9 @@
 
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <script type="text/javascript">
-$('#input-date-added').datepicker({
-	showOn : "both",
-	dateFormat : "dd/mm/yy",
-	changeMonth : true,
-	changeYear : true,
-	showOtherMonths : true,
-	buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
-	buttonImageOnly : true
-});
-$('input[name=\'filter_name\']').autofill({
-	'source': function(request, response) {
-		$.ajax({
-			url: '{URL_SEARCH}&filter_name=' +  encodeURIComponent(request),
-			dataType: 'json',
-			success: function(json) {
-				response($.map(json, function(item) {
-					return {
-						label: item['name'],
-						value: item['album_id']
-					}
-				}));
-			}
-		});
-	},
-	'select': function(item) {
-		$('input[name=\'filter_name\']').val(item['label']);
-	}
-});
-
-function delete_album(album_id, token) {
-	if(confirm('{LANG.confirm}')) {
-		$.ajax({
-			url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=album&action=delete&nocache=' + new Date().getTime(),
-			type: 'post',
-			dataType: 'json',
-			data: 'album_id=' + album_id + '&token=' + token,
-			beforeSend: function() {
-				$('#button-delete i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
-				$('#button-delete').prop('disabled', true);
-			},	
-			complete: function() {
-				$('#button-delete i').replaceWith('<i class="fa fa-trash-o"></i>');
-				$('#button-delete').prop('disabled', false);
-			},
-			success: function(json) {
-				$('.alert').remove();
-
-				if (json['error']) {
-					$('#content').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-				}
-				
-				if (json['success']) {
-					$('#content').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
-					 $.each(json['id'], function(i, id) {
-						$('#group_' + id ).remove();
-					});
-				}		
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	}
-}
-
-$('#button-delete').on('click', function() {
-	if(confirm('{LANG.confirm}')) 
-	{
-		var listid = [];
-		$("input[name=\"selected[]\"]:checked").each(function() {
-			listid.push($(this).val());
-		});
-		if (listid.length < 1) {
-			alert("{LANG.please_select_one}");
-			return false;
-		}
-	 
-		$.ajax({
-			url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=album&action=delete&nocache=' + new Date().getTime(),
-			type: 'post',
-			dataType: 'json',
-			data: 'listid=' + listid + '&token={TOKEN}',
-			beforeSend: function() {
-				$('#button-delete i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
-				$('#button-delete').prop('disabled', true);
-			},	
-			complete: function() {
-				$('#button-delete i').replaceWith('<i class="fa fa-trash-o"></i>');
-				$('#button-delete').prop('disabled', false);
-			},
-			success: function(json) {
-				$('.alert').remove();
- 
-				if (json['error']) {
-					$('#content').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-				}
-				
-				if (json['success']) {
-					$('#content').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
-					 $.each(json['id'], function(i, id) {
-						$('#group_' + id ).remove();
-					});
-				}		
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	}	
-});
-
-</script>
-
-<script type="text/javascript">
-function nv_change_album(album_id, mod) {
-	var nv_timer = nv_settimeout_disable('id_'+mod+'_' + album_id, 5000);
-	var new_vid = $('#id_'+mod+'_' + album_id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=album&action='+mod+'&nocache=' + new Date().getTime(), 'album_id=' + album_id + '&new_vid=' + new_vid, function(res) {
-		var r_split = res.split("_");
-		if (r_split[0] != 'OK') {
-			alert(nv_is_change_act_confirm[2]);
-			clearTimeout(nv_timer);
-		} else {
-			window.location.href = window.location.href;
-		}
-	});
-	return;
-}
+var url_search = '{URL_SEARCH}';
+var lang_del_confirm = '{LANG.confirm}';
+var lang_please_select_one = '{LANG.please_select_one}';
 </script>
 
 <!-- END: main -->

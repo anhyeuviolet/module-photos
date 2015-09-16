@@ -27,7 +27,7 @@
 		<!-- END: loop_img -->
 	</div>
 </div>
-
+<div class="clear"></div>
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery">
     <!-- The container for the modal slides -->
