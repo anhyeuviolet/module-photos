@@ -31,7 +31,7 @@ if( $mod == 'category' )
 		$alias .= '-' . ( intval( $nb ) + 1 );
 	}
 }
-elseif( $mod == 'folder' )
+elseif( $mod == 'album' )
 {
 	$tab = TABLE_PHOTO_NAME . '_album';
 	$stmt = $db->prepare( 'SELECT COUNT(*) FROM ' . $tab . ' WHERE album_id !=' . $id . ' AND folder= :folder' );

@@ -9,68 +9,6 @@
 
 if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
-if( ! nv_function_exists( 'creat_thumbs' ) )
-{
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
-	{
-		if( $width >= $height ) $rate = $width / $height;
-		else  $rate = $height / $width;
-
-		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
- 
-		if( $file != '' and file_exists( $image ) )
-		{
-			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
-			$imginfo = nv_is_image( $image );
-
-			$basename = $module_upload . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
-
-			if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
-			{
-				$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
-			}
-			else
-			{
-				require_once NV_ROOTDIR . '/includes/class/image.class.php';
-
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-
-				if( $imginfo['width'] <= $imginfo['height'] )
-				{
-					$_image->resizeXY( $width, 0 );
-
-				}
-				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
-				{
-					$_image->resizeXY( $width, 0 );
-				}
-				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
-				{
-					$_image->resizeXY( 0, $height );
-				}
-
-				$_image->cropFromCenter( $width, $height );
-
-				$_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename, $quality );
-
-				if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
-				{
-					$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
-				}
-			}
-		}
-		elseif( nv_is_url( $file ) )
-		{
-			$imgsource = $file;
-		}
-		else
-		{
-			$imgsource = '';
-		}
-		return $imgsource;
-	}
-}
-
 
 /**
  * home_view_grid_by_cat()
@@ -124,7 +62,7 @@ function home_view_grid_by_cat( $array_cat )
  * @param mixed $array_data
  * @return
  */
-function home_view_grid_by_album( $array_cat )
+function home_view_grid_by_album( $array_album )
 {
 	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
@@ -134,20 +72,19 @@ function home_view_grid_by_album( $array_cat )
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'OP', $op );
-	if( ! empty( $array_cat ) )
+	if( ! empty( $array_album ) )
 	{
-		foreach( $array_cat['content'] as $album )
+		foreach( $array_album as $album )
 		{
 			$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
 			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
-			
 			$xtpl->assign( 'ALBUM', $album );
-			$xtpl->parse( 'main.loop_catalog.loop_album' );
+			$xtpl->parse( 'main.grid_album.loop_album' );
 			$xtpl->set_autoreset();
 		}
-		$xtpl->parse( 'main.loop_catalog' );
+		$xtpl->parse( 'main.grid_album' );
 	}
 
 	$xtpl->parse( 'main' );
@@ -194,12 +131,6 @@ function viewcat_grid( $array_catpage, $generate_page )
 		$xtpl->parse( 'main.generate_page' );
 	}
 	
-	if( ! defined( 'BXSLIDER' ) )
-	{
-		define( 'BXSLIDER', true );
-		$xtpl->parse( 'main.bxslider' );
-	}
-
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
@@ -241,8 +172,8 @@ function detail_album( $album, $array_photo, $other_category_album )
 		{
 			foreach( $array_photo as $photo )
 			{
-				//$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_name, 300, 210, 90 );
-				$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
+				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_name, 300, 210, 90 );
+				//$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
 				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
 				$photo['description'] = !empty($photo['description'])?$photo['description']:$photo['name'];
 				$photo['num'] = $num;

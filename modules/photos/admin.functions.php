@@ -89,4 +89,4 @@ function nv_fix_cat_order( $parent_id = 0, $order = 0, $lev = 0 )
 	}
 	return $order;
 }
- 
+

@@ -59,8 +59,8 @@ if( ACTION_METHOD == 'deleterows' )
 			{
 				$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_album SET num_photo = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id = '. $data['album_id'] .') WHERE album_id = '. $data['album_id'] );	
 				
-				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $data['file'] );
-				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_name . '/thumb/' . $data['thumb'] );
+				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $data['file'] );
+				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $data['thumb'] );
 				nv_del_moduleCache( $module_name );
 				
 				$info['success'] = $lang_module['photo_success_delete'];
@@ -118,13 +118,13 @@ if( ACTION_METHOD == 'delete' )
 					if( $db->query( 'DELETE FROM ' . TABLE_PHOTO_NAME . '_rows WHERE row_id = ' . $data['row_id'] ) )
 					{
  
-						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_name . '/images/' . $data['file'] );
+						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_upload . '/images/' . $data['file'] );
 						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_name . '/thumb/' . $data['thumb'] );	
 					}
 				}
  		
-				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $album['folder'] );
-				@rmdir( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_name . '/' . $album['folder'] );
+				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['folder'] );
+				@rmdir( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $album['folder'] );
 						
 				$nv_Request->unset_request( $module_data . '_success', 'session' );
 				nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_album', $album['album_id'], $admin_info['userid'] );
@@ -170,7 +170,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 	}
 	else
 	{
-		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_name;
+		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload;
 		$e = explode( '/', $currentpath );
 		if( ! empty( $e ) )
 		{
@@ -197,7 +197,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 	}
  
 	$currentpath = str_replace( NV_ROOTDIR . '/', '', $upload_real_dir_page );
- 	$imagepath = str_replace( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/', '', $upload_real_dir_page );
+ 	$imagepath = str_replace( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/', '', $upload_real_dir_page );
  
 	/*Folder thumb*/
 	$array_structure_thumb = array();
@@ -217,7 +217,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 	}
 	else
 	{
-		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_name;
+		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload;
 		$e = explode( '/', $currentpaththumb );
 		if( ! empty( $e ) )
 		{
@@ -544,7 +544,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 										$config_logo['w'] = $w;
 										$config_logo['h'] = $h;
 
-										require_once NV_ROOTDIR . '/includes/class/image.class.php';
 										$createImage = new image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 										$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 										$createImage->save( $folder_album, $basename );
@@ -783,7 +782,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 												$config_logo['w'] = $w;
 												$config_logo['h'] = $h;
 
-												require_once NV_ROOTDIR . '/includes/class/image.class.php';
 												$createImage = new image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 												$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 												$createImage->save( $folder_album, $basename );
@@ -916,7 +914,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		}
 
 	}
-	
 	
 	$data['capturedate'] = !empty( $data['capturedate'] ) ? date('d/m/Y', $data['capturedate']) : '';
 

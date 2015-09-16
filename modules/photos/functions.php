@@ -68,7 +68,6 @@ foreach( $global_photo_cat as $category_id_i => $array_cat_i )
 					);
 				}
 			}
-
 		}
 		$nv_vertical_menu[] = array(
 			$array_cat_i['name'],
@@ -76,7 +75,6 @@ foreach( $global_photo_cat as $category_id_i => $array_cat_i )
 			$act,
 			'submenu' => $submenu );
 	}
-
 	//Xac dinh RSS
 	if( $category_id_i and $module_info['rss'] )
 	{
@@ -147,7 +145,6 @@ if( ! empty( $array_op ) and $op == 'main' )
 		}
 		elseif( $count_op == 3 )
 		{
-			
 			$array_alid = explode( '-', $array_op[1] );
 			$album_id = intval( end( $array_alid ) );
 			$array_page = explode( '-', $array_op[2] );
@@ -180,10 +177,12 @@ function gltJsonResponse( $error = array(), $data = array() )
 	echo json_encode( $contents ); 
 	die();
 }
-
+/**
+* Back-end create thumbs
+* Upload function
+**/
 function creatThumb( $file, $dir, $width, $height = 0 )
 {
-	require_once ( NV_ROOTDIR . '/includes/class/image.class.php' );
 
 	$image = new image( $file, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
@@ -221,4 +220,70 @@ function creatThumb( $file, $dir, $width, $height = 0 )
 	$image->close();
 
 	return substr( $image->create_Image_info['src'], strlen( $dir . '/' ) );
+}
+
+/**
+ * creat_thumbs()
+ * front-end thumbs create
+ *
+ */
+if( ! nv_function_exists( 'creat_thumbs' ) )
+{
+	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	{
+		if( $width >= $height ) $rate = $width / $height;
+		else  $rate = $height / $width;
+
+		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
+ 
+		if( $file != '' and file_exists( $image ) )
+		{
+			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
+			$imginfo = nv_is_image( $image );
+
+			$basename = $module_upload . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+
+			if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+			{
+				$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+			}
+			else
+			{
+
+				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+
+				if( $imginfo['width'] <= $imginfo['height'] )
+				{
+					$_image->resizeXY( $width, 0 );
+
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
+				{
+					$_image->resizeXY( $width, 0 );
+				}
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
+				{
+					$_image->resizeXY( 0, $height );
+				}
+
+				$_image->cropFromCenter( $width, $height );
+
+				$_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename, $quality );
+
+				if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+				{
+					$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+				}
+			}
+		}
+		elseif( nv_is_url( $file ) )
+		{
+			$imgsource = $file;
+		}
+		else
+		{
+			$imgsource = '';
+		}
+		return $imgsource;
+	}
 }

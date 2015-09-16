@@ -32,3 +32,7 @@ $lang_module['album_model']='Kiểu mẫu';
 $lang_module['album_capturedate']='Ngày chụp';
 $lang_module['album_capturelocal']='Địa điểm chụp';
 $lang_module['album_rating']='Đánh giá';
+
+$lang_module['view_image']='Xem ảnh';
+$lang_module['view_album']='Xem Album';
+

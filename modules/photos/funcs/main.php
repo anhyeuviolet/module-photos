@@ -48,7 +48,7 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 }
 elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 {
-	$array_cat = array();
+	$array_album = array();
 	if( ! empty( $global_photo_cat ) )
 	{ 
 		$sql = 'SELECT a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
@@ -62,13 +62,12 @@ elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 		{
 			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
 			
-			$array_cat['content'][] = $item;
+			$array_album[] = $item;
 		}
 		$result->closeCursor();
-		
 	}
  
-	$contents = home_view_grid_by_album( $array_cat );	
+	$contents = home_view_grid_by_album( $array_album );	
 }
 
 

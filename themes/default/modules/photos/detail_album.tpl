@@ -16,11 +16,11 @@
 		<div class="panel panel-default">
 			<div class="panel-body pd5">
 				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-					<img itemprop="image" class="img-responsive center-block" src="{PHOTO.file}" alt="{PHOTO.description}"/>
+					<img itemprop="image" class="img-responsive center-block" src="{PHOTO.thumb}" alt="{PHOTO.description}"/>
 				</a>
 			</div>
 			<div class="panel-footer view_detail pd5">
-			<a href="{PHOTO.link_img}" class="btn btn-primary pull-right">Xem ảnh</a>
+			<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-eye"></i>&nbsp;{LANG.view_image}</a>
 			</div>
 		</div>
 		</div>

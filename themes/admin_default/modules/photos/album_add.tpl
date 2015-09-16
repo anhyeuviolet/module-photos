@@ -90,7 +90,6 @@
 									<!-- END: category -->
 								</select>
 								<!-- BEGIN: error_category--><div class="text-danger">{error_category}</div><!-- END: error_category -->
-								
 							</div>
 						</div>
 						
@@ -154,13 +153,10 @@
 							<label class="col-sm-4 control-label" for="input-keyword"> {GLANG.groups_view}</label>
 							<div class="col-sm-20">
 								<!-- BEGIN: groups_view -->
-								 
 								<label><input name="groups_view[]" type="checkbox" value="{GROUPS_VIEW.value}" {GROUPS_VIEW.checked} />{GROUPS_VIEW.title}</label>
-								 
 								<!-- END: groups_view -->
 							</div>
 						</div>	 
-						 
 									 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-status">{LANG.album_show_status}</label>
@@ -298,10 +294,7 @@
 										$('.plupload_buttons').css("display", "inline");
 										$(".plupload_upload_status").css("display", "inline");
 									});
-								 									
-									 
 								});
-								 
 							</script>
 					</div>
 					<div class="tab-pane" id="tab-info-image">
@@ -579,12 +572,9 @@ $('button[type=\'submit\']').on('click', function()
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <!-- BEGIN: getalias -->
 <script type="text/javascript">
-//<![CDATA[
 $("#input-name").change(function() {
 	get_alias('album', {DATA.album_id});
 });
- 
-//]]>
 </script>
 <!-- END: getalias -->
 <!-- END: main -->

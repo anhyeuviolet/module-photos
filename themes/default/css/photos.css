@@ -53,6 +53,9 @@ div.photo-detail h2{font-size:20px;padding:2px 0px;margin:2px 0px;}
 .panel-body img {
     margin:auto;
 }
+.album-name h3{
+	line-height:2.5
+}
 .view_detail{
 	height: auto;
 	overflow: auto
