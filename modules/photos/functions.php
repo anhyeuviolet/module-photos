@@ -3,8 +3,9 @@
 /**
  * @Project NUKEVIET 4.x
  * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
+ * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -243,9 +244,9 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
 
 			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
 
-			if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload. '/' . $basename ) )
+			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 			{
-				$imgsource = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload. '/' . $basename;
+				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 			}
 			else
 			{
@@ -268,11 +269,11 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
 
 				$_image->cropFromCenter( $width, $height );
 
-				$_image->save( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload, $basename, $quality );
+				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
 
-				if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload. '/' . $basename ) )
+				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 				{
-					$imgsource = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_upload. '/' . $basename;
+					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 				}
 			}
 		}
