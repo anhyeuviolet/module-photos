@@ -5,9 +5,10 @@
 	<div class="fixed">
 		<div id="photo-album">
 			<div class="box-item multi-columns-row" itemscope itemtype="http://schema.org/ImageObject">
-				<div class="category">
-					<h2 itemprop="name"><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_album})</a></h2>
-					<div class="clear"></div> 
+				<div class="row">
+					<div class="col-md-24">
+						<h2 itemprop="name"><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_album})</a></h2>
+					</div>
 				</div>
 				<div class="row">
 					<!-- BEGIN: loop_album -->

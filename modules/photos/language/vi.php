@@ -33,6 +33,10 @@ $lang_module['album_capturedate']='Ngày chụp';
 $lang_module['album_capturelocal']='Địa điểm chụp';
 $lang_module['album_rating']='Đánh giá';
 
+$lang_module['viewed']='Lượt xem';
 $lang_module['view_image']='Xem ảnh';
 $lang_module['view_album']='Xem Album';
+
+$lang_module['view_next']='Xem Album';
+$lang_module['view_previous']='Xem Album';
 

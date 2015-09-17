@@ -28,7 +28,7 @@ $array_status = array( '0' => $lang_module['disabled'], '1' => $lang_module['ena
 
 $array_viewcat = array( 'viewcat_grid' => $lang_module['category_viewcat_grid'] );
 
-$array_home_view = array( 'home_view_slider' => $lang_module['home_view_slider'], 'home_view_grid_by_cat' => $lang_module['home_view_grid_by_cat'], 'home_view_grid_by_album' => $lang_module['home_view_grid_by_album'] );
+$array_home_view = array( 'home_view_grid_by_cat' => $lang_module['home_view_grid_by_cat'], 'home_view_grid_by_album' => $lang_module['home_view_grid_by_album'] );
 
 $array_album_view = array( 'album_view_slider' => $lang_module['album_view_slider'], 'album_view_grid' => $lang_module['album_view_grid'] );
 

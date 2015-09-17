@@ -180,8 +180,8 @@ function detail_album( $album, $array_photo, $other_category_album )
 				$photo['link_img'] = $global_photo_cat[$category_id]['link'] . '/' . $album['alias'] . '-' . $photo['album_id'] .'/'. $photo['row_id'] . $global_config['rewrite_exturl'];
 				$xtpl->assign( 'PHOTO', $photo );
 				$xtpl->parse( 'main.view_grid.loop_img' );
-				//$xtpl->parse( 'main.view_grid' );
-				
+				$xtpl->parse( 'main.slider.loop_slide' );
+				$xtpl->parse( 'main.slider.loop_thumb' );
 				++$num;
 			}
 		}
@@ -197,20 +197,17 @@ function detail_album( $album, $array_photo, $other_category_album )
 			$other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $other['file'];
 			$other['key'] =	$key;	
 			$xtpl->assign( 'OTHER', $other );
-			$xtpl->parse( 'main.loop_album' );		 
 			++$key;
 		}
 	}
- 
-	if( $photo_config = 'album_view_grid')
+	
+	if( $photo_config['album_view'] == 'album_view_grid')
 	{
 		$xtpl->parse( 'main.view_grid' );
-		//$xtpl->parse( 'main.view_grid' );
 	}
-	else
+	elseif ($photo_config['album_view'] == 'album_view_slider')
 	{
-		$xtpl->parse( 'main.view_slider' );
-		$xtpl->parse( 'main.view_slider' );
+		$xtpl->parse( 'main.slider' );
 	}
 
 	$xtpl->parse( 'main' );

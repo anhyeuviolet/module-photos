@@ -75,7 +75,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	$photo->closeCursor();
 
 	// album cung chu de
-	$sql = 'SELECT a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
+	$sql = 'SELECT a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
 		LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
 		WHERE a.status= 1 AND a.category_id=' . $album['category_id'] . ' AND r.defaults = 1 AND a.album_id != '. $album['album_id'] .' 
 		ORDER BY a.date_added DESC 
@@ -96,12 +96,9 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 
 	// goi ham xu ly giao dien 
 	$contents = detail_album( $album, $array_photo, $other_category_album );
-	
 	// truyen thong tin seo
 	$page_title = $album['meta_title'];
-
 	$key_words = $album['meta_keyword'];
-
 	$description = $album['meta_description'];
 }
 else
