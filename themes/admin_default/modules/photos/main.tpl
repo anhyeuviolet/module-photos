@@ -138,6 +138,7 @@
 var url_search = '{URL_SEARCH}';
 var lang_del_confirm = '{LANG.confirm}';
 var lang_please_select_one = '{LANG.please_select_one}';
+var del_token = '{TOKEN}';
 </script>
 
 <!-- END: main -->

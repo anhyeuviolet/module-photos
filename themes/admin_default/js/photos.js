@@ -159,7 +159,7 @@ $('#button-delete').on('click', function() {
 			url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&action=delete&nocache=' + new Date().getTime(),
 			type: 'post',
 			dataType: 'json',
-			data: 'listid=' + listid + '&token={TOKEN}',
+			data: 'listid=' + listid + '&token='+del_token,
 			beforeSend: function() {
 				$('#button-delete i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
 				$('#button-delete').prop('disabled', true);

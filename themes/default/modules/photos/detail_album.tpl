@@ -12,7 +12,7 @@
 	<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 	<div id="album-gallery">
 		<!-- BEGIN: loop_img -->
-		<div class="col-md-8">
+		<div class="col-xs-24 col-sm-12 col-md-8 col-lg-8">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
 					<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
