@@ -7,7 +7,9 @@
 <div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
 	<a itemprop="url" href="{SELFURL}" style="display:none;" title="{ALBUM.name}"><span itemprop="name">{ALBUM.name}</span></a>
 	<h3><span class="pd5">{ALBUM.name}</span></h3>
-	<span class="pd5"><em class="fa fa-eye"></em> {ALBUM.viewed}</span>
+	<!-- BEGIN: album_viewed -->
+	<span class="pd5"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+	<!-- END: album_viewed -->
 	<div class="photo-description" itemprop="description" > {ALBUM.description} </div>
 	<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 	<div id="album-gallery">
@@ -20,7 +22,10 @@
 					</a>
 				</div>
 				<div class="panel-footer view_detail pd5">
-				<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-eye"></i>&nbsp;{LANG.view_image}</a>
+				<!-- BEGIN: viewed -->
+				<em class="fa fa-eye"></em>&nbsp;{PHOTO.viewed}
+				<!-- END: viewed -->
+					<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_image}</a>
 				</div>
 			</div>
 		</div>
@@ -73,7 +78,9 @@
 		<span itemprop="name">{ALBUM.name}</span>
 	</a>
 	<h3><span class="pd5">{ALBUM.name}</span></h3>
+	<!-- BEGIN: slide_album_viewed -->
 	<span class="pd5"><em class="fa fa-eye"></em> {ALBUM.viewed}</span>
+	<!-- END: slide_album_viewed -->
 	<div class="photo-description" itemprop="description" style="display:none"> {ALBUM.description} </div>
 	<span class="contentLocation" itemprop="contentLocation" style="display:none">{ALBUM.capturelocal}</span>
 	<ul class="bxslider">

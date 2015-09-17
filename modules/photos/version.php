@@ -11,13 +11,13 @@
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(  
-	'name' => 'Photos', 
+	'name' => 'Photo', 
 	'modfuncs' => 'main, detail_album, detail, viewcat', 
 	'submenu' => 'main, detail_album, detail, viewcat', 
 	'is_sysmod' => 0, 
 	'virtual' => 1,  
-	'version' => '1.2.00',  
-	'date' => 'Thu, 17 Sep 2015 15:00:00 GMT',  
+	'version' => '4.0.01',  
+	'date' => 'Wed, 21 Jan 2015 14:00:59 GMT',  
 	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)',  
 	'uploads_dir' => array(
 		$module_upload,

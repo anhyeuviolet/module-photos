@@ -21,7 +21,7 @@
 								<div class="album-name pull-left">
 									<h3><a itemprop="url" href="{ALBUM.link}"> <span itemprop="name">{ALBUM.name}</span></a></h3>
 								</div>
-								<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-eye"></i>&nbsp;{LANG.view_album}</a>
+								<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 								<div class="album-description" itemprop="description"> {ALBUM.description} </div>
 								<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 							</div>

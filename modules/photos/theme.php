@@ -2,7 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2013 tradacongnghe.com. All rights reserved
  * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
@@ -156,6 +157,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 	
 	if( ! empty( $album ) )
 	{
+		$xtpl->assign( 'ALBUM', $album );
 		// $ratingwidth = ( $album['total_rating'] > 0 ) ? ( $album['total_rating'] * 100 / ( $album['click_rating'] * 5 ) ) * 0.01 : 0;
 	 
 		// $xtpl->assign( 'RATINGVALUE', ( $album['total_rating'] > 0 ) ? round( $album['total_rating']/$album['click_rating'], 1) : 0 );
@@ -165,8 +167,12 @@ function detail_album( $album, $array_photo, $other_category_album )
 
 		$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
- 					
-		$xtpl->assign( 'ALBUM', $album );
+		if($album['viewed'] > 0 )
+		{
+			$xtpl->parse( 'main.view_grid.album_viewed' );
+			$xtpl->parse( 'main.slider.slide_album_viewed' );
+		}
+		
 		$num = 0;
 		if( ! empty( $array_photo ) )
 		{

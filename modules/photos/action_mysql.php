@@ -2,7 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2013 Webdep24.com. All rights reserved
  * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
@@ -123,12 +124,12 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 
 
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_setting VALUES
-('home_view', 'home_view_grid'),
+('home_view', 'home_view_grid_by_album'),
 ('album_view', 'album_view_grid'),
 ('per_page_album', '30'),
 ('per_page_photo', '30'),
 ('structure_upload', 'Y_m'),
-('maxupload', '5221908'),
+('maxupload', '5368709'),
 ('active_logo', '1'),
 ('autologosize1', '50'),
 ('autologosize2', '40'),
