@@ -20,13 +20,13 @@
 		<div class="panel-heading">
 			<h3 class="panel-title" style="float:left"><i class="fa fa-pencil"></i> {CAPTION}</h3>
 			<div class="pull-right">
-				<button type="submit" data-toggle="tooltip" class="btn btn-primary" title="{LANG.save}"><i class="fa fa-save"></i></button> 
+				<button type="submit" data-toggle="tooltip" id="album_save" name="album_save" class="btn btn-primary" title="{LANG.save}"><i class="fa fa-save"></i></button> 
 				<a href="{CANCEL}" data-toggle="tooltip" class="btn btn-default" title="{LANG.cancel}"><i class="fa fa-reply"></i></a>
 			</div>
 			<div style="clear:both"></div>
 		</div>
 		<div class="panel-body">
-			<form action="" method="post" enctype="multipart/form-data" id="form-album" class="form-horizontal">
+			<form action="" method="post" enctype="multipart/form-data" id="album-add" class="form-horizontal">
 				<ul class="nav nav-tabs">
                     <li class="active"><a href="#tab-general" data-toggle="tab">{LANG.general}</a> </li>
 				    <li class="disabled"><a href="#tab-image" rel="tab-image" data-toggle="tab">{LANG.album_image}</a></li>
@@ -386,4 +386,39 @@ $("#input-name").change(function() {
 });
 </script>
 <!-- END: getalias -->
+
+<script>
+$('a[rel="tab-image"], a[rel="tab-info-image"]').hover( function(e) {	
+	return checkform();
+});
+$('a[rel="tab-image"], a[rel="tab-info-image"], input[type="submit"], button[type="submit"], input[type="text"], select[name="category_id"]').on('click keyup blur change', function(e) {	
+	return checkform();
+});
+
+$("button[id*='album']").on('click', function() 
+{
+	var checked = 0;
+	$('body .fixradio').each(function() 
+	{
+		if( $(this).is(':checked') )
+		{
+			++checked;
+		}
+	});
+	if( checked == 0 )
+	{
+		$('.message_info').show();
+		alert(lang_check_form);
+		return false;
+	}else
+	{
+		$('.message_info').hide();
+	}
+	
+	if( checkform() == true )
+	{
+		$("form[id*='album-']").submit();
+	}
+});
+</script>
 <!-- END: main -->
