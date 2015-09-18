@@ -1,6 +1,4 @@
 <!-- BEGIN: main -->
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/photos_lazyload.js" type="text/javascript" ></script>
-
 <div id="photo-{OP}"> 
 	<div class="fixed">
 		<div id="photo-album">
@@ -15,7 +13,7 @@
 					<div class="col-xs-24 col-sm-12 col-md-8 album-album">
 						<div class="panel panel-default">
 							<div class="album-image lazyload panel-body pd5">
-								<img itemprop="image" class="lazy img-responsive" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
+								<img itemprop="image" class="lazy img-responsive" data-original="{ALBUM.thumb}" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
 							</div>
 							<div class="catalog_content panel-footer view_detail pd5">
 								<div class="album-name pull-left">
@@ -40,5 +38,12 @@
 		<!-- END: generate_page -->
 	</div> 
 </div>
-
+<script type="text/javascript">
+$(function() {
+    $("img.lazy").lazyload({
+	effect : "fadeIn"
+	});
+});
+</script>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: main -->

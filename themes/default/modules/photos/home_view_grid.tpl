@@ -17,7 +17,7 @@
 					<div class="panel panel-default">
 						<div class="album-image lazyload panel-body pd5">
 							<a itemprop="url" href="{ALBUM.link}">
-								<img itemprop="image" class="lazy img-responsive" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
+								<img itemprop="image" class="lazy img-responsive" data-original="{ALBUM.thumb}" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
 							</a>
 						</div>
 						<div class="catalog_content panel-footer view_detail pd5">
@@ -76,5 +76,12 @@
 		</div>
 	</div> 
 </div>
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/js/photos_lazyload.js" type="text/javascript" ></script>
+<script type="text/javascript">
+$(function() {
+    $("img.lazy").lazyload({
+	effect : "fadeIn"
+	});
+});
+</script>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: main -->

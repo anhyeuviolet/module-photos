@@ -16,7 +16,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
 					<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-						<img itemprop="image" class="img-responsive center-block" src="{PHOTO.thumb}" alt="{PHOTO.description}"/>
+						<img itemprop="image" class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
 				<div class="panel-footer view_detail pd5">
@@ -176,5 +176,12 @@ $(document).ready(function () {
 }) 
 </script>
 <!-- END: slider -->
-
+<script type="text/javascript">
+$(function() {
+    $("img.lazy").lazyload({
+	effect : "fadeIn"
+	});
+});
+</script>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: main -->
