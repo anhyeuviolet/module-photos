@@ -59,7 +59,7 @@ if( ACTION_METHOD == 'deleterows' )
 				$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_album SET num_photo = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id = '. $data['album_id'] .') WHERE album_id = '. $data['album_id'] );	
 				
 				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $data['file'] );
-				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $data['thumb'] );
+				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $data['thumb'] );
 				nv_del_moduleCache( $module_name );
 				
 				$info['success'] = $lang_module['photo_success_delete'];
@@ -200,12 +200,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
  
 	/*Folder thumb*/
 	$array_structure_thumb = array();
-	$array_structure_thumb[''] = $module_name.'/thumb';
-	$array_structure_thumb['Y'] = $module_name . '/thumb/' . date( 'Y' );
-	$array_structure_thumb['Ym'] = $module_name . '/thumb/' . date( 'Y_m' );
-	$array_structure_thumb['Y_m'] = $module_name . '/thumb/' . date( 'Y/m' );
-	$array_structure_thumb['Ym_d'] = $module_name . '/thumb/' . date( 'Y_m/d' );
-	$array_structure_thumb['Y_m_d'] = $module_name . '/thumb/' . date( 'Y/m/d' );
+	$array_structure_thumb[''] = $module_name.'/thumbs';
+	$array_structure_thumb['Y'] = $module_name . '/thumbs/' . date( 'Y' );
+	$array_structure_thumb['Ym'] = $module_name . '/thumbs/' . date( 'Y_m' );
+	$array_structure_thumb['Y_m'] = $module_name . '/thumbs/' . date( 'Y/m' );
+	$array_structure_thumb['Ym_d'] = $module_name . '/thumbs/' . date( 'Y_m/d' );
+	$array_structure_thumb['Y_m_d'] = $module_name . '/thumbs/' . date( 'Y/m/d' );
 	 
 	$structure_upload = isset( $photo_config['structure_upload'] ) ? $photo_config['structure_upload'] : 'Ym';
 	$currentpaththumb = isset( $array_structure_thumb[$structure_upload] ) ? $array_structure_thumb[$structure_upload] : '';
@@ -310,7 +310,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 				'token_thumb'=> '',
 				'basename'=> '',
 				'filePath'=> '',
-				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/thumb/' . $photo['thumb'],
+				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/thumbs/' . $photo['thumb'],
 				'image_url'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $photo['file'],
 				'defaults'=> ( $photo['defaults'] == 1 ) ? 'checked="checked"' : '',
 				'name'=> $photo['name'],

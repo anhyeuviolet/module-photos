@@ -1,7 +1,6 @@
 <!-- BEGIN: main -->
 <link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/photos_multi-columns-row.css" type="text/css" rel="StyleSheet"/>
 <!-- BEGIN: view_grid -->
-<link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/bootstrap-image-gallery.min.css" type="text/css" rel="StyleSheet"/>
 <link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 
 <div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
@@ -61,7 +60,6 @@
         </div>
     </div>
 </div>
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/bootstrap-image-gallery.min.js" type="text/javascript" ></script>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <!-- END: view_grid -->
 

@@ -112,23 +112,22 @@ for( $i = 5; $i <= 60; ++ $i )
 	$xtpl->parse( 'main.per_page_photo' );
 }
 
-
 $array_structure_image = array();
-$array_structure_image[''] = NV_UPLOADS_DIR . '/' . $module_name;
-$array_structure_image['Y'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y' );
-$array_structure_image['Ym'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y_m' );
-$array_structure_image['Y_m'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y/m' );
-$array_structure_image['Ym_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y_m/d' );
-$array_structure_image['Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_name . '/' . date( 'Y/m/d' );
+$array_structure_image[''] = NV_UPLOADS_DIR . '/' . $module_upload;
+$array_structure_image['Y'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y' );
+$array_structure_image['Ym'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y_m' );
+$array_structure_image['Y_m'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y/m' );
+$array_structure_image['Ym_d'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y_m/d' );
+$array_structure_image['Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y/m/d' );
  
-$structure_image_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : "Ym";
+$structure_image_upload = isset( $photo_config['structure_upload'] ) ? $photo_config['structure_upload'] : "Ym";
 
 // Thu muc uploads
 foreach( $array_structure_image as $type => $dir )
 {
 	$xtpl->assign( 'STRUCTURE_UPLOAD', array(
 		'key' => $type,
-		'title' => $dir. '/' .$lang_module['setting_dir_album'],
+		'title' => $dir . '/'. $lang_module['setting_dir_album'],
 		'selected' => $type == $structure_image_upload ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.structure_upload' );
