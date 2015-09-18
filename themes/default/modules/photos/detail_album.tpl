@@ -7,9 +7,7 @@
 <div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
 	<a itemprop="url" href="{SELFURL}" style="display:none;" title="{ALBUM.name}"><span itemprop="name">{ALBUM.name}</span></a>
 	<h3><span class="pd5">{ALBUM.name}</span></h3>
-	<!-- BEGIN: album_viewed -->
-	<span class="pd5"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-	<!-- END: album_viewed -->
+	<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 	<div class="photo-description" itemprop="description" > {ALBUM.description} </div>
 	<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 	<div id="album-gallery">
@@ -22,9 +20,7 @@
 					</a>
 				</div>
 				<div class="panel-footer view_detail pd5">
-				<!-- BEGIN: viewed -->
-				<em class="fa fa-eye"></em>&nbsp;{PHOTO.viewed}
-				<!-- END: viewed -->
+				<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{PHOTO.viewed}</span>
 					<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_image}</a>
 				</div>
 			</div>

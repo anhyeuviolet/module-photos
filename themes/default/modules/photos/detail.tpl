@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<h3><span class="pd5">{PHOTO.name}</span></h3>
-		<span class="pd5"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
+		<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
 	</div>
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">

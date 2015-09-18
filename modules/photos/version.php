@@ -2,22 +2,23 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2013 tradacongnghe.com. All rights reserved
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
+ * @Createdate  Wed, 21 Sep 2015 14:00:59 GMT
  */
 
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(  
-	'name' => 'Photo', 
+	'name' => 'Photos', 
 	'modfuncs' => 'main, detail_album, detail, viewcat', 
 	'submenu' => 'main, detail_album, detail, viewcat', 
 	'is_sysmod' => 0, 
 	'virtual' => 1,  
-	'version' => '4.0.01',  
-	'date' => 'Wed, 21 Jan 2015 14:00:59 GMT',  
+	'version' => '1.2.01',  
+	'date' => 'Wed, 21 Sep 2015 14:00:59 GMT',  
 	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)',  
 	'uploads_dir' => array(
 		$module_upload,

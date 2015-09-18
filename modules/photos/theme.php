@@ -3,8 +3,9 @@
 /**
  * @Project NUKEVIET 4.x
  * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
- * @Copyright (C) 2013 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
+ * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -167,12 +168,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 
 		$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-		if($album['viewed'] > 0 )
-		{
-			$xtpl->parse( 'main.view_grid.album_viewed' );
-			$xtpl->parse( 'main.slider.slide_album_viewed' );
-		}
-		
+
 		$num = 0;
 		if( ! empty( $array_photo ) )
 		{

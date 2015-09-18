@@ -2,8 +2,10 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Based on NukeViet CMS * @License GNU/GPL version 2 or any later version
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
+ * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
@@ -23,7 +25,7 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 			if( $category['parent_id'] == 0 and $category['inhome'] == 1 )
 			{
 				$array_cat[$key] = $category;
-				$sql = 'SELECT a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
+				$sql = 'SELECT a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
 						LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
 						WHERE a.status= 1 AND a.category_id=' . $_category_id . ' AND r.defaults = 1 
 						ORDER BY a.date_added DESC 
@@ -51,7 +53,7 @@ elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 	$array_album = array();
 	if( ! empty( $global_photo_cat ) )
 	{ 
-		$sql = 'SELECT a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
+		$sql = 'SELECT a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
 				LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
 				WHERE a.status= 1 AND r.defaults = 1 
 				ORDER BY a.date_added DESC 

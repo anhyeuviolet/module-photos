@@ -26,6 +26,7 @@
 									<span itemprop="name">{ALBUM.name}</span>
 								</h3>
 							</div>
+							<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 							<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 							<div class="album-description" itemprop="description"> {ALBUM.description} </div>
 							<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
@@ -57,6 +58,7 @@
 						<div class="catalog_content panel-footer view_detail pd5">
 							<div class="album-name pull-left">
 								<h3><a itemprop="url" href="{ALBUM.link}"> <span itemprop="name">{ALBUM.name}</span></a></h3>
+								<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 							</div>
 							<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 							<div class="album-description" itemprop="description"> {ALBUM.description} </div>

@@ -2,10 +2,11 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
 if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
