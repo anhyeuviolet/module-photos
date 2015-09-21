@@ -10,30 +10,43 @@
  */
 
 if ( ! defined( 'NV_IS_MOD_SEARCH' ) ) die( 'Stop!!!' );
+$db->sqlreset()
+	->select( 'COUNT(*)' )
+	->from( NV_PREFIXLANG . '_' . $m_values['module_data'] . '_album a ')
+	->join( 'LEFT JOIN ' . NV_PREFIXLANG . '_' . $m_values['module_data'] . '_category c ON (c.category_id=a.category_id)' )
+	->where('('. nv_like_logic( 'a.name', $dbkeyword, $logic ) . ' OR ' . nv_like_logic( 'a.description', $dbkeyword, $logic ) . ')	AND a.status=1' );
 
-$sql = "SELECT SQL_CALC_FOUND_ROWS id,title,alias,bodytext 
-FROM " . NV_PREFIXLANG . "_" . $m_values['module_data'] . " 
-WHERE status=1 AND (" . nv_like_logic( 'title', $dbkeyword, $logic ) . " 
-OR " . nv_like_logic( 'bodytext', $dbkeyword, $logic ) . ") 
-LIMIT " . $pages . "," . $limit;
-
-$tmp_re = $db->query( $sql );
-
-$result = $db->query( "SELECT FOUND_ROWS()" );
-$all_page = $result->fetchColumn();
-
-if ( $all_page )
+$num_items = $db->query( $db->sql() )->fetchColumn();
+if ( $num_items )
 {
+	$array_cat_alias = array();
+	$array_cat_alias[0] = 'other';
+
+	$db->select( 'c.category_id, c.alias ' );
+	
+	$re_cat = $db->query( $db->sql() );
+	
+	while( list( $category_id, $alias ) = $re_cat->fetch( 3 ) )
+	{
+		$array_cat_alias[$category_id] = $alias;
+	}
+
     $link = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=';
 
-    while ( list( $id, $tilterow, $alias, $content ) = $tmp_re->fetch( 3 ) )
+	$db->select( 'a.album_id, a.name, a.category_id, a.alias, a.description' )
+		->order( 'a.date_added DESC' )
+		->limit( $limit )
+		->offset( ( $page - 1 ) * $limit );
+	$result = $db->query( $db->sql() );
+    while ( list( $album_id, $tilterow, $category_id, $alias, $description ) = $result->fetch( 3 ) )
     {
-        $url = $link . $alias . "-" . $id;
+		$content = $description;
+        $url = $link . $array_cat_alias[$category_id] . '/' . $alias . "-" . $album_id . $global_config['rewrite_exturl'];
 
-        $result_array[] = array( //
-            'link' => $url, //
-            'title' => BoldKeywordInStr( $tilterow, $key, $logic ), //
-            'content' => BoldKeywordInStr( $content, $key, $logic ) //
-            );
+		$result_array[] = array(
+			'link' => $url,
+			'title' => BoldKeywordInStr( $tilterow, $key, $logic ),
+			'content' => BoldKeywordInStr( $content, $key, $logic )
+		);
     }
 }
