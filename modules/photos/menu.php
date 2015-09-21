@@ -6,7 +6,7 @@
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
  * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
+ * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
@@ -16,21 +16,10 @@ $result = $db->query( $sql );
 
 While( $row = $result->fetch() )
 {
-	$t_sp = "";
-	
-	if ($row['lev'] > 0)
-	{
-		for( $i = 1; $i <= $row['lev']; ++ $i )
-		{
-			$t_sp .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-		}
-	}
-	
-	$arr_cat[$row['category_id']] = array(
+	$array_item[$row['category_id']] = array(
 		'module' => $module, //
 		'key' => $row['category_id'], //
-		'title' => $t_sp . $row['title'], //
+		'title' => $row['name'], //
 		'alias' => $row['alias'],  //
 	);
 }
-

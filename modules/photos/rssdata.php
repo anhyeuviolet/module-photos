@@ -6,18 +6,19 @@
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
  * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
+ * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
 if ( ! defined( 'NV_IS_MOD_RSS' ) ) die( 'Stop!!!' );
 
 $rssarray = array();
 
-/*$result2 = $db->query( "SELECT catid, parentid, title, alias, numsubcat, subcatid FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY weight,order" );
-while ( list( $catid, $parentid, $title, $alias, $numsubcat, $subcatid ) = $result2->fetch( 3 ) )
+$sql = "SELECT category_id AS catid, parent_id AS parentid, name AS title, alias  FROM " . NV_PREFIXLANG . "_" . $mod_data . "_category ORDER BY sort_order";
+$list = nv_db_cache( $sql, '', $mod_name );
+
+foreach( $list as $value )
 {
-    $rssarray[$catid] = array( 
-        'catid' => $catid, 'parentid' => $parentid, 'title' => $title, 'alias' => $alias, 'numsubcat' => $numsubcat, 'subcatid' => $subcatid, 'link' => NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_title . "&amp;" . NV_OP_VARIABLE . "=rss/" . $alias 
-    );
-}*/
+	$value['link'] = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $mod_name . "&amp;" . NV_OP_VARIABLE . "=" . $mod_info['alias']['rss'] . "/" . $value['alias'];
+	$rssarray[] = $value;
+}
 

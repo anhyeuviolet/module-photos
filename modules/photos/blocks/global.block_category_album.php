@@ -1,38 +1,38 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author DANGDINHTU (dlinhvan@gmail.com)
- * @Copyright (C) 2013 Webdep24.com. All rights reserved
- * @Blog  http://dangdinhtu.com
+ * @Project PHOTOS 4.x
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
+ * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
+ * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+
 if( ! nv_function_exists( 'creat_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_name, $width = 200, $height = 150, $quality = 90 )
+	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;
 
-		$image = NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' . $file;
+		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
  
 		if( $file != '' and file_exists( $image ) )
 		{
-			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $file;
+			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
 			$imginfo = nv_is_image( $image );
 
-			$basename = $module_name . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
+			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
 
-			if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 			{
-				$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 			}
 			else
 			{
-				require_once NV_ROOTDIR . '/includes/class/image.class.php';
 
 				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
@@ -52,11 +52,11 @@ if( ! nv_function_exists( 'creat_thumbs' ) )
 
 				$_image->cropFromCenter( $width, $height );
 
-				$_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename, $quality );
+				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
 
-				if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )
+				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 				{
-					$imgsource = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . $basename;
+					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 				}
 			}
 		}
@@ -94,7 +94,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 					$xtitle_i .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
-			$html .= $xtitle_i . '<label><input type="checkbox" name="config_category[]" value="' . $l['category_id'] . '" ' . ( ( in_array( $l['category_id'], $data_block['category_id'] ) ) ? ' checked="checked"' : '' ) . '</input>' . $l['title'] . '</label><br />';
+			$html .= $xtitle_i . '<label><input type="checkbox" name="config_category[]" value="' . $l['category_id'] . '" ' . ( ( in_array( $l['category_id'], $data_block['category_id'] ) ) ? ' checked="checked"' : '' ) . '</input>' . $l['name'] . '</label><br />';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -118,10 +118,12 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 
 	function nv_block_category_album( $block_config )
 	{
-		global $module_photo_category, $module_info, $site_mods, $module_config, $global_config, $db;
+		global $module_photo_category, $module_info, $site_mods, $module_config, $lang_module, $global_config, $db, $blockID;
 		$module = $block_config['module'];
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
+		$my_head .= "<style type=\"text/stylesheet\" src=\"" . NV_ROOTDIR . "/themes/default/css/" . $module_name .".css\"></style>\n";
+
  
 		if( empty( $block_config['category_id'] ) ) return '';
 
@@ -138,7 +140,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 
 		if( ! empty( $list ) )
 		{
-			if( file_exists( NV_ROOTDIR . '/themes/' . $global_config['module_theme']  . '/modules/photo/block_category_album.tpl' ) )
+			if( file_exists( NV_ROOTDIR . '/themes/' . $global_config['module_theme']  . '/modules/' . $mod_file . '/block_category_album.tpl' ) )
 			{
 				$block_theme = $global_config['module_theme'] ;
 			}
@@ -147,7 +149,10 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$block_theme = 'default';
 			}
 
-			$xtpl = new XTemplate( 'block_category_album.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/photo' );
+			$xtpl = new XTemplate( 'block_category_album.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/' . $mod_file );
+			$xtpl->assign( 'BLOCK_ID', $blockID );
+			$xtpl->assign( 'LANG', $lang_module );
+
 			foreach( $list as $album )
 			{
 				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
@@ -159,8 +164,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$xtpl->assign( 'ALBUM', $album );
  				$xtpl->parse( 'main.loop_album' );
 			}
- 
-
+			
 			$xtpl->parse( 'main' );
 			return $xtpl->text( 'main' );
 		}
@@ -168,7 +172,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 }
 if( defined( 'NV_SYSTEM' ) )
 {
-	global $site_mods, $module_name, $global_array_cat, $module_photo_category;
+	global $site_mods, $module_name, $global_array_cat, $module_photo_category, $my_head;
 	$module = $block_config['module'];
 	if( isset( $site_mods[$module] ) )
 	{

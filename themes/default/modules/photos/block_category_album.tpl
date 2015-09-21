@@ -1,18 +1,21 @@
 <!-- BEGIN: main -->
-<style type="text/css">
-ul.category-album{list-style: none; padding:0; margin: 0}
-ul.category-album li{border-bottom: 1px #ccc solid; margin-bottom: 4px}
-ul.category-album li a{display: block;}
-ul.category-album li a.title{padding-left: 4px}
+<link rel="stylesheet" type="text/css" href="{NV_BASE_SITEURL}themes/default/css/photos_block_category_album.css" />
 
-</style>
-<ul class="category-album">
+<div class="row" id="{BLOCK_ID}">
 	<!-- BEGIN: loop_album -->
-	<li>
-		<a class="fl images" href="{ALBUM.link}"><img itemprop="image" src="{ALBUM.thumb}" width="100"></a>
-		<a class="fl title" href="{ALBUM.link}">{ALBUM.name}</a>
-		<div style="clear:both"></div>
-	</li>
+	<div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
+		<div class="panel panel-default">
+			<div class="panel panel-body pd4">
+				<a class="images" href="{ALBUM.link}">
+					<img itemprop="image" src="{ALBUM.thumb}" class="img-responsive"/>
+				</a>
+			</div>
+			<div class="panel panel-footer pd5 view_detail">
+				<a class="text-justify" href="{ALBUM.link}"><span><strong>{ALBUM.name}</strong></span></a>
+				<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
+			</div>
+		</div>
+	</div>
 	<!-- END: loop_album -->
-</ul>
+</div>
 <!-- END: main -->
