@@ -44,3 +44,45 @@ foreach( $list as $l )
 	
 }
 unset( $sql, $list );
+
+/**
+ * GetCatidInParent()
+ *
+ * @param mixed $category_id
+ * @param integer $check_inhome
+ * @return
+ */
+function GetCatidInParent( $category_id, $check_inhome = 0 )
+{
+	global $global_photo_cat, $array_cat;
+	$array_cat[] = $category_id;
+	$subcatid = explode( ',', $global_photo_cat[$category_id]['subcatid'] );
+	if( ! empty( $subcatid ) )
+	{
+		foreach( $subcatid as $id )
+		{
+			if( $id > 0 )
+			{
+				if( $global_photo_cat[$id]['numsubcat'] == 0 )
+				{
+					if( ! $check_inhome or ( $check_inhome and $global_photo_cat[$id]['inhome'] == 1 ) )
+					{
+						$array_cat[] = $id;
+					}
+				}
+				else
+				{
+					$array_cat_temp = GetCatidInParent( $id, $check_inhome );
+					foreach( $array_cat_temp as $catid_i )
+					{
+						if( ! $check_inhome or ( $check_inhome and $global_photo_cat[$catid_i]['inhome'] == 1 ) )
+						{
+							$array_cat[] = $catid_i;
+						}
+					}
+				}
+			}
+		}
+	}
+	return array_unique( $array_cat );
+}

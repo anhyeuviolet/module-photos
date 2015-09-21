@@ -18,7 +18,7 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
  * @param mixed $array_data
  * @return
  */
-function home_view_grid_by_cat( $array_cat )
+function home_view_grid_by_cat( $array_cate )
 {
 	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
@@ -28,30 +28,43 @@ function home_view_grid_by_cat( $array_cat )
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'OP', $op );
-	if( ! empty( $global_photo_cat ) )
+	if( ! empty( $array_cate ) )
 	{
-		foreach( $array_cat as $key => $catalog )
+		foreach( $array_cate as $array_cat_i )
 		{
-			if( isset( $array_cat[$key]['content'] ) )
+			foreach( $array_cat_i['data'] as $album )
 			{
-				$xtpl->assign( 'CATALOG', $catalog );
+				$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
+				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 				
-				foreach( $array_cat[$key]['content'] as $album )
-				{
-					
-					$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
-					$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-					$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, 270, 210, 90 );
-					$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
-					
-					$xtpl->assign( 'ALBUM', $album );
-					$xtpl->parse( 'main.loop_catalog.loop_album' );
-					$xtpl->set_autoreset();
-				}
-				$xtpl->parse( 'main.loop_catalog.catalog_name' );
+				$xtpl->assign( 'ALBUM', $album );
+				$xtpl->parse( 'main.loop_catalog.loop_album' );
+				$xtpl->set_autoreset();
 			}
+
+			if( !empty( $array_cat_i['subcatid'] ) )
+			{
+				$array_cat_i['subcatid'] = explode( ',', $array_cat_i['subcatid'] );
+				foreach( $array_cat_i['subcatid'] as $subcatid )
+				{
+					$items = $global_photo_cat[$subcatid];
+					if( $items['inhome'] )
+					{
+						$xtpl->assign( 'SUBCAT', $global_photo_cat[$subcatid] );
+						$xtpl->parse( 'main.loop_catalog.subcatloop' );
+					}
+				}
+			}
+			$xtpl->assign( 'CATALOG', $array_cat_i );
+			if( $array_cat_i['num_album'] > 0 )
+			{
+				$xtpl->parse( 'main.loop_catalog' );
+			}
+			
 		}
-		$xtpl->parse( 'main.loop_catalog' );
+		
 	}
 
 	$xtpl->parse( 'main' );

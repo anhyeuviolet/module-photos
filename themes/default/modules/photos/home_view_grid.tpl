@@ -1,17 +1,19 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/photos_multi-columns-row.css" type="text/css" rel="stylesheet" media="all" />
 <div id="photo-{OP}"> 
 	<div class="fixed">
 		<div id="photo-album">
 		<!-- BEGIN: loop_catalog -->
 		<div class="box-item" itemscope itemtype="http://schema.org/ImageObject">
-			<!-- BEGIN: catalog_name -->
-				<div class="category">
-					<h2 itemprop="name"><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_album})</a></h2>
-					<div class="clear"></div> 
-				</div>
-			<!-- END: catalog_name -->	
-			<div class="row2 multi-columns-row">
+			<div class="category">
+				<h2 itemprop="name"><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_count})</a></h2>
+				<span class="pull-right">
+				<!-- BEGIN: subcatloop -->
+				<a href="{SUBCAT.link}" title="{SUBCAT.name}">{SUBCAT.name}</a>&nbsp;&nbsp;&nbsp;
+				<!-- END: subcatloop -->
+				</span>
+			</div>
+			<div class="clear"></div>
+			<div class="row">
 				<!-- BEGIN: loop_album -->
 				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
 					<div class="panel panel-default">
