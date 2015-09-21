@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<link rel="stylesheet" type="text/css" href="{NV_BASE_SITEURL}themes/default/css/photos_block_category_album.css" />
+<link rel="stylesheet" type="text/css" href="{NV_BASE_SITEURL}themes/default/css/photos.css" />
 
 <div class="row" id="{BLOCK_ID}">
 	<!-- BEGIN: loop_album -->
