@@ -13,6 +13,17 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
+
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$base_url_rewrite = nv_url_rewrite( $base_url, true );
+$page_url_rewrite = $page ? nv_url_rewrite( $base_url . '/page-' . $page, true ) : $base_url_rewrite;
+$request_uri = $_SERVER['REQUEST_URI'];
+if( ! ( $home OR $request_uri == $base_url_rewrite OR $request_uri == $page_url_rewrite OR NV_MAIN_DOMAIN . $request_uri == $base_url_rewrite OR NV_MAIN_DOMAIN . $request_uri == $page_url_rewrite ) )
+{
+	$redirect = '<meta http-equiv="Refresh" content="3;URL=' . $base_url_rewrite . '" />';
+	nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect );
+}
+
  
 if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 {
@@ -50,16 +61,25 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 }
 elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 {
+	$per_page = $photo_config['per_page_album'];
 	$array_album = array();
 	if( ! empty( $global_photo_cat ) )
 	{ 
-		$sql = 'SELECT a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
-				LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
-				WHERE a.status= 1 AND r.defaults = 1 
-				ORDER BY a.date_added DESC 
-				LIMIT 0 , ' . $photo_config['per_page_album'];
-		$result = $db->query( $sql );
-
+		$db->sqlreset()
+			->select( 'COUNT(*)' )
+			->from( TABLE_PHOTO_NAME . '_album a' )
+			->join('LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )')
+			->where( 'a.status=1' );
+		$num_items = $db->query( $db->sql() )->fetchColumn();
+				
+		$db->select( 'a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )
+			->order( 'a.date_added DESC' )
+			->limit( $photo_config['per_page_album'] )
+			->where('a.status= 1 AND r.defaults = 1')
+			->offset( ( $page - 1 ) * $per_page );
+			
+		$result = $db->query( $db->sql( ) );
+		
 		while( $item = $result->fetch() )
 		{
 			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
@@ -68,8 +88,9 @@ elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
 		}
 		$result->closeCursor();
 	}
- 
-	$contents = home_view_grid_by_album( $array_album );	
+
+	$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
+	$contents = home_view_grid_by_album( $array_album, $generate_page);	
 }
 
 

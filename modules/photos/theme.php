@@ -64,7 +64,7 @@ function home_view_grid_by_cat( $array_cat )
  * @param mixed $array_data
  * @return
  */
-function home_view_grid_by_album( $array_album )
+function home_view_grid_by_album( $array_album, $generate_page)
 {
 	global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $photo_config, $module_info, $op;
 
@@ -87,6 +87,12 @@ function home_view_grid_by_album( $array_album )
 			$xtpl->set_autoreset();
 		}
 		$xtpl->parse( 'main.grid_album' );
+	}
+	
+	if( ! empty( $generate_page ) )
+	{
+		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+		$xtpl->parse( 'main.generate_page' );
 	}
 
 	$xtpl->parse( 'main' );
