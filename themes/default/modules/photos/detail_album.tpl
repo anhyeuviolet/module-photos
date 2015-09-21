@@ -1,5 +1,4 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/css/photos_multi-columns-row.css" type="text/css" rel="StyleSheet"/>
 <!-- BEGIN: view_grid -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 

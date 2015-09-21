@@ -10,50 +10,31 @@
  */
 
 if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
-
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
-$difftimeout = 0;
+$contents = '';
+$array_point = array( 1, 2, 3, 4, 5 );
 
-$json = array();
+$album_id = $nv_Request->get_int( 'album_id', 'post', 0 );
+$point = $nv_Request->get_int( 'point', 'post', 0 );
+$checkss = $nv_Request->get_title( 'checkss', 'post' );
 
-$rating = $nv_Request->get_float( 'rating', 'post,get', 0 );
+$time_set = $nv_Request->get_int( $module_name . '_' . $op . '_' . $album_id, 'session', 0 );
 
-$album_id = $nv_Request->get_int( 'album_id', 'post,get', 0 );
-
-$rating = $rating * 5;
-
-$timeout = $nv_Request->get_int( $module_data . '_' . $op . '_' . $album_id, 'cookie', 0 );
-
-if( $timeout == 0 or NV_CURRENTTIME - $timeout > $difftimeout )
+if( $album_id > 0 and in_array( $point, $array_point ) and $checkss == md5( $album_id . $client_info['session_id'] . $global_config['sitekey'] ) )
 {
-	$nv_Request->set_Cookie( $module_data . '_' . $op . '_' . $album_id, NV_CURRENTTIME );
-	
-	$sql = "UPDATE " . TABLE_PHOTO_NAME . "_album SET 
-		click_rating = click_rating + 1,
-		total_rating = total_rating + " . intval( $rating ) . "
-	WHERE album_id=" . $album_id;
-	if( $db->query( $sql ) )
+	if( ! empty( $time_set ) )
 	{
-		$sql = "SELECT click_rating, total_rating FROM " . TABLE_PHOTO_NAME . "_album WHERE album_id=" . $album_id;
-		list( $click_rating, $total_rating ) = $db->query( $sql )->fetch(3);
-		
-		$width = ( $total_rating * 100 / ( $click_rating * 5 ) ) * 0.01;
-		$json['width']  = round( $width, 2);
-		$json['ratingValue']  = round( $total_rating/$click_rating, 1);
-		$json['reviewCount']  = $click_rating;
-		$json['success']  = sprintf( $lang_module['detail_rate_ok'], $rating );
-	}else
-	{
-		$json['error'] = $lang_module['detail_rate_unsuccess'];
+		die( $lang_module['rating_error2'] );
 	}
-	
-}else
-{
-	$timeout = ceil( ( $difftimeout - NV_CURRENTTIME + $timeout ) / 60 );
-	$json['error'] = sprintf( $lang_module['detail_rate_timeout'], $timeout );
+
+	$nv_Request->set_Session( $module_name . '_' . $op . '_' . $album_id, NV_CURRENTTIME );
+	$query = $db->query( "SELECT  total_rating, click_rating FROM " . NV_PREFIXLANG . "_" . $module_data . "_album WHERE album_id = " . $album_id . " AND status=1" );
+	$row = $query->fetch();
+	$query = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_album SET total_rating=total_rating+" . $point . ", click_rating=click_rating+1 WHERE album_id=" . $album_id;
+	$db->query( $query );
+	$contents = sprintf( $lang_module['stringrating'], $row['total_rating'] + $point, $row['click_rating'] + 1 );
+	die( $contents );
 }
 
-header( 'Content-Type: application/json' );
-echo json_encode( $json );
-exit(); 
+die( $lang_module['rating_error1'] );

@@ -40,3 +40,17 @@ $lang_module['view_album']='Xem Album';
 $lang_module['view_next']='Xem Album';
 $lang_module['view_previous']='Xem Album';
 
+//Rating
+$lang_module['rating'] = 'Đánh giá bài viết';
+$lang_module['rating_average'] = 'Xếp hạng';
+$lang_module['rating_count'] = 'phiếu bầu';
+$lang_module['stringrating'] = 'Tổng số điểm của bài viết là: %1$s trong %2$s đánh giá';
+$lang_module['star_note'] = 'Click để đánh giá bài viết';
+$lang_module['star_verypoor'] = 'Bài viết rất kém';
+$lang_module['star_poor'] = 'Bài viết kém';
+$lang_module['star_ok'] = 'Bài viết đạt';
+$lang_module['star_good}'] = 'Bài viết tốt';
+$lang_module['star_verygood'] = 'Bài viết rất tốt';
+$lang_module['rating_error1'] = 'Đánh giá không hợp lệ';
+$lang_module['rating_error2'] = 'Bạn đã đánh giá bài viết này rồi';
+
