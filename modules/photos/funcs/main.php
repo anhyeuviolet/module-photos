@@ -50,7 +50,7 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 					->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )
 					->from( TABLE_PHOTO_NAME . '_album a' )
 					->join('LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )')
-					->where( ' a.status =1 AND r.defaults = 1' )
+					->where( ' a.status =1 AND r.defaults = 1 AND a.category_id IN (' . implode( ',', $array_cat ).' )')
 					->order( 'a.album_id DESC' )
 					->limit( $category['numlinks'] );
 				$result = $db->query( $db->sql() );
