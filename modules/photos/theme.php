@@ -193,7 +193,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 		{
 			foreach( $array_photo as $photo )
 			{
-				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_upload, 300, 210, 90 );
+				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_upload,  270, 210, 90 );
 				//$photo['thumb'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumb/' . $photo['thumb'];
 				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
 				$photo['description'] = !empty($photo['description'])?$photo['description']:$photo['name'];
@@ -269,3 +269,93 @@ function no_permission($no_permission)
 	return $xtpl->text( 'no_permission' );
 }
  
+// Search
+function search_theme( $key, $date_array, $array_cat_search )
+{
+	global $module_name, $module_info, $module_file, $lang_module, $module_name;
+
+	$xtpl = new XTemplate( 'search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'NV_LANG_VARIABLE', NV_LANG_VARIABLE );
+	$xtpl->assign( 'NV_LANG_DATA', NV_LANG_DATA );
+	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'BASE_URL_SITE', NV_BASE_SITEURL . 'index.php' );
+	$xtpl->assign( 'TO_DATE', $date_array['to_date'] );
+	$xtpl->assign( 'FROM_DATE', $date_array['from_date'] );
+	$xtpl->assign( 'KEY', $key );
+	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+	$xtpl->assign( 'OP_NAME', 'search' );
+
+	foreach( $array_cat_search as $search_cat )
+	{
+		$xtpl->assign( 'SEARCH_CAT', $search_cat );
+		$xtpl->parse( 'main.search_cat' );
+	}
+
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+function search_result_theme( $key, $numRecord, $per_pages, $page, $array_content, $catid )
+{
+	global $module_file, $module_info, $lang_module, $module_name, $module_upload, $global_photo_cat, $photo_config, $module_config, $global_config;
+
+	$xtpl = new XTemplate( 'search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'KEY', $key );
+	$xtpl->assign( 'TITLE_MOD', $lang_module['search_module_title'] );
+
+	if( ! empty( $array_content ) )
+	{
+		foreach( $array_content as $value )
+		{
+			$xtpl->assign( 'LINK', $global_photo_cat[$value['category_id']]['link'] . '/' . $value['alias'] . "-" . $value['album_id'] . $global_config['rewrite_exturl'] );
+			$xtpl->assign( 'TITLEROW', strip_tags( BoldKeywordInStr( $value['name'], $key ) ) );
+			if(!empty($value['description']))
+			{
+				$xtpl->assign( 'CONTENT', BoldKeywordInStr( $value['description'], $key ) . "..." );
+			}
+			$xtpl->assign( 'TIME', nv_date( 'H:i d/m/Y', $value['date_added'] ) );
+			$value['src'] = creat_thumbs( $value['album_id'], $value['file'], $module_upload, 270, 210, 90 );
+			if( ! empty( $value['src'] ) )
+			{
+				$xtpl->assign( 'IMG_SRC', $value['src'] );
+				$xtpl->parse( 'results.result.result_img' );
+			}
+
+			$xtpl->parse( 'results.result' );
+		}
+	}
+
+	if( $numRecord == 0 )
+	{
+		$xtpl->assign( 'KEY', $key );
+		$xtpl->assign( 'INMOD', $lang_module['search_modul_title'] );
+		$xtpl->parse( 'results.noneresult' );
+	}
+
+	if( $numRecord > $per_pages ) // show pages
+	{
+		$url_link = $_SERVER['REQUEST_URI'];
+		if( strpos( $url_link, '&page=' ) > 0 )
+		{
+			$url_link = substr( $url_link, 0, strpos( $url_link, '&page=' ) );
+		}
+		elseif( strpos( $url_link, '?page=' ) > 0 )
+		{
+			$url_link = substr( $url_link, 0, strpos( $url_link, '?page=' ) );
+		}
+		$_array_url = array( 'link' => $url_link, 'amp' => '&page=' );
+		$generate_page = nv_generate_page( $_array_url, $numRecord, $per_pages, $page );
+
+		$xtpl->assign( 'VIEW_PAGES', $generate_page );
+		$xtpl->parse( 'results.pages_result' );
+	}
+
+	$xtpl->assign( 'NUMRECORD', $numRecord );
+	$xtpl->assign( 'MY_DOMAIN', NV_MY_DOMAIN );
+
+	$xtpl->parse( 'results' );
+	return $xtpl->text( 'results' );
+}
