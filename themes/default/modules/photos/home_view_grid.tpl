@@ -1,19 +1,19 @@
 <!-- BEGIN: main -->
 <div id="photo-{OP}"> 
-	<div class="fixed">
-		<div id="photo-album">
+	<div class="row">
 		<!-- BEGIN: loop_catalog -->
-		<div class="box-item" itemscope itemtype="http://schema.org/ImageObject">
-			<div class="category">
-				<h2 itemprop="name"><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_count})</a></h2>
+		<div class="panel panel-default" itemscope itemtype="http://schema.org/ImageObject">
+			<div class="panel-heading">
+				<h3><a href="{CATALOG.link}" class="pull-left" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_count})</a></h3>
 				<span class="pull-right">
 				<!-- BEGIN: subcatloop -->
 				<a href="{SUBCAT.link}" title="{SUBCAT.name}">{SUBCAT.name}</a>&nbsp;&nbsp;&nbsp;
 				<!-- END: subcatloop -->
 				</span>
+				<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
-			<div class="row">
+			<div class="panel-body pd5">
 				<!-- BEGIN: loop_album -->
 				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
 					<div class="panel panel-default">
@@ -28,8 +28,8 @@
 									<span itemprop="name">{ALBUM.name}</span>
 								</h3>
 							</div>
+							<div class="clear"></div>
 							<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-							<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 							<div class="album-description" itemprop="description"> {ALBUM.description} </div>
 							<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 						</div>
@@ -41,7 +41,7 @@
 			<div class="clear"></div>
 		</div>
 		<!-- END: loop_catalog -->
-		
+	
 		<!-- BEGIN: grid_album -->
 		<div class="box-item" itemscope itemtype="http://schema.org/ImageObject">
 			<!-- BEGIN: catalog_name -->
@@ -50,7 +50,7 @@
 					<div class="clear"></div> 
 				</div>
 			<!-- END: catalog_name -->	
-			<div class="row2 multi-columns-row">
+			<div class="row">
 				<!-- BEGIN: loop_album -->
 				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
 					<div class="panel panel-default">
@@ -62,7 +62,6 @@
 								<h3><a itemprop="url" href="{ALBUM.link}"> <span itemprop="name">{ALBUM.name}</span></a></h3>
 								<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 							</div>
-							<a href="{ALBUM.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 							<div class="album-description" itemprop="description"> {ALBUM.description} </div>
 							<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 						</div>
@@ -74,8 +73,11 @@
 			<div class="clear"></div>
 		</div>
 		<!-- END: grid_album -->
-		
+		<!-- BEGIN: generate_page -->
+		<div id="generate_page" class="text-center">
+			{GENERATE_PAGE}
 		</div>
+		<!-- END: generate_page -->
 	</div> 
 </div>
 <script type="text/javascript">

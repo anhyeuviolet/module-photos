@@ -23,18 +23,23 @@
 			</div>
 			<div style="clear:both"></div>
 		</div>
+		<!-- BEGIN: require_cate -->
+		<p class="text-info text-center"><strong>{REQUIRE_CATE}</strong></p>
+		<!-- END: require_cate -->
+		<!-- BEGIN: show_cate -->
 		<div class="panel-body">
 			<form action="#" method="post" enctype="multipart/form-data" id="form-category">
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
-								<td class="col-md-2 text-center" style="width:80px" ><a href="{URL_WEIGHT}">{LANG.weight}</a></td>
-								<td class="col-md-10 text-left"><a href="{URL_NAME}">{LANG.category_name}</a> </td>
+								<td class="col-md-2 text-center" style="width:80px" ><strong><a href="{URL_WEIGHT}">{LANG.weight}</a></strong></td>
+								<td class="col-md-8 text-left"><strong><a href="{URL_NAME}">{LANG.category_name}</a></strong></td>
 								<td class="col-md-2 text-center"> <strong>{LANG.category_inhome} </strong></td>
-								<td class="col-md-4 text-center"> <strong>{LANG.category_viewcat} </strong></td>
+								<td class="col-md-2 text-center"> <strong>{LANG.category_status} </strong></td>
+								<td class="col-md-5 text-center"> <strong>{LANG.category_viewcat} </strong></td>
 								<td class="col-md-2 text-center"> <strong>{LANG.category_numlinks} </strong></td>
-								<td class="col-md-4 text-right"> <strong>{LANG.action} </strong></td>
+								<td class="col-md-3 text-center"> <strong>{LANG.action} </strong></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -51,8 +56,16 @@
 								<td class="text-center">
 									<select class="form-control" id="id_inhome_{LOOP.category_id}" onchange="nv_change_category('{LOOP.category_id}','inhome');">
 										<!-- BEGIN: inhome -->
-										<option value="{INHOME.key}"{INHOME.selected}>{INHOME.title}</option>
+										<option value="{INHOME.value}"{INHOME.selected}>{INHOME.title}</option>
 										<!-- END: inhome -->
+									</select>
+								</td>
+								
+								<td class="text-center">
+									<select class="form-control" id="id_status_{LOOP.category_id}" onchange="nv_change_category('{LOOP.category_id}','status');">
+										<!-- BEGIN: status -->
+										<option value="{STATUS.value}"{STATUS.selected}>{STATUS.title}</option>
+										<!-- END: status -->
 									</select>
 								</td>
 								
@@ -70,7 +83,7 @@
 											<!-- END: numlinks -->
 										</select>
 								</td>
-								<td class="text-right">
+								<td class="text-center">
 									<a href="{LOOP.edit}" data-toggle="tooltip" title="{LANG.edit}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
 									&nbsp;&nbsp;
 									<a href="javascript:void(0);" onclick="delete_category('{LOOP.category_id}', '{LOOP.token}')" data-toggle="tooltip" title="{LANG.delete}" class="btn btn-danger"><i class="fa fa-trash-o"></i>
@@ -83,43 +96,30 @@
 					</table>
 				</div>
 			</form>
-			<!-- BEGIN: generate_page -->
-			<div class="row">
-				<div class="col-sm-12 text-left">
-				
-				<div style="clear:both"></div>
-				{GENERATE_PAGE}
-				
-				</div>
-				 
-			</div>
-			<!-- END: generate_page -->
 		</div>
+		<!-- END: show_cate -->
+		<!-- BEGIN: generate_page -->
+		<div class="row">
+			<div class="col-sm-12 text-left">
+			
+			<div style="clear:both"></div>
+			{GENERATE_PAGE}
+			
+			</div>
+			 
+		</div>
+		<!-- END: generate_page -->
 		<div id="cat-delete-area">&nbsp;</div>
 	</div>
 </div>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <script type="text/javascript">
+var lang_del_confirm = '{LANG.confirm}';
 
 $('button[type=\'submit\']').on('click', function() {
 	$("form[id*='form-']").submit();
 });
 
-
-function nv_change_category(category_id, mod) {
-	var nv_timer = nv_settimeout_disable('id_'+mod+'_' + category_id, 5000);
-	var new_vid = $('#id_'+mod+'_' + category_id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=category&action='+mod+'&nocache=' + new Date().getTime(), 'category_id=' + category_id + '&new_vid=' + new_vid, function(res) {
-		var r_split = res.split("_");
-		if (r_split[0] != 'OK') {
-			alert(nv_is_change_act_confirm[2]);
-			clearTimeout(nv_timer);
-		} else {
-			window.location.href = window.location.href;
-		}
-	});
-	return;
-}
 </script>
 
 <!-- END: main -->

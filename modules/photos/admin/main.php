@@ -148,9 +148,20 @@ if( ACTION_METHOD == 'delete' )
 	exit();
 }
   
- 
-if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
+$db->sqlreset()
+	->select( 'COUNT(*)' )
+	->from( TABLE_PHOTO_NAME . '_category' );
+$find_cate = $db->query( $db->sql() )->fetchColumn();
+
+if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 {
+	if( empty($find_cate))
+	{
+		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&op=category' );
+		die();
+	}
+
+	
  	$array_structure_image = array();
 	$array_structure_image[''] = $module_name;
 	$array_structure_image['Y'] = $module_name . '/images/' . date( 'Y' );
@@ -875,7 +886,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 						catch ( PDOException $e )
 						{ 
 							$error['warning'] = $lang_module['album_error_save'];
-							//var_dump($e);
 						}
  
 						nv_insert_logs( NV_LANG_DATA, $module_name, 'Edit A Album', 'album_id: ' . $data['album_id'], $admin_info['userid'] );
@@ -884,7 +894,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 					else
 					{
 						$error['warning'] = $lang_module['album_error_save'];
-
 					}
 
 					$stmt->closeCursor();
@@ -893,7 +902,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 				catch ( PDOException $e )
 				{ 
 					$error['warning'] = $lang_module['album_error_save'];
-					// var_dump($e);
 				}
 
 			}

@@ -33,7 +33,7 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
 
 		foreach( $global_photo_cat as $_category_id => $category  )
 		{
-			if( $category['parent_id'] == 0 and $category['inhome'] != 0 )
+			if( $category['parent_id'] == 0 and $category['inhome'] != 0 and $category['status'] != 0 )
 			{
 				$array_cat = array();
 				$array_cat = GetCatidInParent( $_category_id, true );

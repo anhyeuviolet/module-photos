@@ -35,7 +35,7 @@
 						<div class="input-group">
 							<input class="form-control" name="alias" placeholder="{LANG.category_alias}"  type="text" value="{DATA.alias}" maxlength="255" id="input-alias"/>
 							<div class="input-group-addon fixaddon">
-								&nbsp;<em class="fa fa-refresh fa-lg fa-pointer text-middle" onclick="get_alias( );">&nbsp;</em>
+								&nbsp;<em class="fa fa-refresh fa-lg fa-pointer text-middle" onclick="get_alias('category',{DATA.category_id});">&nbsp;</em>
 							</div>
 						</div>
 					</div>

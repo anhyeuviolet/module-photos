@@ -54,3 +54,8 @@ $lang_module['star_verygood'] = 'Bài viết rất tốt';
 $lang_module['rating_error1'] = 'Đánh giá không hợp lệ';
 $lang_module['rating_error2'] = 'Bạn đã đánh giá bài viết này rồi';
 
+//Permission
+$lang_module['no_permission'] = 'Bạn không được phép xem bài viết';
+$lang_module['no_permission_detailed'] = 'Bạn không được phép xem hình ảnh chi tiết';
+$lang_module['no_permission_album'] = 'Bạn không được phép xem Album trong Chuyên mục này';
+$lang_module['no_permission_category'] = 'Bạn không được phép xem Chuyên mục này';

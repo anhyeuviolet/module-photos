@@ -34,9 +34,6 @@ $array_home_view = array( 'home_view_grid_by_cat' => $lang_module['home_view_gri
 
 $array_album_view = array( 'album_view_slider' => $lang_module['album_view_slider'], 'album_view_grid' => $lang_module['album_view_grid'] );
 
- 
-
- 
 /**
  * nv_fix_cat_order()
  *

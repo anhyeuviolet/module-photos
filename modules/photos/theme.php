@@ -258,9 +258,14 @@ function detail( $row )
 	return $xtpl->text( 'main' );
 }
 
-function no_permission( $groups_view )
+function no_permission($no_permission)
 {
-	return '';	
-	
+	global $module_info, $module_file, $lang_module;
+
+	$xtpl = new XTemplate( 'no_permission.tpl', NV_ROOTDIR . '/themes/default/modules/' . $module_file );
+
+	$xtpl->assign( 'NO_PERMISSION', $no_permission );
+	$xtpl->parse( 'no_permission' );
+	return $xtpl->text( 'no_permission' );
 }
  

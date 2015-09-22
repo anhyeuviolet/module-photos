@@ -25,6 +25,21 @@ function get_alias_folder(mod, id) {
 	return false;
 }
 
+function nv_change_category(category_id, mod) {
+	var nv_timer = nv_settimeout_disable('id_'+mod+'_' + category_id, 5000);
+	var new_vid = $('#id_'+mod+'_' + category_id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=category&action='+mod+'&nocache=' + new Date().getTime(), 'category_id=' + category_id + '&new_vid=' + new_vid, function(res) {
+		var r_split = res.split("_");
+		if (r_split[0] != 'OK') {
+			alert(nv_is_change_act_confirm[2]);
+			clearTimeout(nv_timer);
+		} else {
+			window.location.href = window.location.href;
+		}
+	});
+	return;
+}
+
 function nv_change_album(album_id, mod) {
 	var nv_timer = nv_settimeout_disable('id_'+mod+'_' + album_id, 5000);
 	var new_vid = $('#id_'+mod+'_' + album_id).val();
@@ -47,6 +62,42 @@ function delete_album(album_id, token) {
 			type: 'post',
 			dataType: 'json',
 			data: 'album_id=' + album_id + '&token=' + token,
+			beforeSend: function() {
+				$('#button-delete i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
+				$('#button-delete').prop('disabled', true);
+			},	
+			complete: function() {
+				$('#button-delete i').replaceWith('<i class="fa fa-trash-o"></i>');
+				$('#button-delete').prop('disabled', false);
+			},
+			success: function(json) {
+				$('.alert').remove();
+
+				if (json['error']) {
+					$('#content').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+				}
+				
+				if (json['success']) {
+					$('#content').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+					 $.each(json['id'], function(i, id) {
+						$('#group_' + id ).remove();
+					});
+				}		
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	}
+}
+
+function delete_category(category_id, token) {
+	if(confirm(lang_del_confirm)) {
+		$.ajax({
+			url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=category&action=delete&nocache=' + new Date().getTime(),
+			type: 'post',
+			dataType: 'json',
+			data: 'category_id=' + category_id + '&token=' + token,
 			beforeSend: function() {
 				$('#button-delete i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
 				$('#button-delete').prop('disabled', true);

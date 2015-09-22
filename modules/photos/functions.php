@@ -125,6 +125,7 @@ if( ! empty( $array_op ) and $op == 'main' )
 					'title' => $array_cat_i['name'],
 					'link' => $array_cat_i['link']
 				);
+				sort( $array_mod_title, SORT_NUMERIC );
 				$parent_id = $array_cat_i['parent_id'];
 			}
 		}
@@ -137,6 +138,19 @@ if( ! empty( $array_op ) and $op == 'main' )
 			if( $album_id > 0 and $alias_url != '' )
 			{
 				$op = 'detail_album';
+			}
+			
+			$parent_id = $category_id;
+			while( $parent_id > 0 )
+			{
+				$array_cat_i = $global_photo_cat[$parent_id];
+				$array_mod_title[] = array(
+					'category_id' => $parent_id,
+					'title' => $array_cat_i['name'],
+					'link' => $array_cat_i['link']
+				);
+				sort( $array_mod_title, SORT_NUMERIC );
+				$parent_id = $array_cat_i['parent_id'];
 			}
 			$array_mod_title[] = array(
 				'category_id' => $album_id,
@@ -154,6 +168,18 @@ if( ! empty( $array_op ) and $op == 'main' )
 			if( $row_id > 0 )
 			{
 				$op = 'detail';
+				$parent_id = $category_id;
+				while( $parent_id > 0 )
+				{
+					$array_cat_i = $global_photo_cat[$parent_id];
+					$array_mod_title[] = array(
+						'category_id' => $parent_id,
+						'title' => $array_cat_i['name'],
+						'link' => $array_cat_i['link']
+					);
+					sort( $array_mod_title, SORT_NUMERIC );
+					$parent_id = $array_cat_i['parent_id'];
+				}
 				$array_mod_title[] = array(
 				'category_id' => $album_id,
 				'title' => $global_photo_album[$album_id]['name'],
@@ -161,8 +187,6 @@ if( ! empty( $array_op ) and $op == 'main' )
 				);
 			}
 		}
-
-		sort( $array_mod_title, SORT_NUMERIC );
 	}
 }
 

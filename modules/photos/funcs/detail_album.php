@@ -13,7 +13,6 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $contents = '';
 $date_added = 0;
-
 // kiem tra tu cach xem album
 if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 {	
@@ -105,7 +104,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 else
 {
 	// khong co quyen xem album
-	$contents = no_permission( $global_photo_cat[$category_id]['groups_view'] );
+	$contents = no_permission( $lang_module['no_permission_album'] );
 }
 
 include NV_ROOTDIR . '/includes/header.php';

@@ -61,7 +61,7 @@
 								<div class="input-group">
 									<input class="form-control" name="alias" placeholder="{LANG.album_alias}"  type="text" value="{DATA.alias}" maxlength="255" id="input-alias"/>
 									<div class="input-group-addon fixaddon" data-toggle="tooltip" title="{LANG.create_alias}">
-										&nbsp;<em class="fa fa-refresh fa-lg fa-pointer text-middle" onclick="get_alias();">&nbsp;</em>
+										&nbsp;<em class="fa fa-refresh fa-lg fa-pointer text-middle" onclick="get_alias('album',{DATA.album_id});">&nbsp;</em>
 									</div>
 								</div>
 							</div>

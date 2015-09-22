@@ -44,11 +44,8 @@ if( ! defined( 'NV_IS_MODADMIN' ) and $page < 5 )
 }
 
 $page_title = ( ! empty( $global_photo_cat[$category_id]['meta_title'] ) ) ? $global_photo_cat[$category_id]['meta_title'] : $global_photo_cat[$category_id]['name'];
-
 $key_words = $global_photo_cat[$category_id]['meta_keyword'];
-
 $description = $global_photo_cat[$category_id]['meta_description'];
-
 $per_page = $photo_config['per_page_album'];
 
 if( empty( $contents ) )
@@ -59,11 +56,8 @@ if( empty( $contents ) )
 
 	if( $viewcat == 'viewcat_grid' )
 	{
-
 		$db->sqlreset()->select( 'COUNT(*)' )->from( TABLE_PHOTO_NAME . '_album a LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )' )->where( 'a.status= 1 AND a.category_id=' . $category_id . ' AND r.defaults = 1' );
-
 		$num_items = $db->query( $db->sql() )->fetchColumn();
-
 		$db->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )->order( 'a.date_added DESC' )->limit( $per_page )->offset( ( $page - 1 ) * $per_page );
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
@@ -72,9 +66,7 @@ if( empty( $contents ) )
 			$item['link'] = $global_photo_cat[$category_id]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
 			$array_catpage[] = $item;
 		}
-
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
-
 		$contents = viewcat_grid( $array_catpage, $generate_page );
 	}
 

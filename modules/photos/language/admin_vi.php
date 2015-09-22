@@ -36,6 +36,14 @@ $lang_module['delete_sign']='Xóa bỏ dấu, kí tự đặc biệt';
 $lang_module['please_select_one']='Hãy chọn một dòng để thực hiện';
 $lang_module['check_form']='Bạn hãy kiểm tra cá tab, trường dữ liệu gây ra lỗi';
 $lang_module['confirm']='Lỗi: Nếu thực hiện thao tác này bạn sẽ không thể phục hồi lại dữ liệu. Bạn có chắc chắc muốn xoá ?';
+$lang_module['require_category'] = 'Vui lòng tạo chuyên mục trước';
+
+$lang_module['inhome_0'] = 'Tắt';
+$lang_module['inhome_1'] = 'Mở';
+
+$lang_module['status_0'] = 'Tắt';
+$lang_module['status_1'] = 'Mở';
+
 
 /*function category*/
 $lang_module['category']='Quản lý chuyên mục';
@@ -45,6 +53,7 @@ $lang_module['category_edit']='Sửa chuyên mục';
 $lang_module['category_name']='Tên chuyên mục';
 $lang_module['category_alias']='Liên kết tĩnh';
 $lang_module['category_inhome']='Trang chủ';
+$lang_module['category_status']='Trạng thái';
 $lang_module['category_show_inhome']='Hiển thị trang chủ';
 $lang_module['category_show_status']='Trạng thái kích hoạt';
 $lang_module['category_viewcat']='Phương án hiển thị';
@@ -65,6 +74,7 @@ $lang_module['category_error_name']='Lỗi: Tên chuyên mục không được �
 $lang_module['category_error_meta_title']='Lỗi: Thẻ meta title không được để trống';
 $lang_module['category_error_warning']='Lỗi: Hãy kiểm tra các trường thông báo lỗi';
 $lang_module['category_error_save']='Lỗi: Không cập nhật được nội dung. Tên chuyên mục có thể bị trùng';
+$lang_module['duplicate_alias']='Lỗi: Alias có thể bị trùng';
 /*function category*/ 
 
 /*function album*/

@@ -16,6 +16,7 @@ $page_title = $lang_module['category'];
 if( in_array( ACTION_METHOD, array(
 	'weight',
 	'inhome',
+	'status',
 	'numlinks',
 	'viewcat' ) ) )
 {
@@ -50,6 +51,13 @@ if( in_array( ACTION_METHOD, array(
 		elseif( $mod == 'inhome' and ( $new_vid == 0 or $new_vid == 1 ) )
 		{
 			$sql = 'UPDATE ' . TABLE_PHOTO_NAME . '_category SET inhome=' . $new_vid . ' WHERE category_id=' . $category_id;
+			$db->query( $sql );
+
+			$content = 'OK_' . $parent_id;
+		}
+		elseif( $mod == 'status' and ( $new_vid == 0 or $new_vid == 1 ) )
+		{
+			$sql = 'UPDATE ' . TABLE_PHOTO_NAME . '_category SET status=' . $new_vid . ' WHERE category_id=' . $category_id;
 			$db->query( $sql );
 
 			$content = 'OK_' . $parent_id;
@@ -91,7 +99,7 @@ if( ACTION_METHOD == 'delete' )
 
 	$token = $nv_Request->get_title( 'token', 'post', '', 1 );
 
-	$listid = $nv_Request->get_string( 'listid', 'post', '' );
+	$listid = $category_id;
 
 	if( $listid != '' and md5( $global_config['sitekey'] . session_id() ) == $token )
 	{
@@ -104,52 +112,38 @@ if( ACTION_METHOD == 'delete' )
 
 	if( ! empty( $del_array ) )
 	{
-
 		$_del_array = array();
-
 		$a = 0;
 		foreach( $del_array as $category_id )
 		{
- 
-			if( $rows_total =  $db->query( 'SELECT COUNT(*) total FROM ' . TABLE_RAOVAT_NAME . '_album WHERE category_id = ' . ( int )$category_id )->fetchColumn() )
+ 			if( $rows_total =  $db->query( 'SELECT COUNT(*) total FROM ' . TABLE_PHOTO_NAME . '_album WHERE category_id = ' . ( int )$category_id )->fetchColumn() )
 			{
 				$info['error'] = sprintf( $lang_module['category_error_album'], $rows_total );
 			}
 			else
 			{
-				$db->query( 'DELETE FROM ' . TABLE_RAOVAT_NAME . '_category WHERE category_id = ' . ( int )$category_id );
-				
+				$db->query( 'DELETE FROM ' . TABLE_PHOTO_NAME . '_category WHERE category_id = ' . ( int )$category_id );
 				$info['id'][$a] = $category_id;
-
 				$_del_array[] = $category_id;
-
 				++$a;
 			}
 		}
 
 		$count = sizeof( $_del_array );
-
 		if( $count )
 		{
 			nv_fix_cat_order();
-
 			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_category', implode( ', ', $_del_array ), $admin_info['userid'] );
-
 			nv_del_moduleCache( $module_name );
-
 			$info['success'] = $lang_module['category_delete_success'];
 		}
-		 
-
 	}
 	else
 	{
 		$info['error'] = $lang_module['category_error_security'];
 	}
-
 	echo json_encode( $info );
 	exit();
-
 }
 
 
@@ -169,7 +163,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 	}
 	
 	$groups_list = nv_groups_list();
-	
 	$data = array(
 		'category_id' => 0,
 		'parent_id' => 0,
@@ -195,7 +188,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 	);
 	 
 	$error = array();
- 
 	$data['category_id'] = $nv_Request->get_int( 'category_id', 'get,post', 0 );
 	$data['parent_id'] = $nv_Request->get_int( 'parent_id', 'get,post', 0 );
 	if( $data['category_id'] > 0 )
@@ -226,8 +218,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		$data['meta_description'] = nv_substr( $nv_Request->get_title( 'meta_description', 'post', '', '' ), 0, 255 );
 		$data['meta_keyword'] = nv_substr( $nv_Request->get_title( 'meta_keyword', 'post', '', '' ), 0, 255 );
 		$data['layout'] = nv_substr( $nv_Request->get_title( 'layout', 'post', '', '' ), 0, 255 );
-  
-		
+ 
 		if( empty( $data['name'] ) )
 		{
 			$error['name'] = $lang_module['category_error_name'];	
@@ -250,7 +241,11 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		$stmt->execute();
 		$check_alias = $stmt->fetchColumn();
 
-		if( $check_alias and $data['parent_id'] > 0 )
+		if($check_alias)
+		{
+			$error['warning'] = $lang_module['duplicate_alias'];
+		}
+		elseif( $check_alias and $data['parent_id'] > 0 )
 		{
 			$parentid_alias = $db->query( 'SELECT  FROM ' . TABLE_PHOTO_NAME . ' WHERE category_id=' . $data['parent_id'] )->fetchColumn();
 			$data['alias'] = $parentid_alias . '-' . $data['alias'];
@@ -260,7 +255,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		{
 			if( $data['category_id'] == 0 )
 			{
-
 				$stmt = $db->prepare( 'SELECT max(weight) FROM ' . TABLE_PHOTO_NAME . '_category WHERE parent_id= ' . intval( $data['parent_id'] ) );
 				$stmt->execute();
 				$weight = $stmt->fetchColumn();
@@ -350,7 +344,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 					
 					if( $stmt->execute() )
 					{
-
 						nv_insert_logs( NV_LANG_DATA, $module_name, 'Edit A Category', 'category_id: ' . $data['category_id'], $admin_info['userid'] );
 						
 						if( $data['parent_id'] != $data['parentid_old'] )
@@ -385,9 +378,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 					$error['warning'] = $lang_module['category_error_save'];
 					 var_dump($e);
 				}
-
 			}
-
 		}
 		if( empty( $error ) )
 		{
@@ -472,10 +463,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		$xtpl->assign( 'LAYOUT', array( 'key' => $value, 'selected' => ( $data['layout'] == $value ) ? ' selected="selected"' : '' ) );
 		$xtpl->parse( 'main.layout' );
 	}
-
-	foreach( $array_status as $key => $name )
+	foreach( $array_status as $key_i => $name_i )
 	{
-		$xtpl->assign( 'INHOME', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['inhome'] ) ? 'selected="selected"' : '' ) );
+		$xtpl->assign( 'INHOME', array( 'key'=> $key_i, 'name'=> $name_i, 'selected'=> ( $key_i == $data['inhome'] ) ? 'selected="selected"' : '' ) );
 		$xtpl->parse( 'main.inhome' );
 	}
 	
@@ -557,6 +547,12 @@ while( $rows = $result->fetch() )
 	$array[] = $rows;
 }
 
+$db->sqlreset()
+	->select( 'COUNT(*)' )
+	->from( TABLE_PHOTO_NAME . '_category' );
+$find_cate = $db->query( $db->sql() )->fetchColumn();
+
+
 $xtpl = new XTemplate( 'category.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'NV_LANG_VARIABLE', NV_LANG_VARIABLE );
@@ -569,6 +565,7 @@ $xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
 $xtpl->assign( 'MODULE_FILE', $module_file );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'TOKEN', md5( $global_config['sitekey'] . session_id() ) );
+
 
 $order2 = ( $order == 'asc' ) ? 'desc' : 'asc';
 $xtpl->assign( 'URL_NAME', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=name&amp;order=' . $order2 . '&amp;parent_id=' . $parent_id . '&amp;per_page=' . $per_page );
@@ -635,15 +632,28 @@ if( ! empty( $array ) )
 		{
 			$xtpl->assign( 'WEIGHT', array( 'w' => $i, 'selected' => ( $i == $item['weight'] ) ? ' selected="selected"' : '' ) );
 
-			$xtpl->parse( 'main.loop.weight' );
+			$xtpl->parse( 'main.show_cate.loop.weight' );
 		}
-		foreach( $array_status as $key => $val )
+		for( $i = 0; $i <= 1; ++$i )
 		{
-			$xtpl->assign( 'INHOME', array(
-				'key' => $key,
-				'title' => $val,
-				'selected' => $key == $item['inhome'] ? ' selected=\'selected\'' : '' ) );
-			$xtpl->parse( 'main.loop.inhome' );
+			$data_inh = array(
+				'value' => $i,
+				'selected' => ( $item['inhome'] == $i ) ? ' selected="selected"' : '',
+				'title' => $lang_module['inhome_' . $i]
+			);
+			$xtpl->assign( 'INHOME', $data_inh );
+			$xtpl->parse( 'main.show_cate.loop.inhome' );
+		}
+		
+		for( $s = 0; $s <= 1; ++$s )
+		{
+			$data_stt = array(
+				'value' => $s,
+				'selected' => ($item['status'] == $s ) ? ' selected="selected"' : '',
+				'title' => $lang_module['status_' . $s]
+			);
+			$xtpl->assign( 'STATUS', $data_stt );
+			$xtpl->parse( 'main.show_cate.loop.status' );
 		}
 
 		foreach( $array_viewcat as $key => $val )
@@ -652,7 +662,7 @@ if( ! empty( $array ) )
 				'key' => $key,
 				'title' => $val,
 				'selected' => $key == $item['viewcat'] ? ' selected=\'selected\'' : '' ) );
-			$xtpl->parse( 'main.loop.viewcat' );
+			$xtpl->parse( 'main.show_cate.loop.viewcat' );
 		}
 
 		for( $i = 0; $i <= 10; $i++ )
@@ -661,14 +671,23 @@ if( ! empty( $array ) )
 				'key' => $i,
 				'title' => $i,
 				'selected' => $i == $item['numlinks'] ? ' selected=\'selected\'' : '' ) );
-			$xtpl->parse( 'main.loop.numlinks' );
+			$xtpl->parse( 'main.show_cate.loop.numlinks' );
 		}
  
-		$xtpl->parse( 'main.loop' );
+		$xtpl->parse( 'main.show_cate.loop' );
 	}
 
 }
- 
+
+if( !($find_cate > 0))
+{
+	$xtpl->assign( 'REQUIRE_CATE', $lang_module['require_category'] );
+	$xtpl->parse( 'main.require_cate' );
+}
+else
+{
+	$xtpl->parse( 'main.show_cate' );
+}
 $generate_page = nv_generate_page( $base_url, $num_items, $per_page, $page );
 if( ! empty( $generate_page ) )
 {
