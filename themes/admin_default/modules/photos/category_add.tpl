@@ -53,10 +53,7 @@
 				
                 <div class="form-group">
                      <label class="col-sm-4 control-label" for="input-description">{LANG.category_description} </label>
-                     <div class="col-sm-20">
-                          <textarea name="description" rows="2" placeholder="{LANG.category_description}" id="input-description" class="form-control">{DATA.description}</textarea>
-						  <!-- <span class="text-middle"> {GLANG.length_characters}: <span id="descriptionlength" class="red">0</span>. {GLANG.description_suggest_max} </span> -->            
-                      </div>
+                     <div class="col-sm-20">{edit_description}</div>
                  </div>
                  <div class="form-group required">
 						<label class="col-sm-4 control-label" for="input-meta-title">{LANG.category_meta_title}</label>

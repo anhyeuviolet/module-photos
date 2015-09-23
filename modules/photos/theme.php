@@ -40,7 +40,7 @@ function home_view_grid_by_cat( $array_cate )
 		{
 			foreach( $array_cat_i['data'] as $album )
 			{
-				$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+				$album['description'] =  nv_clean60( $album['description'], 100 );
 				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
@@ -103,7 +103,7 @@ function home_view_grid_by_album( $array_album, $generate_page)
 	{
 		foreach( $array_album as $album )
 		{
-			$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+			$album['description'] = nv_clean60( $album['description'], 100 );
 			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
@@ -152,7 +152,7 @@ function viewcat_grid( $array_catpage, $generate_page )
 		foreach( $array_catpage as $album )
 		{
 			
-			$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+			$album['description'] =  nv_clean60( $album['description'], 100 );
 			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
@@ -203,16 +203,9 @@ function detail_album( $album, $array_photo, $other_category_album )
 			$module_info['layout_funcs'][$op_file] = $album['layout'];
 		}
 
-		$xtpl->assign( 'ALBUM', $album );
-		// $ratingwidth = ( $album['total_rating'] > 0 ) ? ( $album['total_rating'] * 100 / ( $album['click_rating'] * 5 ) ) * 0.01 : 0;
-	 
-		// $xtpl->assign( 'RATINGVALUE', ( $album['total_rating'] > 0 ) ? round( $album['total_rating']/$album['click_rating'], 1) : 0 );
-		// $xtpl->assign( 'RATINGCOUNT', $album['total_rating'] );
-		// $xtpl->assign( 'RATINGWIDTH', round( $ratingwidth, 2) );
-		// $xtpl->assign( 'LINK_RATE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=rating&album_id=' . $album['album_id'] );
-
-		$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+		$album['description'] =  nv_clean60( $album['description'], 100 );
 		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+		$xtpl->assign( 'ALBUM', $album );
 
 		$num = 0;
 		if( ! empty( $array_photo ) )
@@ -237,7 +230,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 		$key = 1;
 		foreach( $other_category_album as $other )
 		{
-			$other['description'] = strip_tags( nv_clean60( $other['description'], 100 ) );
+			$other['description'] = nv_clean60( $other['description'], 100 );
 			$other['datePublished'] = date( 'Y-m-d', $other['date_added'] );
 			$other['thumb'] = creat_thumbs( $other['album_id'], $other['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $other['file'];
@@ -278,7 +271,6 @@ function detail( $row )
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
-	//var_dump($global_photo_album[$row['album_id']]['layout']);
 		if( ! empty( $row ) )
 		{
 			if(isset($global_photo_album[$row['album_id']]['layout']) && !empty($global_photo_album[$row['album_id']]['layout']))

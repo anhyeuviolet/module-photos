@@ -11,6 +11,12 @@
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
+if( defined( 'NV_EDITOR' ) )
+{
+	require_once NV_ROOTDIR . '/' . NV_EDITORSDIR . '/' . NV_EDITOR . '/nv.php';
+}
+
+
 $page_title = $lang_module['category'];
 
 if( in_array( ACTION_METHOD, array(
@@ -213,7 +219,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		$data['status'] = $nv_Request->get_int( 'status', 'post', 0 );
 		$data['name'] = nv_substr( $nv_Request->get_title( 'name', 'post', '', '' ), 0, 255 );
 		$data['alias'] = nv_substr( $nv_Request->get_title( 'alias', 'post', '', '' ), 0, 255 );
-		$data['description'] = $nv_Request->get_textarea( 'description', 'post', '', 'br', 1 );
+		
+		$description = $nv_Request->get_string( 'description', 'post', '' );
+		$data['description'] = defined( 'NV_EDITOR' ) ? nv_nl2br( $description, '' ) : nv_nl2br( nv_htmlspecialchars( strip_tags( $description ) ), '<br />' );
+
 		$data['meta_title'] = nv_substr( $nv_Request->get_title( 'meta_title', 'post', '', '' ), 0, 255 );
 		$data['meta_description'] = nv_substr( $nv_Request->get_title( 'meta_description', 'post', '', '' ), 0, 255 );
 		$data['meta_keyword'] = nv_substr( $nv_Request->get_title( 'meta_keyword', 'post', '', '' ), 0, 255 );
@@ -485,6 +494,17 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		$xtpl->parse( 'main.groups_view' );
 	}
 
+	$data['description'] = htmlspecialchars( nv_editor_br2nl( $data['description'] ) );
+	if( defined( 'NV_EDITOR' ) and function_exists( 'nv_aleditor' ) )
+	{
+		$edits = nv_aleditor( 'description', '100%', '150px', $data['description'], 'Basic' );
+	}
+	else
+	{
+		$edits = "<textarea style=\"width: 100%\" name=\"description\" id=\"description\" cols=\"20\" rows=\"15\">" . $data['description'] . "</textarea>";
+	}
+	$xtpl->assign( 'edit_description', $edits );
+	
 	if( empty( $data['alias'] ) )
 	{
 		$xtpl->parse( 'main.getalias' );

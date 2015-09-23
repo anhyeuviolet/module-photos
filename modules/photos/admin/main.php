@@ -11,6 +11,11 @@
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
+if( defined( 'NV_EDITOR' ) )
+{
+	require_once NV_ROOTDIR . '/' . NV_EDITORSDIR . '/' . NV_EDITOR . '/nv.php';
+}
+
 $page_title = $lang_module['album'];
 
 if( ACTION_METHOD == 'status' )
@@ -343,7 +348,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$data['folder'] = nv_substr( $nv_Request->get_title( 'folder', 'post', '', '' ), 0, 255 );
 		$data['folder'] = strtolower(change_alias( $data['folder'] ) );
 		$data['category_id'] = $nv_Request->get_int( 'category_id', 'post', 0 );
- 		$data['description'] = $nv_Request->get_textarea( 'description', 'post', '', 'br', 1 );
+		
+		$description = $nv_Request->get_string( 'description', 'post', '' );
+		$data['description'] = defined( 'NV_EDITOR' ) ? nv_nl2br( $description, '' ) : nv_nl2br( nv_htmlspecialchars( strip_tags( $description ) ), '<br />' );
+		
 		$data['meta_title'] = nv_substr( $nv_Request->get_title( 'meta_title', 'post', '', '' ), 0, 255 );
 		$data['meta_description'] = nv_substr( $nv_Request->get_title( 'meta_description', 'post', '', '' ), 0, 255 );
 		$data['meta_keyword'] = nv_substr( $nv_Request->get_title( 'meta_keyword', 'post', '', '' ), 0, 255 );
@@ -966,6 +974,18 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 	
 	$num_row = 0;
+	
+	$data['description'] = htmlspecialchars( nv_editor_br2nl( $data['description'] ) );
+	if( defined( 'NV_EDITOR' ) and function_exists( 'nv_aleditor' ) )
+	{
+		$edits = nv_aleditor( 'description', '100%', '150px', $data['description'], 'Basic' );
+	}
+	else
+	{
+		$edits = "<textarea style=\"width: 100%\" name=\"description\" id=\"description\" cols=\"20\" rows=\"15\">" . $data['description'] . "</textarea>";
+	}
+	$xtpl->assign( 'edit_description', $edits );
+	
 	if( !empty( $data['albums'] ) )
 	{
 		foreach( $data['albums'] as $key => $photo )
