@@ -232,10 +232,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		{
 			$error['name'] = $lang_module['category_error_name'];	
 		}
-		if( empty( $data['meta_title'] ) )
-		{
-			$error['meta_title'] = $lang_module['category_error_meta_title'];	
-		}
 		
 		if( ! empty( $error ) && ! isset( $error['warning'] ) )
 		{

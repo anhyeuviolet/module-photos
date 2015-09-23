@@ -384,10 +384,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		{
 			$error['category'] = $lang_module['album_error_category'];	
 		}
-		if( empty( $data['meta_title'] ) )
-		{
-			$error['meta_title'] = $lang_module['album_error_meta_title'];	
-		}
 		
 		if( ! empty( $error ) && ! isset( $error['warning'] ) )
 		{

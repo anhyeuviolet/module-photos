@@ -46,8 +46,9 @@ if( ! defined( 'NV_IS_MODADMIN' ) and $page < 5 )
 }
 
 $page_title = ( ! empty( $global_photo_cat[$category_id]['meta_title'] ) ) ? $global_photo_cat[$category_id]['meta_title'] : $global_photo_cat[$category_id]['name'];
-$key_words = $global_photo_cat[$category_id]['meta_keyword'];
-$description = $global_photo_cat[$category_id]['meta_description'];
+$key_words = !empty($global_photo_cat[$category_id]['meta_keyword'])?$global_photo_cat[$category_id]['meta_keyword']:$global_photo_cat[$category_id]['name'];
+$description = !empty($global_photo_cat[$category_id]['meta_description'])?$global_photo_cat[$category_id]['meta_description']:strip_tags($global_photo_cat[$category_id]['description']);
+
 $per_page = $module_config[$module_name]['per_page_album'];
 
 if( empty( $contents ) )

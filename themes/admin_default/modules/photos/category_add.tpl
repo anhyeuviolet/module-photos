@@ -55,7 +55,7 @@
                      <label class="col-sm-4 control-label" for="input-description">{LANG.category_description} </label>
                      <div class="col-sm-20">{edit_description}</div>
                  </div>
-                 <div class="form-group required">
+                 <div class="form-group">
 						<label class="col-sm-4 control-label" for="input-meta-title">{LANG.category_meta_title}</label>
 						<div class="col-sm-20">
 							<input type="text" name="meta_title" value="{DATA.meta_title}" placeholder="{LANG.category_meta_title}" id="input-meta-title" class="form-control" />

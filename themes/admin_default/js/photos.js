@@ -282,21 +282,7 @@ function checkform()
 		if (ecategory.hasClass('required')) {
 			ecategory.removeClass('has-error');
 		}
-	}
-	
-	var meta_title = $('input[name="meta_title"]');
-	if( meta_title.val().length < 3 )
-	{
-		meta_title.after('<div class="text-danger">'+album_error_meta_title+'</div>');
-		is = false;
-	}else
-	{
-		var emeta_title = $(meta_title).parent().parent();	
-		if (emeta_title.hasClass('required')) {
-			emeta_title.removeClass('has-error');
-		}
-	}
-	
+	}	
 	
 	$('body .text-danger').each(function() {
 		var element = $(this).parent().parent();

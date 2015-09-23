@@ -97,11 +97,10 @@
 							 <label class="col-sm-4 control-label" for="input-description">{LANG.album_description} </label>
 							<div class="col-sm-20">{edit_description}</div>
 						 </div>
-						 <div class="form-group required">
+						 <div class="form-group">
 								<label class="col-sm-4 control-label" for="input-meta-title">{LANG.album_meta_title}</label>
 								<div class="col-sm-20">
 									<input type="text" name="meta_title" value="{DATA.meta_title}" placeholder="{LANG.album_meta_title}" id="input-meta-title" class="form-control" />
-									<!-- BEGIN: error_meta_title--><div class="text-danger">{error_meta_title}</div><!-- END: error_meta_title -->
 								</div>
 						 </div>
 						<div class="form-group">
@@ -370,7 +369,6 @@
 var album_error_name = '{LANG.album_error_name}';
 var album_error_folder = '{LANG.album_error_folder}';
 var album_error_category = '{LANG.album_error_category}';
-var album_error_meta_title = '{LANG.album_error_meta_title}';
 var album_id = '{DATA.album_id}';
 var lang_confirm = '{LANG.confirm}';
 var lang_check_form = '{LANG.check_form}';

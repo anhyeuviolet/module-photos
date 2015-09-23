@@ -49,10 +49,11 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 		Header( 'Location: ' . $base_url_rewrite );
 		die();
 	}
+
 	// truyen thong tin seo
-	$page_title = $global_photo_album[$row['album_id']]['meta_title'];
-	$key_words = $global_photo_album[$row['album_id']]['meta_keyword'];
-	$description = $global_photo_album[$row['album_id']]['meta_description'];
+	$page_title = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
+	$key_words = !empty($global_photo_album[$row['album_id']]['meta_keyword'])?$global_photo_album[$row['album_id']]['meta_keyword']:$global_photo_album[$row['album_id']]['name'];
+	$description = !empty($global_photo_album[$row['album_id']]['meta_description'])?$global_photo_album[$row['album_id']]['meta_description']:strip_tags($global_photo_album[$row['album_id']]['description']);
 	
 	// goi ham xu ly giao dien 
 	$contents = detail( $row );

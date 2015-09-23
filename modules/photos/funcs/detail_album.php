@@ -98,9 +98,9 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	// goi ham xu ly giao dien 
 	$contents = detail_album( $album, $array_photo, $other_category_album );
 	// truyen thong tin seo
-	$page_title = $album['meta_title'];
-	$key_words = $album['meta_keyword'];
-	$description = $album['meta_description'];
+	$page_title = !empty($album['meta_title'])?$album['meta_title']:$album['name'];
+	$key_words = !empty($album['meta_keyword'])?$album['meta_keyword']:$album['name'];
+	$description = !empty($album['meta_description'])?$album['meta_description']:strip_tags($album['description']);
 }
 else
 {
