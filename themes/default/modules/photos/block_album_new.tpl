@@ -1,17 +1,9 @@
 <!-- BEGIN: main -->
-<style type="text/css">
-ul.category-album{list-style: none; padding:0; margin: 0}
-ul.category-album li{border-bottom: 1px #ccc solid; margin-bottom: 4px}
-ul.category-album li a{display: block;}
-ul.category-album li a.title{padding-left: 4px}
-
-</style>
-<ul class="category-album">
+<ul id="{BLOCK_ID}">
 	<!-- BEGIN: loop_album -->
 	<li>
-		<a class="fl images" href="{ALBUM.link}"><img itemprop="image" src="{ALBUM.thumb}" width="100"></a>
-		<a class="fl title" href="{ALBUM.link}">{ALBUM.name}</a>
-		<div style="clear:both"></div>
+		<a href="{ALBUM.link}"><img itemprop="image" src="{ALBUM.thumb}" alt="{ALBUM.name}" width="100"></a>
+		<a href="{ALBUM.link}" title="{ALBUM.name}" >{ALBUM.name}</a>
 	</li>
 	<!-- END: loop_album -->
 </ul>

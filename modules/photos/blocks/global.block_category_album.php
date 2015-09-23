@@ -13,7 +13,7 @@ if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 if( ! nv_function_exists( 'creat_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	function creat_thumbs( $id, $file, $module_upload, $width = 270, $height = 210, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;

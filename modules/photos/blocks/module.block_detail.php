@@ -16,7 +16,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
  
 	function block_photo_detail( $block_config )
 	{
-		global $data_album, $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $my_head;
+		global $data_album, $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $blockID;
 
 		if(  $op == 'detail_album' )
 		{
@@ -38,6 +38,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 			$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 			$xtpl->assign( 'MODULE_FILE', $mod_file );
 			$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+			$xtpl->assign( 'BLOCK_ID', $blockID );
 			
 			$data_album['image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $data_album['file'];
 			$data_album['thumb'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/thumbs/' . $data_album['thumb'];
