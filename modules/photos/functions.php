@@ -12,13 +12,11 @@
 if ( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
 
 define( 'NV_IS_MOD_PHOTO', true );
-
 define( 'TABLE_PHOTO_NAME', NV_PREFIXLANG . '_' . $module_data ); 
-
 define( 'ACTION_METHOD', $nv_Request->get_string( 'action', 'get,post', '' ) ); 
  
-require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';  
- 
+require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
+
 $category_id = 0;
 $parent_id = 0;
 $alias_cat_url = isset( $array_op[0] ) ? $array_op[0] : '';
@@ -201,114 +199,4 @@ function gltJsonResponse( $error = array(), $data = array() )
 	header( 'Content-Type: application/json' ); 
 	echo json_encode( $contents ); 
 	die();
-}
-/**
-* Back-end create thumbs
-* Upload function
-**/
-function creatThumb( $file, $dir, $width, $height = 0 )
-{
-
-	$image = new image( $file, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-
-	if( empty( $height ) )
-	{
-		$image->resizeXY( $width, NV_MAX_HEIGHT );
-	}
-	else
-	{
-		if( ( $width * $image->fileinfo['height'] / $image->fileinfo['width'] ) > $height )
-		{
-			$image->resizeXY( $width, NV_MAX_HEIGHT );
-		}
-		else
-		{
-			$image->resizeXY( NV_MAX_WIDTH, $height );
-		}
-
-		$image->cropFromCenter( $width, $height );
-	}
-
-	// Kiem tra anh ton tai
-	$fileName = $width . 'x' . $height . '-' . basename( $file );
-	$fileName2 = $fileName;
-	$i = 1;
-	while( file_exists( $dir . '/' . $fileName2 ) )
-	{
-		$fileName2 = preg_replace( '/(.*)(\.[a-zA-Z0-9]+)$/', '\1-' . $i . '\2', $fileName );
-		++$i;
-	}
-	$fileName = $fileName2;
-
-	// Luu anh
-	$image->save( $dir, $fileName );
-	$image->close();
-
-	return substr( $image->create_Image_info['src'], strlen( $dir . '/' ) );
-}
-
-/**
- * creat_thumbs()
- * front-end thumbs create
- *
- */
-if( ! nv_function_exists( 'creat_thumbs' ) )
-{
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
-	{
-		if( $width >= $height ) $rate = $width / $height;
-		else  $rate = $height / $width;
-
-		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
- 
-		if( $file != '' and file_exists( $image ) )
-		{
-			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
-			$imginfo = nv_is_image( $image );
-
-			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
-
-			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
-			{
-				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
-			}
-			else
-			{
-
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-
-				if( $imginfo['width'] <= $imginfo['height'] )
-				{
-					$_image->resizeXY( $width, 0 );
-
-				}
-				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
-				{
-					$_image->resizeXY( $width, 0 );
-				}
-				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
-				{
-					$_image->resizeXY( 0, $height );
-				}
-
-				$_image->cropFromCenter( $width, $height );
-
-				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
-
-				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
-				{
-					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
-				}
-			}
-		}
-		elseif( nv_is_url( $file ) )
-		{
-			$imgsource = $file;
-		}
-		else
-		{
-			$imgsource = '';
-		}
-		return $imgsource;
-	}
 }

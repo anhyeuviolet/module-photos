@@ -128,7 +128,13 @@ $lang_module['photo_error_delete']='Lỗi bảo mật ảnh này không thể xo
  
 /*setting */
 $lang_module['setting']='Cấu hình';
+
+$lang_module['setting_cr_thumb_size']='Kích thước tự tạo ảnh Thumbs (WidthxHeight)';
+$lang_module['setting_cr_thumb_quality']='Chất lượng ảnh';
+//$lang_module['setting_home_view']='Phương án hiển thị album tại trang chủ';
+
 $lang_module['setting_home_view']='Phương án hiển thị album tại trang chủ';
+$lang_module['setting_home_layout']='Giao diện trang chủ (layout)';
 $lang_module['setting_album_view']='Phương án hiển thị ảnh thuộc album';
 $lang_module['setting_per_page_album']='Số album trên một trang';
 $lang_module['setting_per_page_photo']='Số ảnh trên một trang';

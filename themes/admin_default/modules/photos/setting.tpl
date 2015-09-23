@@ -1,9 +1,7 @@
 <!-- BEGIN: main -->
 <div id="content">
 	<!-- BEGIN: success -->
-		<div class="alert alert-success">
-			<i class="fa fa-check-circle"></i> {SUCCESS}
-		</div>
+		<div class="alert alert-success"><i class="fa fa-check-circle"></i>{SUCCESS}</div>
 	<!-- END: success -->
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -20,6 +18,14 @@
 				<input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" />
 				<input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
 				<div class="form-group">
+					<label class="col-sm-6 col-md-6 control-label" style="padding-top: 0px;">{LANG.setting_cr_thumb_size}:</label>
+					<div class="col-sm-18 col-md-18">
+						<input class="form-control w50 pull-left" type="text" value="{DATA.cr_thumb_width}" name="cr_thumb_width" maxlength="3"/>
+						<span class="pull-left text-middle">&nbsp;x&nbsp;</span><input class="form-control pull-left w50" type="text" value="{DATA.cr_thumb_height}" name="cr_thumb_height" maxlength="3"/>
+						<span class="pull-left text-middle">&nbsp;&nbsp;&nbsp;{LANG.setting_cr_thumb_quality}&nbsp;</span> <input class="form-control w50" type="text" value="{DATA.cr_thumb_quality}" name="cr_thumb_quality" maxlength="2"/>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-sm-6 control-label" style="padding-top: 0px;">{LANG.setting_home_view}:</label>
 					<div class="col-sm-18">
 						<select class="form-control" name="home_view">
@@ -27,6 +33,17 @@
 							<option value="{HOME_VIEW.key}" {HOME_VIEW.selected}>{HOME_VIEW.title}</option>
 							<!-- END: home_view -->
 						</select>	
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-6 col-md-6 control-label" for="input-parent">{LANG.setting_home_layout}</label>
+					<div class="col-md-18">
+						<select class="form-control" name="home_layout">
+							<option value="">{LANG.defaults}</option>
+							<!-- BEGIN: home_layout -->
+							<option value="{LAYOUT.key}" {LAYOUT.selected}>{LAYOUT.key}</option>
+							<!-- END: home_layout -->
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
@@ -118,7 +135,6 @@
 						({LANG.setting_sys_max_size}: {SYS_MAX_SIZE})
 					</div>
 				</div>
- 
 			</form>
 		</div>
     </div>

@@ -78,7 +78,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 	{
 		global $site_mods;
 
-		$html .= '<tr>';
+		$html = '<tr>';
 		$html .= '<td>' . $lang_block['category_id'] . '</td>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_category ORDER BY sort_order ASC';
 		$list = nv_db_cache( $sql, '', $module );
@@ -119,11 +119,13 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 	function nv_block_category_album( $block_config )
 	{
 		global $module_photo_category, $module_info, $site_mods, $module_config, $lang_module, $global_config, $db, $blockID;
+		
 		$module = $block_config['module'];
+		$thumb_width = $module_config[$module]['cr_thumb_width'];
+		$thumb_height = $module_config[$module]['cr_thumb_height'];
+		$thumb_quality = $module_config[$module]['cr_thumb_quality'];
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
-		$my_head .= "<style type=\"text/stylesheet\" src=\"" . NV_ROOTDIR . "/themes/default/css/" . $module_name .".css\"></style>\n";
-
  
 		if( empty( $block_config['category_id'] ) ) return '';
 
@@ -158,7 +160,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
 				$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, 270, 210, 90 );
+				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );
@@ -172,13 +174,13 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 }
 if( defined( 'NV_SYSTEM' ) )
 {
-	global $site_mods, $module_name, $global_array_cat, $module_photo_category, $my_head;
+	global $site_mods, $module_name, $global_photo_cat, $module_photo_category;
 	$module = $block_config['module'];
 	if( isset( $site_mods[$module] ) )
 	{
 		if( $module == $module_name )
 		{
-			$module_photo_category = $global_array_cat;
+			$module_photo_category = $global_photo_cat;
 			unset( $module_photo_category[0] );
 		}
 		else

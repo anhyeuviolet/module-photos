@@ -22,16 +22,17 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 						WHERE a.status= 1 AND r.defaults = 1 AND a.album_id = ' . $album_id );
 	
 	$album = $query->fetch();
+	
  	if( $album['album_id'] > 0 )
 	{
 		if( defined( 'NV_IS_MODADMIN' ) or ( $album['status'] == 1 ) )
 		{
 			// cap nhat luot xem
-			$time_set = $nv_Request->get_int( $module_data . '_' . $op . '_' . $album_id, 'session' );
+			$time_set = $nv_Request->get_int( $module_data . '_' . $op . '_' . $album['album_id'], 'session' );
 			if( empty( $time_set ) )
 			{
-				$nv_Request->set_Session( $module_data . '_' . $op . '_' . $album_id, NV_CURRENTTIME );
-				$db->query( 'UPDATE ' . TABLE_PHOTO_NAME . '_album SET viewed=viewed+1 WHERE album_id=' . $album_id );
+				$nv_Request->set_Session( $module_data . '_' . $op . '_' . $album['album_id'], NV_CURRENTTIME );
+				$db->query( 'UPDATE ' . TABLE_PHOTO_NAME . '_album SET viewed=viewed+1 WHERE album_id=' . $album['album_id'] );
 			}
 
 			if( $alias_url == $album['alias'] )

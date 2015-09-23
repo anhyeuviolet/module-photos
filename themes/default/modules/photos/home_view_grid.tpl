@@ -2,9 +2,9 @@
 <div id="photo-{OP}"> 
 	<div class="row">
 		<!-- BEGIN: loop_catalog -->
-		<div class="panel panel-default" itemscope itemtype="http://schema.org/ImageObject">
-			<div class="panel-heading">
-				<h3><a href="{CATALOG.link}" class="pull-left" title="{CATALOG.name}">{CATALOG.name} ({CATALOG.num_count})</a></h3>
+		<div class="row" itemscope itemtype="http://schema.org/ImageObject">
+			<div class="page-header pd10_0 mg0_10_10">
+				<h3 class="txt20 txt_bold"><a href="{CATALOG.link}" class="pull-left" title="{CATALOG.name}">{CATALOG.name}</a></h3>
 				<span class="pull-right">
 				<!-- BEGIN: subcatloop -->
 				<a href="{SUBCAT.link}" title="{SUBCAT.name}">{SUBCAT.name}</a>&nbsp;&nbsp;&nbsp;
@@ -13,30 +13,29 @@
 				<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
-			<div class="panel-body pd5">
-				<!-- BEGIN: loop_album -->
+			<div class="panel-body">
+			<!-- BEGIN: loop_album -->
 				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
 					<div class="panel panel-default">
-						<div class="album-image lazyload panel-body pd5">
-							<a itemprop="url" href="{ALBUM.link}">
+						<div class="album-image panel-body pd5">
+							<a itemprop="url" title="{ALBUM.name}" href="{ALBUM.link}">
 								<img itemprop="image" class="lazy img-responsive" data-original="{ALBUM.thumb}" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
 							</a>
 						</div>
 						<div class="catalog_content panel-footer view_detail pd5">
-							<div class="album-name pull-left">
-								<h3>
-									<span itemprop="name">{ALBUM.name}</span>
-								</h3>
+							<div class="album-name">
+								<h3><a itemprop="url" title="{ALBUM.name}" href="{ALBUM.link}"><span itemprop="name">{ALBUM.name}</span></a></h3>
+								<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 							</div>
 							<div class="clear"></div>
-							<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+							<a href="{ALBUM.link}" title="{ALBUM.name}" class="btn btn-primary"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 							<div class="album-description" itemprop="description"> {ALBUM.description} </div>
 							<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 						</div>
 						<meta itemprop="datePublished" content="{ALBUM.datePublished}">
 					</div>
 				</div>
-				<!-- END: loop_album -->
+			<!-- END: loop_album -->
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -51,24 +50,30 @@
 				</div>
 			<!-- END: catalog_name -->	
 			<div class="row">
+				<div class="panel-body">
 				<!-- BEGIN: loop_album -->
-				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
-					<div class="panel panel-default">
-						<div class="album-image lazyload panel-body pd5">
-							<img itemprop="image" class="lazy img-responsive" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
-						</div>
-						<div class="catalog_content panel-footer view_detail pd5">
-							<div class="album-name pull-left">
-								<h3><a itemprop="url" href="{ALBUM.link}"> <span itemprop="name">{ALBUM.name}</span></a></h3>
-								<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+					<div class="col-xs-24 col-sm-12 col-md-8 album-album">
+						<div class="panel panel-default">
+							<div class="album-image panel-body pd5">
+								<a itemprop="url" title="{ALBUM.name}" href="{ALBUM.link}">
+									<img itemprop="image" class="lazy img-responsive" data-original="{ALBUM.thumb}" data-src="{ALBUM.thumb}" src="{ALBUM.thumb}"/>
+								</a>
 							</div>
-							<div class="album-description" itemprop="description"> {ALBUM.description} </div>
-							<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
+							<div class="catalog_content panel-footer view_detail pd5">
+								<div class="album-name">
+									<h3><a itemprop="url" title="{ALBUM.name}" href="{ALBUM.link}"><span itemprop="name">{ALBUM.name}</span></a></h3>
+									<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+								</div>
+								<div class="clear"></div>
+								<a href="{ALBUM.link}" title="{ALBUM.name}" class="btn btn-primary"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
+								<div class="album-description" itemprop="description"> {ALBUM.description} </div>
+								<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
+							</div>
+							<meta itemprop="datePublished" content="{ALBUM.datePublished}">
 						</div>
-						<meta itemprop="datePublished" content="{ALBUM.datePublished}">
 					</div>
-				</div>
 				<!-- END: loop_album -->
+				</div>
 			</div>
 			<div class="clear"></div>
 		</div>

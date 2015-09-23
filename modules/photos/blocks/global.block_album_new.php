@@ -78,7 +78,7 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 	{
 		global $site_mods;
 
-		$html .= '<tr>';
+		$html = '<tr>';
 		$html .= '<td>' . $lang_block['numrow'] . '</td>';
 		$html .= '<td><input type="text" class="form-control w200" name="config_numrow" size="5" value="' . $data_block['numrow'] . '"/></td>';
 		$html .= '</tr>';
@@ -100,6 +100,11 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 		global $module_photo_category, $module_info, $site_mods, $module_config, $global_config, $db, $blockID;
 		
 		$module = $block_config['module'];
+		
+		$thumb_width = $module_config[$module]['cr_thumb_width'];
+		$thumb_height = $module_config[$module]['cr_thumb_height'];
+		$thumb_quality = $module_config[$module]['cr_thumb_quality'];
+
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
  
@@ -131,7 +136,7 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
 				$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
 				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, 270, 210, 90 );
+				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );

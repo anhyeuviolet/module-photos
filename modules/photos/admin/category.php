@@ -175,7 +175,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		'weight' => '',
 		'sort_order' => '',
 		'lev' => '',
-		'layout' => '',
+		'layout' => 'body-right',
 		'viewcat' => 'viewcat_grid',
 		'numsubcat' => '',
 		'subcatid' => '',

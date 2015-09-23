@@ -27,6 +27,8 @@ if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
 	die();
 }
 
+$set_view_page = ( $page > 1 and substr( $viewcat, 0, 8 ) == 'viewcat_' ) ? true : false;
+
 if( ! defined( 'NV_IS_MODADMIN' ) and $page < 5 )
 {
 	if( $set_view_page )
@@ -46,7 +48,7 @@ if( ! defined( 'NV_IS_MODADMIN' ) and $page < 5 )
 $page_title = ( ! empty( $global_photo_cat[$category_id]['meta_title'] ) ) ? $global_photo_cat[$category_id]['meta_title'] : $global_photo_cat[$category_id]['name'];
 $key_words = $global_photo_cat[$category_id]['meta_keyword'];
 $description = $global_photo_cat[$category_id]['meta_description'];
-$per_page = $photo_config['per_page_album'];
+$per_page = $module_config[$module_name]['per_page_album'];
 
 if( empty( $contents ) )
 {

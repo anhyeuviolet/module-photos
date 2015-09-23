@@ -16,32 +16,37 @@ $page_title = $lang_module['setting'];
 $savesetting = $nv_Request->get_int( 'savesetting', 'post', 0 );
 if( ! empty( $savesetting ) )
 {
-	$photo_config = array();
-	$photo_config['per_page_album'] = $nv_Request->get_int( 'per_page_album', 'post', 0 );
-	$photo_config['per_page_photo'] = $nv_Request->get_int( 'per_page_photo', 'post', 20 );
-	$photo_config['home_view'] = $nv_Request->get_title( 'home_view', 'post', '', 0 );
-	$photo_config['album_view'] = $nv_Request->get_title( 'album_view', 'post', '', 0 );
-	$photo_config['module_logo'] = $nv_Request->get_title( 'module_logo', 'post', '', 0 );
-	$photo_config['active_logo'] = $nv_Request->get_int( 'active_logo', 'post', 0 );
-	$photo_config['autologosize1'] = $nv_Request->get_int( 'autologosize1', 'post', 50 );
-	$photo_config['autologosize2'] = $nv_Request->get_int( 'autologosize2', 'post', 40 );
-	$photo_config['autologosize3'] = $nv_Request->get_int( 'autologosize3', 'post', 30 );
-	$photo_config['structure_upload'] = $nv_Request->get_title( 'structure_upload', 'post', '', 0 );
-	$photo_config['maxupload'] = $nv_Request->get_int( 'maxupload', 'post', 0 );
-	$photo_config['maxupload'] = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ), $photo_config['maxupload']);
+	$photo_setting = array();
+	$photo_setting['cr_thumb_width'] = $nv_Request->get_int( 'cr_thumb_width', 'post', 0 );
+	$photo_setting['cr_thumb_height'] = $nv_Request->get_int( 'cr_thumb_height', 'post', 0 );
+	$photo_setting['cr_thumb_quality'] = $nv_Request->get_int( 'cr_thumb_quality', 'post', 0 );
+	$photo_setting['per_page_album'] = $nv_Request->get_int( 'per_page_album', 'post', 0 );
+	$photo_setting['per_page_photo'] = $nv_Request->get_int( 'per_page_photo', 'post', 20 );
+	$photo_setting['home_view'] = $nv_Request->get_title( 'home_view', 'post', '', 0 );
+	$photo_setting['home_layout'] = nv_substr( $nv_Request->get_title( 'home_layout', 'post', '', '' ), 0, 255 );
+	$photo_setting['album_view'] = $nv_Request->get_title( 'album_view', 'post', '', 0 );
+	$photo_setting['module_logo'] = $nv_Request->get_title( 'module_logo', 'post', '', 0 );
+	$photo_setting['active_logo'] = $nv_Request->get_int( 'active_logo', 'post', 0 );
+	$photo_setting['autologosize1'] = $nv_Request->get_int( 'autologosize1', 'post', 50 );
+	$photo_setting['autologosize2'] = $nv_Request->get_int( 'autologosize2', 'post', 40 );
+	$photo_setting['autologosize3'] = $nv_Request->get_int( 'autologosize3', 'post', 30 );
+	$photo_setting['structure_upload'] = $nv_Request->get_title( 'structure_upload', 'post', '', 0 );
+	$photo_setting['maxupload'] = $nv_Request->get_int( 'maxupload', 'post', 0 );
+	$photo_setting['maxupload'] = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ), $photo_setting['maxupload']);
 	
-	if( ! nv_is_url( $photo_config['module_logo'] ) and file_exists( NV_DOCUMENT_ROOT . $photo_config['module_logo'] ) )
+	if( ! nv_is_url( $photo_setting['module_logo'] ) and file_exists( NV_DOCUMENT_ROOT . $photo_setting['module_logo'] ) )
 	{
 		$lu = strlen( NV_BASE_SITEURL );
-		$photo_config['module_logo'] = substr( $photo_config['module_logo'], $lu );
+		$photo_setting['module_logo'] = substr( $photo_setting['module_logo'], $lu );
 	}
-	elseif( ! nv_is_url( $photo_config['module_logo'] ) )
+	elseif( ! nv_is_url( $photo_setting['module_logo'] ) )
 	{
-		$photo_config['module_logo'] = $global_config['site_logo'];
+		$photo_setting['module_logo'] = $global_config['site_logo'];
 	}
  
-	$sth = $db->prepare( 'UPDATE ' . TABLE_PHOTO_NAME . '_setting SET config_value = :config_value WHERE config_name = :config_name');
-	foreach( $photo_config as $config_name => $config_value )
+	$sth = $db->prepare( "UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name" );
+	$sth->bindParam( ':module_name', $module_name, PDO::PARAM_STR );
+	foreach( $photo_setting as $config_name => $config_value )
 	{
 		$sth->bindParam( ':config_name', $config_name, PDO::PARAM_STR );
 		$sth->bindParam( ':config_value', $config_value, PDO::PARAM_STR );
@@ -49,17 +54,21 @@ if( ! empty( $savesetting ) )
 	}
 	$sth->closeCursor();
 
+	nv_del_moduleCache( 'settings' );
 	nv_del_moduleCache( $module_name );
 	$nv_Request->set_Session( $module_data . '_success', $lang_module['setting_update_success'] );
 	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&rand=' . nv_genpass() );
 	die();
 }
 
+$selectthemes = ( ! empty( $site_mods[$module_name]['theme'] ) ) ? $site_mods[$module_name]['theme'] : $global_config['site_theme'];
+$layout_array = nv_scandir( NV_ROOTDIR . '/themes/' . $selectthemes . '/layout', $global_config['check_op_layout'] );
 
-$module_logo = ( isset( $photo_config['module_logo'] ) ) ? $photo_config['module_logo'] : '';
-$module_logo = ( ! nv_is_url( $module_logo ) && !empty( $photo_config['module_logo'] ) ) ? NV_BASE_SITEURL . $module_logo : $module_logo;
 
-$photo_config['active_logo'] = ( $photo_config['active_logo'] == 1 ) ? 'checked="checked"': '';
+$module_logo = ( isset( $module_config[$module_name]['module_logo'] ) ) ? $module_config[$module_name]['module_logo'] : '';
+$module_logo = ( ! nv_is_url( $module_logo ) && !empty( $module_config[$module_name]['module_logo'] ) ) ? NV_BASE_SITEURL . $module_logo : $module_logo;
+
+$module_config[$module_name]['active_logo'] = ( $module_config[$module_name]['active_logo'] == 1 ) ? 'checked="checked"': '';
 
 $xtpl = new XTemplate( 'setting.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
@@ -71,7 +80,7 @@ $xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
 $xtpl->assign( 'MODULE_FILE', $module_file );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
-$xtpl->assign( 'DATA', $photo_config );
+$xtpl->assign( 'DATA', $module_config[$module_name] );
 $xtpl->assign( 'MODULE_LOGO', $module_logo );
 $xtpl->assign( 'PATH', defined( 'NV_IS_SPADMIN' ) ? '' : NV_UPLOADS_DIR . '/' . $module_name );
 $xtpl->assign( 'CURRENTPATH', defined( 'NV_IS_SPADMIN' ) ? 'images' : NV_UPLOADS_DIR . '/' . $module_name );
@@ -87,28 +96,37 @@ if( $nv_Request->get_string( $module_data . '_success', 'session' ) )
 
 } 
 
-
 foreach( $array_home_view as $key => $title )
 {
-	$xtpl->assign( 'HOME_VIEW', array( 'key' => $key, 'title' => $title, 'selected' => $key == $photo_config['home_view'] ? ' selected="selected"' : '' ) );
+	$xtpl->assign( 'HOME_VIEW', array( 'key' => $key, 'title' => $title, 'selected' => $key == $module_config[$module_name]['home_view'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.home_view' );	
 	
 }
+
+//Set home_layout
+foreach( $layout_array as $value )
+{
+	//var_dump($value);die;
+	$value = preg_replace( $global_config['check_op_layout'], '\\1', $value );
+	$xtpl->assign( 'LAYOUT', array( 'key' => $value, 'selected' => ( $module_config[$module_name]['home_layout'] == $value ) ? ' selected="selected"' : '' ) );
+	$xtpl->parse( 'main.home_layout' );
+}
+
 foreach( $array_album_view as $key => $title )
 {
-	$xtpl->assign( 'ALBUM_VIEW', array( 'key' => $key, 'title' => $title, 'selected' => $key == $photo_config['album_view'] ? ' selected="selected"' : '' ) );
+	$xtpl->assign( 'ALBUM_VIEW', array( 'key' => $key, 'title' => $title, 'selected' => $key == $module_config[$module_name]['album_view'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.album_view' );	
 	
 }
 // So bai viet tren mot trang
 for( $i = 5; $i <= 60; ++ $i )
 {
-	$xtpl->assign( 'PER_PAGE_ALBUM', array( 'key' => $i, 'title' => $i, 'selected' => $i == $photo_config['per_page_album'] ? ' selected="selected"' : '' ) );
+	$xtpl->assign( 'PER_PAGE_ALBUM', array( 'key' => $i, 'title' => $i, 'selected' => $i == $module_config[$module_name]['per_page_album'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.per_page_album' );
 }
 for( $i = 5; $i <= 60; ++ $i )
 {
-	$xtpl->assign( 'PER_PAGE_PHOTO', array( 'key' => $i, 'title' => $i, 'selected' => $i == $photo_config['per_page_photo'] ? ' selected="selected"' : '' ) );
+	$xtpl->assign( 'PER_PAGE_PHOTO', array( 'key' => $i, 'title' => $i, 'selected' => $i == $module_config[$module_name]['per_page_photo'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.per_page_photo' );
 }
 
@@ -120,7 +138,7 @@ $array_structure_image['Y_m'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . da
 $array_structure_image['Ym_d'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y_m/d' );
 $array_structure_image['Y_m_d'] = NV_UPLOADS_DIR . '/' . $module_upload . '/' . date( 'Y/m/d' );
  
-$structure_image_upload = isset( $photo_config['structure_upload'] ) ? $photo_config['structure_upload'] : "Ym";
+$structure_image_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : "Ym";
 
 // Thu muc uploads
 foreach( $array_structure_image as $type => $dir )
@@ -139,7 +157,7 @@ $p_size = $sys_max_size / 100;
 
 $xtpl->assign( 'SYS_MAX_SIZE', nv_convertfromBytes( $sys_max_size ) );
 
-$data_maxupload = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ), $photo_config['maxupload']);
+$data_maxupload = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ), $module_config[$module_name]['maxupload']);
 for ( $index = 100; $index > 0; --$index )
 {
     $size1 = floor( $index * $p_size );

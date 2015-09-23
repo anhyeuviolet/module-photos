@@ -25,7 +25,7 @@ if( ! ( $home OR $request_uri == $base_url_rewrite OR $request_uri == $page_url_
 }
 
  
-if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
+if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 {
 	$array_cate = array();
 	if( ! empty( $global_photo_cat ) )
@@ -90,9 +90,9 @@ if( $photo_config['home_view'] == 'home_view_grid_by_cat' )
  
 	$contents = home_view_grid_by_cat( $array_cate );
 }
-elseif( $photo_config['home_view'] == 'home_view_grid_by_album' )
+elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 {
-	$per_page = $photo_config['per_page_album'];
+	$per_page = $module_config[$module_name]['per_page_album'];
 	$array_album = array();
 	if( ! empty( $global_photo_cat ) )
 	{ 

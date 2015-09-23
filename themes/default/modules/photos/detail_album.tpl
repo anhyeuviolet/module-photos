@@ -2,18 +2,19 @@
 <!-- BEGIN: view_grid -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 
-<div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
+<div class="row" itemscope itemtype="http://schema.org/ImageObject">
 	<a itemprop="url" href="{SELFURL}" style="display:none;" title="{ALBUM.name}"><span itemprop="name">{ALBUM.name}</span></a>
-	<h3><span class="pd5">{ALBUM.name}</span></h3>
-	<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-	<div class="photo-description" itemprop="description" > {ALBUM.description} </div>
+	<div class="page-header pd10_0 mg0_10_10">
+		<h3 class="txt20 txt_bold"><span class="pd5">{ALBUM.name}</span></h3><span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+	</div>
+	<div class="photo-description" itemprop="description" > {ALBUM.description}</div>
 	<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 	<div id="album-gallery">
 		<!-- BEGIN: loop_img -->
 		<div class="col-xs-24 col-sm-12 col-md-8 col-lg-8">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
-					<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+					<a href="{PHOTO.thumb}" title="{PHOTO.name}" data-gallery="gallery">
 						<img itemprop="image" class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
@@ -25,8 +26,10 @@
 		</div>
 		<!-- END: loop_img -->
 	</div>
+	<!-- BEGIN: social_tool -->
 	<div class="fb-like"></div>
   	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	<!-- END: social_tool -->
 </div>
 <div class="clear"></div>
 <div id="blueimp-gallery" class="blueimp-gallery">
@@ -66,14 +69,13 @@
 <link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
  
-<div id="photo-content" class="rows" itemscope itemtype="http://schema.org/ImageObject">
+<div class="row" itemscope itemtype="http://schema.org/ImageObject">
 	<a itemprop="url" href="{SELFURL}" style="display:none" title="{ALBUM.name}">
 		<span itemprop="name">{ALBUM.name}</span>
 	</a>
-	<h3><span class="pd5">{ALBUM.name}</span></h3>
-	<!-- BEGIN: slide_album_viewed -->
-	<span class="pd5"><em class="fa fa-eye"></em> {ALBUM.viewed}</span>
-	<!-- END: slide_album_viewed -->
+	<div class="page-header pd10_0 mg0_10_10">
+		<h3 class="txt20 txt_bold"><span class="pd5">{ALBUM.name}</span></h3><span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+	</div>
 	<div class="photo-description" itemprop="description" style="display:none"> {ALBUM.description} </div>
 	<span class="contentLocation" itemprop="contentLocation" style="display:none">{ALBUM.capturelocal}</span>
 	<ul class="bxslider">
@@ -87,9 +89,11 @@
 	  <a  href="javascript:void(0);" onclick="clicked({PHOTO.num});" data-slide-index="{PHOTO.num}"><img src="{PHOTO.thumb}" /></a>
 	  <!-- END: loop_thumb -->
 	</div>
-	<div class="clear" style="height: 20px"></div>
+	<div class="clear"></div>
+	<!-- BEGIN: social_tool -->
 	<div class="fb-like"></div>
   	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	<!-- END: social_tool -->
  </div>
 <div id="photo-album">
 	<div class="box-item multi-columns-row" itemscope itemtype="http://schema.org/ImageObject">
@@ -110,7 +114,7 @@
 			</div>
 		</div>
 		<!-- END: loop_album -->	
-	<div class="clear"></div>
+		<div class="clear"></div>
 	</div>
 </div>
 <script type="text/javascript" >

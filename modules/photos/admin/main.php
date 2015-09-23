@@ -170,7 +170,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$array_structure_image['Ym_d'] = $module_name . '/images/' . date( 'Y_m/d' );
 	$array_structure_image['Y_m_d'] = $module_name . '/images/' . date( 'Y/m/d' );
 	 
-	$structure_upload = isset( $photo_config['structure_upload'] ) ? $photo_config['structure_upload'] : 'Ym';
+	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpath = isset( $array_structure_image[$structure_upload] ) ? $array_structure_image[$structure_upload] : '';
   
 	
@@ -218,7 +218,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$array_structure_thumb['Ym_d'] = $module_name . '/thumbs/' . date( 'Y_m/d' );
 	$array_structure_thumb['Y_m_d'] = $module_name . '/thumbs/' . date( 'Y/m/d' );
 	 
-	$structure_upload = isset( $photo_config['structure_upload'] ) ? $photo_config['structure_upload'] : 'Ym';
+	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpaththumb = isset( $array_structure_thumb[$structure_upload] ) ? $array_structure_thumb[$structure_upload] : '';
  
 	if( file_exists( NV_UPLOADS_REAL_DIR . '/' . $currentpaththumb ) )
@@ -285,9 +285,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		'capturelocal' => '',
 		'folder' => '',
 		'thumb' => '',
-		'layout' => '',
+		'layout' => 'body-right',
 		'num_photo' => 0,
-		'layout' => '',
 		'viewed' => 0,
 		'weight' => '',
 		'total_rating' => 0,
@@ -514,9 +513,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 									
 									
 									$upload_logo = '';
-									if( file_exists( NV_ROOTDIR . '/' . $photo_config['module_logo'] ) && $photo_config['active_logo'] == 1 )
+									if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
 									{
-										$upload_logo = $photo_config['module_logo'];
+										$upload_logo = $module_config[$module_name]['module_logo'];
 									} 
 									if( ! empty( $upload_logo ) )
 									{
@@ -524,21 +523,21 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 										if( $photo['width'] <= 150 )
 										{
-											$w = ceil( $logo_size[0] * $photo_config['autologosize1'] / 100 );
+											$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
 										}
 										elseif( $photo['width'] < 350 )
 										{
-											$w = ceil( $logo_size[0] * $photo_config['autologosize2'] / 100 );
+											$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
 										}
 										else
 										{
-											if( ceil( $photo['width'] * $photo_config['autologosize3'] / 100 ) > $logo_size[0] )
+											if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
 											{
 												$w = $logo_size[0];
 											}
 											else
 											{
-												$w = ceil( $photo['width'] * $photo_config['autologosize3'] / 100 );
+												$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
 											}
 										}
 
@@ -750,9 +749,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 											
 											
 											$upload_logo = '';
-											if( file_exists( NV_ROOTDIR . '/' . $photo_config['module_logo'] ) && $photo_config['active_logo'] == 1 )
+											if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
 											{
-												$upload_logo = $photo_config['module_logo'];
+												$upload_logo = $module_config[$module_name]['module_logo'];
 											} 
 											if( ! empty( $upload_logo ) )
 											{
@@ -760,21 +759,21 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		 
 												if( $photo['width'] <= 150 )
 												{
-													$w = ceil( $logo_size[0] * $photo_config['autologosize1'] / 100 );
+													$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
 												}
 												elseif( $photo['width'] < 350 )
 												{
-													$w = ceil( $logo_size[0] * $photo_config['autologosize2'] / 100 );
+													$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
 												}
 												else
 												{
-													if( ceil( $photo['width'] * $photo_config['autologosize3'] / 100 ) > $logo_size[0] )
+													if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
 													{
 														$w = $logo_size[0];
 													}
 													else
 													{
-														$w = ceil( $photo['width'] * $photo_config['autologosize3'] / 100 );
+														$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
 													}
 												}
 

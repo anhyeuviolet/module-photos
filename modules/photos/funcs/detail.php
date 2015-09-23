@@ -14,7 +14,7 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 $contents = '';
 $date_added = 0;
 // kiem tra tu cach xem album
-if( nv_user_in_groups( $global_photo_album[$album_id]['groups_view'] ) )
+if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_user_in_groups( $global_photo_album[$album_id]['groups_view'] ) )
 {	
 	// anh trong album
 	$db->sqlreset()

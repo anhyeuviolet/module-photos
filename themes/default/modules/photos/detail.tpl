@@ -3,19 +3,23 @@
 
 <div class="row">
 	<div class="col-md-24 col-sm-24 col-xs-24">
-		<h3><span class="pd5">{PHOTO.name}</span></h3>
-		<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
+		<div class="page-header pd10_0 mg0_10_10">
+			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.name}</span></h3>
+			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
+		</div>
 	</div>
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-			<img src="{PHOTO.file}" class="img-responsive"/>
+			<img src="{PHOTO.file}" class="img-thumbnail"/>
 		</a>
 	</div>
+	<!-- BEGIN: social_tool -->
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<div class="clear" style="height: 20px"></div>
 		<div class="fb-like"></div>
 		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
 	</div>
+	<!-- END: social_tool -->
 	<div id="blueimp-gallery" class="blueimp-gallery">
 		<div class="slides"></div>
 		<h3 class="title"></h3>

@@ -18,3 +18,21 @@
 .pd5{
 	padding: 5px
 }
+.pd10_0{
+	padding: 10px 0px
+}
+.mg0_0_10{
+	margin: 0px 0px 10px
+}
+.mg0_10_10{
+	margin: 0px 10px 10px
+}
+.txt16{
+	font-size: 16px
+}
+.txt20{
+	font-size: 20px
+}
+.txt_bold{
+	font-weight:bold
+}
