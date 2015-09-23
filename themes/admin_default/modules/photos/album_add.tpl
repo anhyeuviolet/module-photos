@@ -380,6 +380,7 @@ var lang_check_form = '{LANG.check_form}';
 <script type="text/javascript">
 $("#input-name").change(function() {
 	get_alias('album', {DATA.album_id});
+	get_alias_folder('folder', {DATA.album_id});
 });
 </script>
 <!-- END: getalias -->
