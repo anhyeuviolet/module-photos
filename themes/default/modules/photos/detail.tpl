@@ -14,8 +14,7 @@
 		</a>
 	</div>
 	<!-- BEGIN: social_tool -->
-	<div class="col-md-24 col-sm-24 col-xs-24">
-		<div class="clear" style="height: 20px"></div>
+	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
 		<div class="fb-like"></div>
 		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
 	</div>

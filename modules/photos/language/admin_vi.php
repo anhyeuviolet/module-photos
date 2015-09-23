@@ -128,16 +128,18 @@ $lang_module['photo_error_delete']='Lỗi bảo mật ảnh này không thể xo
  
 /*setting */
 $lang_module['setting']='Cấu hình';
+$lang_module['setting_module_display']='Cấu hình hiển thị Module';
+$lang_module['setting_module_addition']='Cấu hình bổ sung';
 
 $lang_module['setting_cr_thumb_size']='Kích thước tự tạo ảnh Thumbs (WidthxHeight)';
 $lang_module['setting_cr_thumb_quality']='Chất lượng ảnh';
-//$lang_module['setting_home_view']='Phương án hiển thị album tại trang chủ';
-
 $lang_module['setting_home_view']='Phương án hiển thị album tại trang chủ';
 $lang_module['setting_home_layout']='Giao diện trang chủ (layout)';
 $lang_module['setting_album_view']='Phương án hiển thị ảnh thuộc album';
 $lang_module['setting_per_page_album']='Số album trên một trang';
 $lang_module['setting_per_page_photo']='Số ảnh trên một trang';
+$lang_module['setting_social_tool']='Kích hoạt công cụ MXH';
+$lang_module['setting_fbappid']='Facebook App ID';
 $lang_module['setting_active_logo']='Kích hoạt đóng dấu ảnh';
 $lang_module['setting_logo']='Logo đóng dấu ảnh';
 $lang_module['setting_autologosize1']='Nếu chiều rộng ảnh &lt; = 150px';

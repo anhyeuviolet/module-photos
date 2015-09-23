@@ -29,6 +29,12 @@
 		<!-- END: loop_album -->
 		</div>
 		<div class="clear"></div>
+		<!-- BEGIN: social_tool -->
+		<div class="col-md-24 col-sm-24 col-xs-24 pd5">
+			<div class="fb-like"></div>
+			<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+		</div>
+		<!-- END: social_tool -->
 	</div>
 	<!-- BEGIN: generate_page -->
 	<div id="generate_page" class="text-center">

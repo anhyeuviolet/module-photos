@@ -36,3 +36,7 @@
 .txt_bold{
 	font-weight:bold
 }
+.album-name h3 {
+    line-height: 1.5;
+    height: 40px;
+}

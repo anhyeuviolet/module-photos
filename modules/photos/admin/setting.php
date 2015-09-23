@@ -26,6 +26,8 @@ if( ! empty( $savesetting ) )
 	$photo_setting['home_layout'] = nv_substr( $nv_Request->get_title( 'home_layout', 'post', '', '' ), 0, 255 );
 	$photo_setting['album_view'] = $nv_Request->get_title( 'album_view', 'post', '', 0 );
 	$photo_setting['module_logo'] = $nv_Request->get_title( 'module_logo', 'post', '', 0 );
+	$photo_setting['social_tool'] = $nv_Request->get_int( 'social_tool', 'post', 0 );
+	$photo_setting['fbappid'] = $nv_Request->get_int( 'fbappid', 'post', 0 );
 	$photo_setting['active_logo'] = $nv_Request->get_int( 'active_logo', 'post', 0 );
 	$photo_setting['autologosize1'] = $nv_Request->get_int( 'autologosize1', 'post', 50 );
 	$photo_setting['autologosize2'] = $nv_Request->get_int( 'autologosize2', 'post', 40 );
@@ -68,6 +70,7 @@ $layout_array = nv_scandir( NV_ROOTDIR . '/themes/' . $selectthemes . '/layout',
 $module_logo = ( isset( $module_config[$module_name]['module_logo'] ) ) ? $module_config[$module_name]['module_logo'] : '';
 $module_logo = ( ! nv_is_url( $module_logo ) && !empty( $module_config[$module_name]['module_logo'] ) ) ? NV_BASE_SITEURL . $module_logo : $module_logo;
 
+$module_config[$module_name]['social_tool'] = ( $module_config[$module_name]['social_tool'] == 1 ) ? 'checked="checked"': '';
 $module_config[$module_name]['active_logo'] = ( $module_config[$module_name]['active_logo'] == 1 ) ? 'checked="checked"': '';
 
 $xtpl = new XTemplate( 'setting.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
@@ -82,8 +85,8 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'DATA', $module_config[$module_name] );
 $xtpl->assign( 'MODULE_LOGO', $module_logo );
-$xtpl->assign( 'PATH', defined( 'NV_IS_SPADMIN' ) ? '' : NV_UPLOADS_DIR . '/' . $module_name );
-$xtpl->assign( 'CURRENTPATH', defined( 'NV_IS_SPADMIN' ) ? 'images' : NV_UPLOADS_DIR . '/' . $module_name );
+$xtpl->assign( 'PATH', defined( 'NV_IS_SPADMIN' ) ? '' : NV_UPLOADS_DIR . '/' . $module_upload );
+$xtpl->assign( 'CURRENTPATH', defined( 'NV_IS_SPADMIN' ) ? 'images' : NV_UPLOADS_DIR . '/' . $module_upload );
 $xtpl->assign( 'CANCEL', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
 
 if( $nv_Request->get_string( $module_data . '_success', 'session' ) )

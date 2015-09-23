@@ -162,11 +162,16 @@ function viewcat_grid( $array_catpage, $generate_page )
 		}
 
 	}
+	
 	if( ! empty( $generate_page ) )
 	{
-		 
 		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
 		$xtpl->parse( 'main.generate_page' );
+	}
+	
+	if( $module_config[$module_name]['social_tool'] > 0 )
+	{
+		$xtpl->parse( 'main.social_tool' );
 	}
 	
 	$xtpl->parse( 'main' );
@@ -241,7 +246,12 @@ function detail_album( $album, $array_photo, $other_category_album )
 			++$key;
 		}
 	}
-	
+	if( $module_config[$module_name]['social_tool'] > 0 )
+	{
+		$xtpl->parse( 'main.view_grid.social_tool' );
+		$xtpl->parse( 'main.slider.social_tool' );
+	}
+
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid')
 	{
 		$xtpl->parse( 'main.view_grid' );
@@ -250,6 +260,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 	{
 		$xtpl->parse( 'main.slider' );
 	}
+	
 
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
@@ -278,7 +289,11 @@ function detail( $row )
 			$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
 			$xtpl->assign( 'PHOTO', $row );
 		}
- 
+ 	if( $module_config[$module_name]['social_tool'] > 0 )
+	{
+		$xtpl->parse( 'main.social_tool' );
+	}
+
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }

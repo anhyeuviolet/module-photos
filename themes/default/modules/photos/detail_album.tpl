@@ -27,8 +27,10 @@
 		<!-- END: loop_img -->
 	</div>
 	<!-- BEGIN: social_tool -->
-	<div class="fb-like"></div>
-  	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
+		<div class="fb-like"></div>
+		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	</div>
 	<!-- END: social_tool -->
 </div>
 <div class="clear"></div>
@@ -91,8 +93,10 @@
 	</div>
 	<div class="clear"></div>
 	<!-- BEGIN: social_tool -->
-	<div class="fb-like"></div>
-  	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
+		<div class="fb-like"></div>
+		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+	</div>
 	<!-- END: social_tool -->
  </div>
 <div id="photo-album">

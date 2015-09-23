@@ -191,3 +191,6 @@ left: 50%;
 margin-left: -100px;
 width: 200px;
 }
+#setting-form div.form-group div:nth-child(2){
+	line-height: 2.5
+}
