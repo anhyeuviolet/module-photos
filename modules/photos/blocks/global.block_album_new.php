@@ -82,6 +82,16 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 		$html .= '<td>' . $lang_block['numrow'] . '</td>';
 		$html .= '<td><input type="text" class="form-control w200" name="config_numrow" size="5" value="' . $data_block['numrow'] . '"/></td>';
 		$html .= '</tr>';
+		
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['title_length'] . '</td>';
+		$html .= '<td><input type="text" class="form-control w200" name="config_title_length" size="5" value="' . $data_block['title_length'] . '"/></td>';
+		$html .= '</tr>';
+		
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['des_length'] . '</td>';
+		$html .= '<td><input type="text" class="form-control w200" name="config_des_length" size="5" value="' . $data_block['des_length'] . '"/></td>';
+		$html .= '</tr>';
 		return $html;
 	}
 
@@ -133,8 +143,9 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 			$xtpl->assign( 'BLOCK_ID', $blockID );
 			foreach( $list as $album )
 			{
+				$album['name'] = nv_clean60( $album['name'], $block_config['title_length'] );
 				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
-				$album['description'] = strip_tags( nv_clean60( $album['description'], 100 ) );
+				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
 				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];

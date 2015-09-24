@@ -138,6 +138,7 @@ $lang_module['setting_home_layout']='Giao diện trang chủ (layout)';
 $lang_module['setting_album_view']='Phương án hiển thị ảnh thuộc album';
 $lang_module['setting_per_page_album']='Số album trên một trang';
 $lang_module['setting_per_page_photo']='Số ảnh trên một trang';
+$lang_module['setting_home_title_cut']='Ký tự cắt tiêu đề trang chủ';
 $lang_module['setting_social_tool']='Kích hoạt công cụ MXH';
 $lang_module['setting_fbappid']='Facebook App ID';
 $lang_module['setting_active_logo']='Kích hoạt đóng dấu ảnh';

@@ -22,6 +22,7 @@ if( ! empty( $savesetting ) )
 	$photo_setting['cr_thumb_quality'] = $nv_Request->get_int( 'cr_thumb_quality', 'post', 0 );
 	$photo_setting['per_page_album'] = $nv_Request->get_int( 'per_page_album', 'post', 0 );
 	$photo_setting['per_page_photo'] = $nv_Request->get_int( 'per_page_photo', 'post', 20 );
+	$photo_setting['home_title_cut'] = $nv_Request->get_int( 'home_title_cut', 'post', 20 );
 	$photo_setting['home_view'] = $nv_Request->get_title( 'home_view', 'post', '', 0 );
 	$photo_setting['home_layout'] = nv_substr( $nv_Request->get_title( 'home_layout', 'post', '', '' ), 0, 255 );
 	$photo_setting['album_view'] = $nv_Request->get_title( 'album_view', 'post', '', 0 );

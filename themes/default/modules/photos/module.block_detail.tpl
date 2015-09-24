@@ -4,28 +4,38 @@
 <link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
 
 <div class="photo-detail" id="{BLOCK_ID}">
-	<h2>{DATA.name}</h2>
-	<div><span class="title">{LANG.album_model}: </span><span>{DATA.model}</span></div>
-	<div><span class="title">{LANG.album_capturelocal}: </span><span>{DATA.capturelocal}</span></div>
-	<div><span class="title">{LANG.album_capturedate}: </span><span>{DATA.capturedate}</span></div>
-	<div class="panel panel-default">
+	<span class="pull-left"><strong>{LANG.album_model}</strong>:&nbsp;</span><h3>{DATA.name}</h3>
+	<div class="clear"></div>
+	<!-- BEGIN: model -->
+	<span class="pull-left"><strong>{LANG.album_model}</strong>:&nbsp;</span><span>{DATA.model}</span>
+	<div class="clear"></div>
+	<!-- END: model -->
+	
+	<!-- BEGIN: capturelocal -->
+	<span class="pull-left"><strong>{LANG.album_capturelocal}</strong>:&nbsp;</span><span>{DATA.capturelocal}</span>
+	<div class="clear"></div>
+	<!-- END: capturelocal -->
+	
+	<!-- BEGIN: capturedate -->
+	<span class="pull-left"><strong>{LANG.album_capturedate}</strong>:&nbsp;</span><span>{DATA.capturedate}</span>
+	<div class="clear"></div>
+	<!-- END: capturedate -->
 		<div class="panel-body">
 			<form id="form3B" action="">
 				<div class="h5 clearfix">
 					<p>{STRINGRATING}</p>
-					<!-- BEGIN data_rating -->
+					<!-- BEGIN: data_rating -->
 					<span itemscope itemtype="http://data-vocabulary.org/Review-aggregate">{LANG.rating_average}:
 						<span itemprop="rating">{REVIEWCOUNT}</span> -
 						<span itemprop="votes">{RATINGCOUNT}</span> {LANG.rating_count}
 					</span>
-					<!-- END data_rating -->
+					<!-- END: data_rating -->
 					<div style="padding: 5px;">
 						<input class="hover-star" type="radio" value="1" title="{LANGSTAR.verypoor}" /><input class="hover-star" type="radio" value="2" title="{LANGSTAR.poor}" /><input class="hover-star" type="radio" value="3" title="{LANGSTAR.ok}" /><input class="hover-star" type="radio" value="4" title="{LANGSTAR.good}" /><input class="hover-star" type="radio" value="5" title="{LANGSTAR.verygood}" /><span id="hover-test" style="margin: 0 0 0 20px;">{LANGSTAR.note}</span>
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
 </div>
 <script>
 $(function() {

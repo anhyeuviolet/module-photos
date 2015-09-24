@@ -2,8 +2,11 @@
 <ul id="{BLOCK_ID}">
 	<!-- BEGIN: loop_album -->
 	<li>
-		<a href="{ALBUM.link}"><img itemprop="image" src="{ALBUM.thumb}" alt="{ALBUM.name}" width="100"></a>
-		<a href="{ALBUM.link}" title="{ALBUM.name}" >{ALBUM.name}</a>
+		<a class="images" href="{ALBUM.link}" title="{ALBUM.name}">
+			<img src="{ALBUM.thumb}" alt="{ALBUM.name}" class="img-responsive"/>
+		</a>
+		<a href="{ALBUM.link}" title="{ALBUM.name}"><span><strong>{ALBUM.name}</strong></span></a>
+		<p>{ALBUM.description}</p>
 	</li>
 	<!-- END: loop_album -->
 </ul>

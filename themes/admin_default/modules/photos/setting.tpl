@@ -81,6 +81,14 @@
 						</select>		
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-6 control-label">{LANG.setting_home_title_cut}:</label>
+					<div class="col-sm-18">
+						<input class="form-control w50 pull-left" type="text" value="{DATA.home_title_cut}" name="home_title_cut" maxlength="3"/>
+					</div>
+				</div>
+				
 				<div class="form-group alert alert-info">
 					<div class="col-sm-6">{LANG.setting_module_addition}</div>
 					<div class="col-sm-18 info">&nbsp;&nbsp;&nbsp;</div>

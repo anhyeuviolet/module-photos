@@ -2,20 +2,19 @@
 <!-- BEGIN: view_grid -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 
-<div class="row" itemscope itemtype="http://schema.org/ImageObject">
-	<a itemprop="url" href="{SELFURL}" style="display:none;" title="{ALBUM.name}"><span itemprop="name">{ALBUM.name}</span></a>
+<div class="row">
 	<div class="page-header pd10_0 mg0_10_10">
-		<h3 class="txt20 txt_bold"><span class="pd5">{ALBUM.name}</span></h3><span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
+		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<p class="album_description">{ALBUM.description}</p>
 	</div>
-	<div class="photo-description" itemprop="description" > {ALBUM.description}</div>
-	<span class="contentLocation" itemprop="contentLocation">{ALBUM.capturelocal}</span>
 	<div id="album-gallery">
 		<!-- BEGIN: loop_img -->
 		<div class="col-xs-24 col-sm-12 col-md-8 col-lg-8">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
 					<a href="{PHOTO.thumb}" title="{PHOTO.name}" data-gallery="gallery">
-						<img itemprop="image" class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
+						<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
 				<div class="panel-footer view_detail pd5">

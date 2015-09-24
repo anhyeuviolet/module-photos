@@ -68,6 +68,22 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 			
 			$data_album['capturedate'] = nv_date('d-m-Y', $data_album['capturedate']);
 			$xtpl->assign( 'DATA', $data_album );
+			if($data_album['model'])
+			{
+				$xtpl->parse( 'main.model' );
+			}
+			if($data_album['capturelocal'])
+			{
+				$xtpl->parse( 'main.capturelocal' );
+			}
+			if($data_album['capturedate'])
+			{
+				$xtpl->parse( 'main.capturedate' );
+			}
+			if($data_album['total_rating'] > 0)
+			{
+				$xtpl->parse( 'main.data_rating' );
+			}
 
 			$xtpl->parse( 'main' );
 			return $xtpl->text( 'main' );

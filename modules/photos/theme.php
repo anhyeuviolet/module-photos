@@ -40,6 +40,10 @@ function home_view_grid_by_cat( $array_cate )
 		{
 			foreach( $array_cat_i['data'] as $album )
 			{
+				if(isset($module_config[$module_name]['home_title_cut']) && !empty($module_config[$module_name]['home_title_cut']))
+				{
+					$album['name'] = nv_clean60( $album['name'],$module_config[$module_name]['home_title_cut']);
+				}
 				$album['description'] =  nv_clean60( $album['description'], 100 );
 				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
@@ -103,6 +107,10 @@ function home_view_grid_by_album( $array_album, $generate_page)
 	{
 		foreach( $array_album as $album )
 		{
+			if(isset($module_config[$module_name]['home_title_cut']) && !empty($module_config[$module_name]['home_title_cut']))
+			{
+				$album['name'] = nv_clean60( $album['name'],$module_config[$module_name]['home_title_cut']);
+			}
 			$album['description'] = nv_clean60( $album['description'], 100 );
 			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
@@ -203,7 +211,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 			$module_info['layout_funcs'][$op_file] = $album['layout'];
 		}
 
-		$album['description'] =  nv_clean60( $album['description'], 100 );
+		// $album['description'] =  nv_clean60( $album['description'], 100 );
 		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
 		$xtpl->assign( 'ALBUM', $album );
 
