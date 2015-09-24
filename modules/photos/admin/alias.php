@@ -47,9 +47,22 @@ elseif( $mod == 'album' )
 }
 elseif( $mod == 'folder' )
 {
+	
+ 	$array_structure_image = array();
+	$array_structure_image[''] = '';
+	$array_structure_image['Y'] =  date( 'Y' );
+	$array_structure_image['Ym'] =  date( 'Y_m' );
+	$array_structure_image['Y_m'] =  date( 'Y/m' );
+	$array_structure_image['Ym_d'] =  date( 'Y_m/d' );
+	$array_structure_image['Y_m_d'] =  date( 'Y/m/d' );
+	 
+	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
+	$currentpath = isset( $array_structure_image[$structure_upload] ) ? $array_structure_image[$structure_upload] : '';
+
+	$alias_folder = $currentpath .'/'. $alias;
 	$tab = TABLE_PHOTO_NAME . '_album';
-	$stmt = $db->prepare( 'SELECT COUNT(*) FROM ' . $tab . ' WHERE album_id !=' . $id . ' AND alias= :alias' );
-	$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
+	$stmt = $db->prepare( 'SELECT COUNT(*) FROM ' . $tab . ' WHERE album_id !=' . $id . ' AND folder= :folder' );
+	$stmt->bindParam( ':folder', $alias_folder, PDO::PARAM_STR );
 	$stmt->execute();
 	$nb = $stmt->fetchColumn();
 	if( ! empty( $nb ) )

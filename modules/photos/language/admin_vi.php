@@ -131,6 +131,7 @@ $lang_module['setting']='Cấu hình';
 $lang_module['setting_module_display']='Cấu hình hiển thị Module';
 $lang_module['setting_module_addition']='Cấu hình bổ sung';
 
+$lang_module['setting_origin_size']='Kích thước ảnh gốc (WidthxHeight)';
 $lang_module['setting_cr_thumb_size']='Kích thước tự tạo ảnh Thumbs (WidthxHeight)';
 $lang_module['setting_cr_thumb_quality']='Chất lượng ảnh';
 $lang_module['setting_home_view']='Phương án hiển thị album tại trang chủ';

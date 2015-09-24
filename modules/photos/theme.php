@@ -45,7 +45,7 @@ function home_view_grid_by_cat( $array_cate )
 					$album['name'] = nv_clean60( $album['name'],$module_config[$module_name]['home_title_cut']);
 				}
 				$album['description'] =  nv_clean60( $album['description'], 100 );
-				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 				
@@ -112,7 +112,7 @@ function home_view_grid_by_album( $array_album, $generate_page)
 				$album['name'] = nv_clean60( $album['name'],$module_config[$module_name]['home_title_cut']);
 			}
 			$album['description'] = nv_clean60( $album['description'], 100 );
-			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+			$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 			$xtpl->assign( 'ALBUM', $album );
@@ -159,9 +159,8 @@ function viewcat_grid( $array_catpage, $generate_page )
 
 		foreach( $array_catpage as $album )
 		{
-			
 			$album['description'] =  nv_clean60( $album['description'], 100 );
-			$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+			$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 			$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['file'];
 					
@@ -192,8 +191,9 @@ function viewcat_grid( $array_catpage, $generate_page )
  * @param mixed $album
  * @return
  */
-function detail_album( $album, $array_photo, $other_category_album )
+function detail_album( $album, $array_photo, $other_category_album, $content_comment )
 {
+	
 	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $op_file, $module_config, $module_info, $op;
 	$xtpl = new XTemplate( 'detail_album.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -210,9 +210,8 @@ function detail_album( $album, $array_photo, $other_category_album )
 		{
 			$module_info['layout_funcs'][$op_file] = $album['layout'];
 		}
-
 		// $album['description'] =  nv_clean60( $album['description'], 100 );
-		$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+		$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 		$xtpl->assign( 'ALBUM', $album );
 
 		$num = 0;
@@ -239,7 +238,7 @@ function detail_album( $album, $array_photo, $other_category_album )
 		foreach( $other_category_album as $other )
 		{
 			$other['description'] = nv_clean60( $other['description'], 100 );
-			$other['datePublished'] = date( 'Y-m-d', $other['date_added'] );
+			$other['date_added'] = nv_date( 'd/m/Y', $other['date_added'] );
 			$other['thumb'] = creat_thumbs( $other['album_id'], $other['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 			$other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $other['file'];
 			$other['key'] =	$key;	
@@ -253,6 +252,13 @@ function detail_album( $album, $array_photo, $other_category_album )
 		$xtpl->parse( 'main.slider.social_tool' );
 	}
 
+	if( !empty( $content_comment ) )
+	{
+			$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
+			$xtpl->parse( 'main.view_grid.comment' );
+			$xtpl->parse( 'main.slider.comment' );
+	}
+
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid')
 	{
 		$xtpl->parse( 'main.view_grid' );
@@ -261,7 +267,6 @@ function detail_album( $album, $array_photo, $other_category_album )
 	{
 		$xtpl->parse( 'main.slider' );
 	}
-	
 
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );

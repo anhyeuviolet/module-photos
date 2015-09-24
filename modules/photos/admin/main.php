@@ -298,6 +298,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		'click_rating' => 0,
 		'status' => 1,
 		'groups_view' => 6,
+		'allow_comment' => 6,
 		'date_added' => NV_CURRENTTIME,
 		'date_modified' => NV_CURRENTTIME,
 		'albums' => array(),
@@ -392,6 +393,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 		$_groups_post = $nv_Request->get_array( 'groups_view', 'post', array() );
 		$data['groups_view'] = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
+		
+		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
+		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
 
 		
 		if( !empty( $data['folder'] ) && ! is_dir( NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'] ) )
@@ -430,7 +434,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					capturelocal = :capturelocal,
 					folder = :folder,
 					layout = :layout,
-					groups_view=:groups_view ' );
+					groups_view=:groups_view,
+					allow_comment=:allow_comment');
 				
 				$folder =  $imagepath . '/' . $data['folder']; 
 				
@@ -446,6 +451,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
   				$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
   				$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
   				$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
 				$stmt->execute();
 
 				if( $data['album_id'] = $db->lastInsertId() )
@@ -663,7 +669,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						capturelocal = :capturelocal,
 						folder = :folder,
 						layout = :layout,
-						groups_view=:groups_view 
+						groups_view=:groups_view, 
+						allow_comment=:allow_comment
 						WHERE album_id=' . $data['album_id'] );
 						
 					$folder =  $imagepath . '/' . $data['folder']; 
@@ -680,6 +687,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
 					$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
 					$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+					$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
  	 
 					if( $stmt->execute() )
 					{
@@ -937,6 +945,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CAPTION', $caption );
 	$xtpl->assign( 'DATA', $data );
+	$xtpl->assign( 'MAXUPLOAD', $module_config[$module_name]['maxupload'] );
+	$xtpl->assign( 'ORIGIN_WIDTH', $module_config[$module_name]['origin_size_width'] );
+	$xtpl->assign( 'ORIGIN_HEIGHT', $module_config[$module_name]['origin_size_height'] );
 	$xtpl->assign( 'CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
 	$xtpl->assign( 'UPLOAD_URL', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=upload&token=' . md5( $nv_Request->session_id . $global_config['sitekey'] ) );
 
@@ -1048,10 +1059,24 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			'title' => $_title ) );
 		$xtpl->parse( 'main.groups_view' );
 	}
+	
+	$allow_comment = explode( ',', $data['allow_comment'] );
+	foreach( $groups_list as $_group_id => $_title )
+	{
+		$xtpl->assign( 'ALLOW_COMMENT', array(
+			'value' => $_group_id,
+			'checked' => in_array( $_group_id, $allow_comment ) ? ' checked="checked"' : '',
+			'title' => $_title ) );
+		$xtpl->parse( 'main.allow_comment' );
+	}
 
 	if( empty( $data['alias'] ) )
 	{
 		$xtpl->parse( 'main.getalias' );
+	}
+	if(isset($module_config[$module_name]['origin_size_width']) && isset($module_config[$module_name]['origin_size_height']) && ($module_config[$module_name]['origin_size_width'] > 0) && ($module_config[$module_name]['origin_size_height'] > 0))
+	{
+		$xtpl->parse( 'main.resize_at_browser' );
 	}
 	$xtpl->parse( 'main' );
 	$contents = $xtpl->text( 'main' );
@@ -1181,6 +1206,7 @@ $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'MODULE_FILE', $module_file );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'DATA', $data );
+$xtpl->assign( 'MAXUPLOAD', $module_config[$module_name]['maxupload'] );
 $xtpl->assign( 'TOKEN', md5( $global_config['sitekey'] . session_id() ) );
 $xtpl->assign( 'URL_SEARCH', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&action=get_album' );
 

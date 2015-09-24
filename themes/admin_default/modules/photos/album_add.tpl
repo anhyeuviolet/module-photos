@@ -145,12 +145,22 @@
 								</select>
 							</div>
 						</div>
+						
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-keyword"> {GLANG.groups_view}</label>
 							<div class="col-sm-20">
 								<!-- BEGIN: groups_view -->
 								<label><input name="groups_view[]" type="checkbox" value="{GROUPS_VIEW.value}" {GROUPS_VIEW.checked} />{GROUPS_VIEW.title}</label>
 								<!-- END: groups_view -->
+							</div>
+						</div>	 
+									 
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="input-keyword"> {LANG.allow_comment}</label>
+							<div class="col-sm-20">
+								<!-- BEGIN: allow_comment -->
+								<label><input name="allow_comment[]" type="checkbox" value="{ALLOW_COMMENT.value}" {ALLOW_COMMENT.checked} />{ALLOW_COMMENT.title}</label>
+								<!-- END: allow_comment -->
 							</div>
 						</div>	 
 									 
@@ -197,12 +207,18 @@
 									$("#uploader").pluploadQueue({
 										runtimes: 'html5,flash,silverlight,html4',
 										url: '{UPLOAD_URL}',
-										chunk_size: '3mb',
+										<!-- BEGIN: resize_at_browser -->
+										resize: {
+										  width: {ORIGIN_WIDTH},
+										  height: {ORIGIN_HEIGHT}
+										},
+										<!-- END: resize_at_browser -->
+										chunk_size: '{MAXUPLOAD}',
 										max_retries: 3,
 										rename: false,
 										dragdrop: true,
 										filters: {
-											max_file_size: '5mb',
+											max_file_size: '{MAXUPLOAD}',
 											mime_types: [{
 												title: "Image files",
 												extensions: "jpg,gif,png,jpeg"
@@ -383,7 +399,7 @@ $("#input-name").change(function() {
 </script>
 <!-- END: getalias -->
 
-<script>
+<script type="text/javascript">
 $('a[rel="tab-image"], a[rel="tab-info-image"]').hover( function(e) {	
 	return checkform();
 });

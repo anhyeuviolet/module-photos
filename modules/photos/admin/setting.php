@@ -17,6 +17,8 @@ $savesetting = $nv_Request->get_int( 'savesetting', 'post', 0 );
 if( ! empty( $savesetting ) )
 {
 	$photo_setting = array();
+	$photo_setting['origin_size_width'] = $nv_Request->get_int( 'origin_size_width', 'post', 0 );
+	$photo_setting['origin_size_height'] = $nv_Request->get_int( 'origin_size_height', 'post', 0 );
 	$photo_setting['cr_thumb_width'] = $nv_Request->get_int( 'cr_thumb_width', 'post', 0 );
 	$photo_setting['cr_thumb_height'] = $nv_Request->get_int( 'cr_thumb_height', 'post', 0 );
 	$photo_setting['cr_thumb_quality'] = $nv_Request->get_int( 'cr_thumb_quality', 'post', 0 );

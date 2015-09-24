@@ -25,6 +25,12 @@
 		</div>
 		<!-- END: loop_img -->
 	</div>
+	<div class="clear"></div>
+	<div class="album_comment pd5">
+	<!-- BEGIN: comment -->
+	{CONTENT_COMMENT}
+	<!-- END: comment -->
+	</div>
 	<!-- BEGIN: social_tool -->
 	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
 		<div class="fb-like"></div>

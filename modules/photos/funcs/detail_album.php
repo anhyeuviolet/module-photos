@@ -91,12 +91,36 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	}
 	$result->closeCursor();
  
+	// comment
+	if( isset( $site_mods['comment'] ) and isset( $module_config[$module_name]['activecomm'] ) )
+	{
+			define( 'NV_COMM_ID', $album_id ); //ID bài viết
+		define( 'NV_COMM_AREA', $module_info['funcs'][$op]['func_id'] );//để đáp ứng comment ở bất cứ đâu không cứ là bài viết
+		//check allow comemnt
+		$allowed = $module_config[$module_name]['allowed_comm'];//tuy vào module để lấy cấu hình. Nếu là module news thì có cấu hình theo bài viết
+		if( $allowed == '-1' )
+		{
+		   $allowed = $album['allow_comment'];
+		}
+		define( 'NV_PER_PAGE_COMMENT', 5 ); //Số bản ghi hiển thị bình luận
+		require_once NV_ROOTDIR . '/modules/comment/comment.php';
+		$area = ( defined( 'NV_COMM_AREA' ) ) ? NV_COMM_AREA : 0;
+		$checkss = md5( $module_name . '-' . $area . '-' . NV_COMM_ID . '-' . $allowed . '-' . NV_CACHE_PREFIX );
+
+		//get url comment
+		$url_info = parse_url( $client_info['selfurl'] );
+		$content_comment = nv_comment_module( $module_name, $checkss, $area, NV_COMM_ID, $allowed, 1 );
+	}
+	else
+	{
+			$content_comment = '';
+	} 
 	// truyen bien sang module block detail
 	global $data_album;
 	$data_album = $album;
 
 	// goi ham xu ly giao dien 
-	$contents = detail_album( $album, $array_photo, $other_category_album );
+	$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment );
 	// truyen thong tin seo
 	$page_title = !empty($album['meta_title'])?$album['meta_title']:$album['name'];
 	$key_words = !empty($album['meta_keyword'])?$album['meta_keyword']:$album['name'];

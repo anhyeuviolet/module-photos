@@ -23,6 +23,15 @@
 				</div>
 
 				<div class="form-group">
+					<label class="col-sm-6 col-md-6 control-label" style="padding-top: 0px;">{LANG.setting_origin_size}:</label>
+					<div class="col-sm-18 col-md-18">
+						<input class="form-control w100 pull-left" type="text" value="{DATA.origin_size_width}" name="origin_size_width" maxlength="4"/>
+						<span class="pull-left text-middle">&nbsp;x&nbsp;</span>
+						<input class="form-control pull-left w100" type="text" value="{DATA.origin_size_height}" name="origin_size_height" maxlength="4"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
 					<label class="col-sm-6 col-md-6 control-label" style="padding-top: 0px;">{LANG.setting_cr_thumb_size}:</label>
 					<div class="col-sm-18 col-md-18">
 						<input class="form-control w50 pull-left" type="text" value="{DATA.cr_thumb_width}" name="cr_thumb_width" maxlength="3"/>
@@ -30,6 +39,7 @@
 						<span class="pull-left text-middle">&nbsp;&nbsp;&nbsp;{LANG.setting_cr_thumb_quality}&nbsp;</span> <input class="form-control w50" type="text" value="{DATA.cr_thumb_quality}" name="cr_thumb_quality" maxlength="2"/>
 					</div>
 				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-6 control-label" style="padding-top: 0px;">{LANG.setting_home_view}:</label>
 					<div class="col-sm-18">
