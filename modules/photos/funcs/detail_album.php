@@ -105,7 +105,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	// album cung chu de
 	$sql = 'SELECT a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
 		LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
-		WHERE a.status= 1 AND a.category_id=' . $album['category_id'] . ' AND r.defaults = 1 AND a.album_id != '. $album['album_id'] .' 
+		WHERE a.status= 1 AND a.category_id=' . $album['category_id'] . ' AND r.defaults = 1 AND a.album_id <> '. $album['album_id'] .' 
 		ORDER BY a.date_added DESC 
 		LIMIT 0, 6';
 	$result = $db->query( $sql );
@@ -113,7 +113,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	while( $item = $result->fetch() )
 	{
 		$item['link'] = $global_photo_cat[$album['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
-
 		$other_category_album[] = $item;
 	}
 	$result->closeCursor();

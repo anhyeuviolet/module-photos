@@ -36,6 +36,7 @@ $lang_module['album_rating']='Đánh giá';
 $lang_module['viewed']='Lượt xem';
 $lang_module['view_image']='Xem ảnh';
 $lang_module['view_album']='Xem Album';
+$lang_module['other_album']='Album cùng chuyên mục';
 
 $lang_module['view_next']='Xem Album';
 $lang_module['view_previous']='Xem Album';
@@ -92,3 +93,6 @@ $lang_module['album_incat_topview'] = 'Album xem nhiều nhất';
 $lang_module['category_nums'] = 'Số chuyên mục';
 $lang_module['photo_nums'] = 'Số ảnh được đăng';
 $lang_module['photo_incat_nums'] = 'Số ảnh trong chuyên mục';
+
+$lang_module['next_photo'] = 'Ảnh tiếp theo';
+$lang_module['prev_photo'] = 'Ảnh trước';

@@ -13,6 +13,19 @@
 			<img src="{PHOTO.file}" class="img-thumbnail"/>
 		</a>
 	</div>
+	<div class="col-md-24 col-sm-24 col-xs-24 pd10_0" align="center">
+		<div class="col-md-12">
+		<!-- BEGIN: pre -->
+		<a href="{PREV.link}" title="{PREV.name}"><span class="btn btn-info"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;&nbsp;{LANG.prev_photo}</span></a>
+		<!-- END: pre -->
+		</div>
+		<div class="col-md-12">
+		<!-- BEGIN: next -->
+		<a href="{NEXT.link}" title="{NEXT.name}"><span class="btn btn-info">{LANG.next_photo}&nbsp;<i class="fa fa-chevron-circle-right"></i></span></a>
+		<!-- END: next -->
+		</div>
+	</div>
+
 	<!-- BEGIN: social_tool -->
 	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
 		<div class="fb-like"></div>

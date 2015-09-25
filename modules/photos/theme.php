@@ -28,6 +28,8 @@ function home_view_grid_by_cat( $array_cate )
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'OP', $op );
+	$per_line = 24 / $module_config[$module_name]['per_line'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 	
 	if(isset($module_config[$module_name]['home_layout']) && !empty($module_config[$module_name]['home_layout']))
 	{
@@ -97,6 +99,8 @@ function home_view_grid_by_album( $array_album, $generate_page)
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'OP', $op );
+	$per_line = 24 / $module_config[$module_name]['per_line'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 	
 	if(isset($module_config[$module_name]['home_layout']) && !empty($module_config[$module_name]['home_layout']))
 	{
@@ -150,6 +154,8 @@ function viewcat_grid( $array_catpage, $generate_page )
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+	$per_line = 24 / $module_config[$module_name]['per_line'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 	if( ! empty( $array_catpage ) )
 	{
 		if(isset($global_photo_cat[$category_id]['layout']) && !empty($global_photo_cat[$category_id]['layout']))
@@ -193,7 +199,6 @@ function viewcat_grid( $array_catpage, $generate_page )
  */
 function detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page )
 {
-	
 	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $op_file, $module_config, $module_info, $op;
 	$xtpl = new XTemplate( 'detail_album.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
@@ -203,6 +208,9 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+	
+	$per_line = 24 / $module_config[$module_name]['per_line'];
+	$xtpl->assign( 'PER_LINE', $per_line );
 	
 	if( ! empty( $album ) )
 	{
@@ -219,7 +227,7 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 		{
 			foreach( $array_photo as $photo )
 			{
-				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_upload,  $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
+				$photo['thumb'] = creat_thumbs( $photo['row_id'], $photo['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 				$photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
 				$photo['description'] = !empty($photo['description'])?$photo['description']:$photo['name'];
 				$photo['num'] = $num;
@@ -232,6 +240,32 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 			}
 		}
 	}
+	if( $module_config[$module_name]['social_tool'] > 0 )
+	{
+		$xtpl->parse( 'main.social_tool' );
+	}
+
+	if( !empty( $content_comment ) )
+	{
+			$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
+			$xtpl->parse( 'main.comment' );
+	}
+	
+	if( ! empty( $generate_page ) )
+	{
+		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+		$xtpl->parse( 'main.generate_page' );
+	}
+
+	if( $module_config[$module_name]['album_view'] == 'album_view_grid')
+	{
+		$xtpl->parse( 'main.view_grid' );
+	}
+	elseif ($module_config[$module_name]['album_view'] == 'album_view_slider')
+	{
+		$xtpl->parse( 'main.slider' );
+	}
+	
 	if( !empty( $other_category_album ) )
 	{
 		$key = 1;
@@ -244,41 +278,16 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 			$other['key'] =	$key;	
 			$xtpl->assign( 'OTHER', $other );
 			++$key;
+			$xtpl->parse( 'main.other_album.loop_album' );
 		}
-	}
-	if( $module_config[$module_name]['social_tool'] > 0 )
-	{
-		$xtpl->parse( 'main.view_grid.social_tool' );
-		$xtpl->parse( 'main.slider.social_tool' );
-	}
-
-	if( !empty( $content_comment ) )
-	{
-			$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
-			$xtpl->parse( 'main.view_grid.comment' );
-			$xtpl->parse( 'main.slider.comment' );
-	}
-	
-	if( ! empty( $generate_page ) )
-	{
-		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
-		$xtpl->parse( 'main.view_grid.generate_page' );
-	}
-
-	if( $module_config[$module_name]['album_view'] == 'album_view_grid')
-	{
-		$xtpl->parse( 'main.view_grid' );
-	}
-	elseif ($module_config[$module_name]['album_view'] == 'album_view_slider')
-	{
-		$xtpl->parse( 'main.slider' );
+		$xtpl->parse( 'main.other_album' );
 	}
 
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
 
-function detail( $row )
+function detail( $row, $next_photo, $previous_photo )
 {
 	global $global_config, $category_id, $client_info, $global_photo_cat, $global_photo_album, $module_name, $module_upload, $module_file, $op_file, $lang_module, $module_config, $module_info, $op;
 
@@ -290,16 +299,27 @@ function detail( $row )
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
-		if( ! empty( $row ) )
+	
+	if( ! empty( $row ) )
+	{
+		if(isset($global_photo_album[$row['album_id']]['layout']) && !empty($global_photo_album[$row['album_id']]['layout']))
 		{
-			if(isset($global_photo_album[$row['album_id']]['layout']) && !empty($global_photo_album[$row['album_id']]['layout']))
-			{
-				$module_info['layout_funcs'][$op_file] = $global_photo_album[$row['album_id']]['layout'];
-			}
-
-			$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
-			$xtpl->assign( 'PHOTO', $row );
+			$module_info['layout_funcs'][$op_file] = $global_photo_album[$row['album_id']]['layout'];
 		}
+
+		$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
+		$xtpl->assign( 'PHOTO', $row );
+	}
+	if (!empty($next_photo))
+	{
+		$xtpl->assign( 'NEXT', $next_photo );
+		$xtpl->parse( 'main.next' );
+	}
+	if (!empty($previous_photo))
+	{
+		$xtpl->assign( 'PREV', $previous_photo );
+		$xtpl->parse( 'main.pre' );
+	}
  	if( $module_config[$module_name]['social_tool'] > 0 )
 	{
 		$xtpl->parse( 'main.social_tool' );

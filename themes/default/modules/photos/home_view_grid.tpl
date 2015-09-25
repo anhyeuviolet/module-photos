@@ -15,7 +15,7 @@
 			<div class="clear"></div>
 			<div class="panel-body">
 			<!-- BEGIN: loop_album -->
-				<div class="col-xs-24 col-sm-12 col-md-8 album-album">
+				<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE} album-album">
 					<div class="panel panel-default">
 						<div class="album-image panel-body pd5">
 							<a title="{ALBUM.name}" href="{ALBUM.link}">
@@ -49,7 +49,7 @@
 			<div class="row">
 				<div class="panel-body">
 				<!-- BEGIN: loop_album -->
-					<div class="col-xs-24 col-sm-12 col-md-8 album-album">
+					<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE} album-album">
 						<div class="panel panel-default">
 							<div class="album-image panel-body pd5">
 								<a title="{ALBUM.name}" href="{ALBUM.link}">

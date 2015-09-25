@@ -22,6 +22,7 @@ if( ! empty( $savesetting ) )
 	$photo_setting['cr_thumb_width'] = $nv_Request->get_int( 'cr_thumb_width', 'post', 0 );
 	$photo_setting['cr_thumb_height'] = $nv_Request->get_int( 'cr_thumb_height', 'post', 0 );
 	$photo_setting['cr_thumb_quality'] = $nv_Request->get_int( 'cr_thumb_quality', 'post', 0 );
+	$photo_setting['per_line'] = $nv_Request->get_int( 'per_line', 'post', 0 );
 	$photo_setting['per_page_album'] = $nv_Request->get_int( 'per_page_album', 'post', 0 );
 	$photo_setting['per_page_photo'] = $nv_Request->get_int( 'per_page_photo', 'post', 20 );
 	$photo_setting['home_title_cut'] = $nv_Request->get_int( 'home_title_cut', 'post', 20 );
@@ -124,13 +125,19 @@ foreach( $array_album_view as $key => $title )
 	$xtpl->parse( 'main.album_view' );	
 	
 }
+// Hien thi tren mot dong
+for( $ln = 2; $ln <= 4; ++ $ln )
+{
+	$xtpl->assign( 'PER_LINE', array( 'key' => $ln, 'title' => $ln, 'selected' => $module_config[$module_name]['per_line'] == $ln ? 'selected="selected"' : '' ) );
+	$xtpl->parse( 'main.per_line' );
+}
 // So bai viet tren mot trang
-for( $i = 5; $i <= 60; ++ $i )
+for( $i = 2; $i <= 60; ++ $i )
 {
 	$xtpl->assign( 'PER_PAGE_ALBUM', array( 'key' => $i, 'title' => $i, 'selected' => $i == $module_config[$module_name]['per_page_album'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.per_page_album' );
 }
-for( $i = 5; $i <= 60; ++ $i )
+for( $i = 2; $i <= 60; ++ $i )
 {
 	$xtpl->assign( 'PER_PAGE_PHOTO', array( 'key' => $i, 'title' => $i, 'selected' => $i == $module_config[$module_name]['per_page_photo'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.per_page_photo' );

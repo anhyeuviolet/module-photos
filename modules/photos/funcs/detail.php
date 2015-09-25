@@ -42,6 +42,25 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	
 	$album_id = $row['album_id'];
 	
+	$next_chapter = $previous_chapter = '';
+	//Next Photo
+	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
+	$list = nv_db_cache( $sql, 'row_id', $module_name );
+	foreach( $list as $next )
+	{
+		$next_photo['link'] = $global_photo_album[$next['album_id']]['link'] . '/' . $next['row_id'] . $global_config['rewrite_exturl'];
+	}
+	unset($sql,$list);
+	
+	//Previous Photo
+	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
+	$list = nv_db_cache( $sql, 'row_id', $module_name );
+	foreach( $list as $previous )
+	{
+		$previous_photo['link'] = $global_photo_album[$next['album_id']]['link'] . '/' . $previous['row_id'] . $global_config['rewrite_exturl'];
+	}
+	unset($sql,$list);
+	
 	// rewrite link
 	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$category_id]['alias'] . '/' . $global_photo_album[$row['album_id']]['alias'] . '-' . $row['album_id'] .'/'.$row['row_id']. $global_config['rewrite_exturl'], true );
 	if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
@@ -59,7 +78,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$description = !empty($global_photo_album[$row['album_id']]['meta_description'])?$global_photo_album[$row['album_id']]['meta_description']:strip_tags($global_photo_album[$row['album_id']]['description']);
 	
 	// goi ham xu ly giao dien 
-	$contents = detail( $row );
+	$contents = detail( $row, $next_photo, $previous_photo );
 }
 else
 {

@@ -71,6 +71,18 @@
 						</select>	
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-6 control-label">{LANG.setting_per_line}:</label>
+					<div class="col-sm-18">
+						<select class="form-control" name="per_line">
+							<!-- BEGIN: per_line -->
+							<option value="{PER_LINE.key}" {PER_LINE.selected}>{PER_LINE.title}</option>
+							<!-- END: per_line -->
+						</select>	
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<label class="col-sm-6 control-label">{LANG.setting_per_page_album}:</label>
 					<div class="col-sm-18">

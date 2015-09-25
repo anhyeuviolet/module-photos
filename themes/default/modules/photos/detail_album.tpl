@@ -10,7 +10,7 @@
 	</div>
 	<div id="album-gallery">
 		<!-- BEGIN: loop_img -->
-		<div class="col-xs-24 col-sm-12 col-md-8 col-lg-8">
+		<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
 					<a href="{PHOTO.thumb}" title="{PHOTO.name}" data-gallery="gallery">
@@ -26,22 +26,6 @@
 		<!-- END: loop_img -->
 	</div>
 	<div class="clear"></div>
-	<!-- BEGIN: generate_page -->
-	<div id="generate_page" class="text-center">
-		{GENERATE_PAGE}
-	</div>
-	<!-- END: generate_page -->
-	<div class="album_comment pd5">
-	<!-- BEGIN: comment -->
-	{CONTENT_COMMENT}
-	<!-- END: comment -->
-	</div>
-	<!-- BEGIN: social_tool -->
-	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
-		<div class="fb-like"></div>
-		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
-	</div>
-	<!-- END: social_tool -->
 </div>
 <div class="clear"></div>
 <div id="blueimp-gallery" class="blueimp-gallery">
@@ -75,6 +59,14 @@
     </div>
 </div>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $("img.lazy").lazyload({
+	effect : "fadeIn"
+	});
+});
+</script>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: view_grid -->
 
 <!-- BEGIN: slider -->
@@ -109,28 +101,7 @@
 	</div>
 	<!-- END: social_tool -->
  </div>
-<div id="photo-album">
-	<div class="box-item multi-columns-row" itemscope itemtype="http://schema.org/ImageObject">
-		<!-- BEGIN: loop_album -->
-		<div class="col-xs-24 col-sm-12 col-md-8 photo-album">
-			<div class="photo-hover">
-				<div class="fixabsolute">
-					<div class="photo-name">
-						<h3><a itemprop="url" href="{OTHER.link}"> <span itemprop="name">{OTHER.name}</span></a></h3>
-					</div>
-					<div class="photo-description" itemprop="description"> {OTHER.description} </div>
-					<span class="contentLocation" itemprop="contentLocation">{OTHER.capturelocal}</span>
-				</div>
-				<div class="photo-image lazyload">
-				  <img itemprop="image" class="lazy" data-src="{OTHER.thumb}">
-				</div>
-				<meta itemprop="datePublished" content="{OTHER.datePublished}">
-			</div>
-		</div>
-		<!-- END: loop_album -->	
-		<div class="clear"></div>
-	</div>
-</div>
+
 <script type="text/javascript" >
 var isMobile = {
     Android: function() {
@@ -191,12 +162,47 @@ $(document).ready(function () {
 }) 
 </script>
 <!-- END: slider -->
-<script type="text/javascript">
-$(function() {
-    $("img.lazy").lazyload({
-	effect : "fadeIn"
-	});
-});
-</script>
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
+
+<!-- BEGIN: generate_page -->
+<div id="generate_page" class="text-center">
+	{GENERATE_PAGE}
+</div>
+<!-- END: generate_page -->
+<div class="album_comment pd5">
+<!-- BEGIN: comment -->
+{CONTENT_COMMENT}
+<!-- END: comment -->
+</div>
+
+<!-- BEGIN: other_album -->
+<div class="page-header pd10_0 mg0_10_10">
+	<h4 class="txt20 txt_bold">{LANG.other_album}</h4>
+</div>
+<div id="other-album" class="row">
+	<!-- BEGIN: loop_album -->
+	<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
+		<div class="panel panel-default">
+			<div class="panel-body pd5">
+				<a href="{OTHER.thumb}" title="{OTHER.name}">
+					<img class="lazy img-responsive center-block" data-original="{OTHER.thumb}" src="{OTHER.thumb}" alt="{OTHER.description}" width="640" height="480"/>
+				</a>
+			</div>
+			<div class="panel-footer view_detail pd5">
+			<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{OTHER.viewed}</span>
+				<a href="{OTHER.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
+			</div>
+		</div>
+	</div>
+	<!-- END: loop_album -->	
+	<div class="clear"></div>
+</div>
+<!-- END: other_album -->
+
+<!-- BEGIN: social_tool -->
+<div class="col-md-24 col-sm-24 col-xs-24 pd5">
+	<div class="fb-like"></div>
+	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+</div>
+<!-- END: social_tool -->
+
 <!-- END: main -->
