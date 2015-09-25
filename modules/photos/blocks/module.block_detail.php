@@ -16,7 +16,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
  
 	function block_photo_detail( $block_config )
 	{
-		global $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $blockID, $nv_Request;
+		global $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $module_name, $db, $module_config, $global_config, $blockID, $nv_Request;
 		$module = $block_config['module'];
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
