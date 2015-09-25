@@ -65,10 +65,13 @@ if( empty( $contents ) )
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
-
-			$item['link'] = $global_photo_cat[$category_id]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
+			$item['link'] = $global_photo_cat[$category_id]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 			$array_catpage[] = $item;
+			// truyen bien sang module block detail
+			global $data_viewcat;
+			$data_viewcat = $item;
 		}
+		
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_grid( $array_catpage, $generate_page );
 	}

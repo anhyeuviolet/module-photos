@@ -102,6 +102,12 @@ $lang_module['album_show_status']='Trạng thái kích hoạt';
 $lang_module['album_image']='Upload ảnh';
 $lang_module['album_info_image']='Thông tin ảnh';
 $lang_module['album_next_step']='Bước kế tiếp';
+$lang_module['album_step_1']='Bước 1: Tạo Album';
+$lang_module['album_step_2']='Bước 2: Chọn và tải ảnh';
+$lang_module['album_step_3']='Bước 3: Cập nhật thông tin ảnh';
+$lang_module['album_upload_require']='Bạn đang sử dụng trình duyệt không hỗ trợ ít nhất: HTML5, Flash hay Silverlight.<br/> Vui lòng nâng cấp lên trình duyệt có hỗ trợ một trong các yêu cầu trên';
+$lang_module['album_allow_rating']='Cho phép đánh giá';
+
 
 $lang_module['album_error_name']='Lỗi: Tên album không được để trống';
 $lang_module['album_error_folder']='Lỗi: Tên thư mục lưu ảnh không được để trống';
@@ -154,12 +160,7 @@ $lang_module['setting_dir_album']='ten_album';
 $lang_module['setting_max_size_upload']='Dung lượng tải lên';
 $lang_module['setting_sys_max_size']='Dung lượng tối đa được phép tải lên';
 $lang_module['setting_update_success']='Cập nhật cấu hình thành công';
-
-$lang_module['home_view_slider']='Hiển thị dạng slider';
 $lang_module['home_view_grid_by_cat']='Hiển thị dạng lưới theo chuyên mục';
 $lang_module['home_view_grid_by_album']='Hiển thị dạng lưới theo album';
-
 $lang_module['album_view_slider']='Hiển thị dạng slider';
 $lang_module['album_view_grid']='Hiển thị dạng lưới';
-
- 

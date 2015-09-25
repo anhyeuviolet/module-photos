@@ -26,6 +26,11 @@
 		<!-- END: loop_img -->
 	</div>
 	<div class="clear"></div>
+	<!-- BEGIN: generate_page -->
+	<div id="generate_page" class="text-center">
+		{GENERATE_PAGE}
+	</div>
+	<!-- END: generate_page -->
 	<div class="album_comment pd5">
 	<!-- BEGIN: comment -->
 	{CONTENT_COMMENT}

@@ -70,7 +70,7 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 						'viewed' => $viewed,
 						'file' => $file,
 						'thumb' => $thumb,
-						'link' => $global_photo_cat[$category_id]['link'] . '/' . $alias . '-' . $album_id . $global_config['rewrite_exturl'],
+						'link' => $global_photo_cat[$category_id]['link'] . '/' . $alias . '-' . $album_id,
 					);
 				}
 
@@ -113,7 +113,7 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 		
 		while( $item = $result->fetch() )
 		{
-			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
+			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 			
 			$array_album[] = $item;
 		}

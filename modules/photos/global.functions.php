@@ -30,7 +30,7 @@ $list = nv_db_cache( $sql, 'album_id', $module_name );
 foreach( $list as $l )
 {
 	$global_photo_album[$l['album_id']] = $l;
-	$global_photo_album[$l['album_id']]['link'] = $global_photo_cat[$l['category_id']]['link'] . '/' . $l['alias'] . '-' . $l['album_id'] . $global_config['rewrite_exturl'];
+	$global_photo_album[$l['album_id']]['link'] = $global_photo_cat[$l['category_id']]['link'] . '/' . $l['alias'] . '-' . $l['album_id'];
 	
 }
 unset( $sql, $list );

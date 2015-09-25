@@ -127,8 +127,12 @@ if( ! empty( $array_op ) and $op == 'main' )
 				$parent_id = $array_cat_i['parent_id'];
 			}
 		}
-		elseif( $count_op == 2 )
+		elseif( $count_op == 2 or substr( $array_op[2], 0, 5 ) == 'page-' )
 		{
+			if(isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-')
+			{
+				$page = intval( substr( $array_op[2], 5 ) );
+			}
 			$array_page = explode( '-', $array_op[1] );
 			$album_id = intval( end( $array_page ) );
 			$number = strlen( $album_id ) + 1;

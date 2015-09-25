@@ -191,7 +191,7 @@ function viewcat_grid( $array_catpage, $generate_page )
  * @param mixed $album
  * @return
  */
-function detail_album( $album, $array_photo, $other_category_album, $content_comment )
+function detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page )
 {
 	
 	global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $op_file, $module_config, $module_info, $op;
@@ -257,6 +257,12 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 			$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
 			$xtpl->parse( 'main.view_grid.comment' );
 			$xtpl->parse( 'main.slider.comment' );
+	}
+	
+	if( ! empty( $generate_page ) )
+	{
+		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+		$xtpl->parse( 'main.view_grid.generate_page' );
 	}
 
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid')

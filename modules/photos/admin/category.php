@@ -16,7 +16,6 @@ if( defined( 'NV_EDITOR' ) )
 	require_once NV_ROOTDIR . '/' . NV_EDITORSDIR . '/' . NV_EDITOR . '/nv.php';
 }
 
-
 $page_title = $lang_module['category'];
 
 if( in_array( ACTION_METHOD, array(
@@ -139,7 +138,7 @@ if( ACTION_METHOD == 'delete' )
 		if( $count )
 		{
 			nv_fix_cat_order();
-			nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_category', implode( ', ', $_del_array ), $admin_info['userid'] );
+			nv_insert_logs( NV_LANG_DATA, $module_name, 'Delete Category', implode( ', ', $_del_array ), $admin_info['userid'] );
 			nv_del_moduleCache( $module_name );
 			$info['success'] = $lang_module['category_delete_success'];
 		}
@@ -305,7 +304,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		
 					nv_fix_cat_order();
 					
-					nv_insert_logs( NV_LANG_DATA, $module_name, 'Add A Category', 'category_id: ' . $data['category_id'], $admin_info['userid'] );	 
+					nv_insert_logs( NV_LANG_DATA, $module_name, 'Add new Category', 'category_id: ' . $data['category_id'].' '.$data['name'], $admin_info['userid'] );	 
 					
 					$nv_Request->set_Session( $module_data . '_success', $lang_module['category_insert_success'] );
 				}

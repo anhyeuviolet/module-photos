@@ -166,7 +166,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		die();
 	}
 
-	
  	$array_structure_image = array();
 	$array_structure_image[''] = $module_name;
 	$array_structure_image['Y'] = $module_name . '/images/' . date( 'Y' );
@@ -178,7 +177,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpath = isset( $array_structure_image[$structure_upload] ) ? $array_structure_image[$structure_upload] : '';
   
-	
 	if( file_exists( NV_UPLOADS_REAL_DIR . '/' . $currentpath ) )
 	{
 		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $currentpath;
@@ -260,7 +258,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 
 	$currentpaththumb = str_replace( NV_ROOTDIR . '/', '', $upload_real_dir_page );
  
- 
 	$selectthemes = ( ! empty( $site_mods[$module_name]['theme'] ) ) ? $site_mods[$module_name]['theme'] : $global_config['site_theme'];
 	$layout_array = nv_scandir( NV_ROOTDIR . '/themes/' . $selectthemes . '/layout', $global_config['check_op_layout'] );
 
@@ -294,6 +291,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		'num_photo' => 0,
 		'viewed' => 0,
 		'weight' => '',
+		'allow_rating' => 1,
 		'total_rating' => 0,
 		'click_rating' => 0,
 		'status' => 1,
@@ -360,6 +358,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$data['model'] = nv_substr( $nv_Request->get_title( 'model', 'post', '', '' ), 0, 255 );
 		$data['capturelocal'] = nv_substr( $nv_Request->get_title( 'capturelocal', 'post', '', '' ), 0, 255 );
 		$data['status'] = $nv_Request->get_int( 'status', 'post', 0 );
+		$data['allow_rating'] = $nv_Request->get_int( 'allow_rating', 'post', 0 );
 		
 		$data['capturedate'] = nv_substr( $nv_Request->get_title( 'capturedate', 'post', '', '' ), 0, 10 );
 		if( preg_match( '/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $data['capturedate'], $m ) )
@@ -435,6 +434,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					folder = :folder,
 					layout = :layout,
 					groups_view=:groups_view,
+					allow_rating=:allow_rating,
 					allow_comment=:allow_comment');
 				
 				$folder =  $imagepath . '/' . $data['folder']; 
@@ -451,6 +451,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
   				$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
   				$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
   				$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
   				$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
 				$stmt->execute();
 
@@ -670,6 +671,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						folder = :folder,
 						layout = :layout,
 						groups_view=:groups_view, 
+						allow_rating=:allow_rating, 
 						allow_comment=:allow_comment
 						WHERE album_id=' . $data['album_id'] );
 						
@@ -687,6 +689,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
 					$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
 					$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+					$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
  	 
 					if( $stmt->execute() )
@@ -1049,6 +1052,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['status'] ) ? 'selected="selected"' : '' ) );
 		$xtpl->parse( 'main.status' );
 	}
+	
+	foreach( $array_status as $key => $name )
+	{
+		$xtpl->assign( 'RATING', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['allow_rating'] ) ? 'selected="selected"' : '' ) );
+		$xtpl->parse( 'main.allow_rating' );
+	}
 
 	$groups_view = explode( ',', $data['groups_view'] );
 	foreach( $groups_list as $_group_id => $_title )
@@ -1253,7 +1262,7 @@ if( ! empty( $array ) )
 		$item['token'] = md5( $global_config['sitekey'] . session_id() . $item['album_id'] );
 		
 		$item['link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&action=view&token=" . $item['token'] . "&album_id=" . $item['album_id'];
-		$item['link_out'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
+		$item['link_out'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 		$item['edit'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&action=edit&token=" . $item['token'] . "&album_id=" . $item['album_id'];
  
 		$xtpl->assign( 'LOOP', $item );

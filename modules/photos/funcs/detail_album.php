@@ -13,6 +13,8 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $contents = '';
 $date_added = 0;
+$per_page = $module_config[$module_name]['per_page_photo'];
+
 // kiem tra tu cach xem album
 if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 {	
@@ -50,25 +52,50 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	}
 	
 	// rewrite link
-	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'], true );
+	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'], true );
+	if( $page > 1 )
+	{
+		$base_url_rewrite .= 'page-' . $page.'/';
+	}
+	$base_url_rewrite = nv_url_rewrite( $base_url_rewrite, true );
 	if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
 	{
 		Header( 'Location: ' . $base_url_rewrite );
 		die();
 	}
 	
+	$base_url =  $global_photo_album[$album_id]['link'];
 	// link duy nhat tranh trung lap tren google
 	$canonicalUrl = NV_MAIN_DOMAIN . $base_url_rewrite;
-	
+	// Dem so anh trong album
+	$db->sqlreset()
+		->select( 'COUNT(*)' )
+		->from( TABLE_PHOTO_NAME . '_rows' )
+		->where( 'status=1 AND album_id ='.$album_id );
+	$num_items = $db->query( $db->sql() )->fetchColumn();
+	if( $module_config[$module_name]['album_view'] == 'album_view_grid' )
+	{
 	// anh trong album
 	$array_photo = array();
-	$db->sqlreset()
-		->select( '*' )
+	$db->select( '*' )
 		->from( TABLE_PHOTO_NAME . '_rows' )
-		->where( 'status=1 AND album_id=' . $album['album_id'] )
+		->where( 'status=1 AND album_id=' . $album_id )
+		->order( 'date_added ASC' )
+		->limit($per_page)
+		->offset(($page - 1) * $per_page);
+	}
+	else
+	{
+	// anh trong album
+	$array_photo = array();
+	$db->select( '*' )
+		->from( TABLE_PHOTO_NAME . '_rows' )
+		->where( 'status=1 AND album_id=' . $album_id )
 		->order( 'date_added ASC' );
+	}
 
 	$photo = $db->query( $db->sql() );
+	
 	while( $row = $photo->fetch() )
 	{
 		$array_photo[] = $row;
@@ -85,7 +112,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	$other_category_album = array();
 	while( $item = $result->fetch() )
 	{
-		$item['link'] = $global_photo_cat[$album['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'] . $global_config['rewrite_exturl'];
+		$item['link'] = $global_photo_cat[$album['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 
 		$other_category_album[] = $item;
 	}
@@ -119,17 +146,34 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	global $data_album;
 	$data_album = $album;
 
-	// goi ham xu ly giao dien 
-	$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment );
 	// truyen thong tin seo
 	$page_title = !empty($album['meta_title'])?$album['meta_title']:$album['name'];
 	$key_words = !empty($album['meta_keyword'])?$album['meta_keyword']:$album['name'];
 	$description = !empty($album['meta_description'])?$album['meta_description']:strip_tags($album['description']);
+	
+	// Phan trang
+	$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
+	
+	// goi ham xu ly giao dien 
+	if( $module_config[$module_name]['album_view'] == 'album_view_grid' )
+	{
+	$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page );
+	}
+	else
+	{
+		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, '' );
+	}
 }
 else
 {
 	// khong co quyen xem album
 	$contents = no_permission( $lang_module['no_permission_album'] );
+}
+
+if( $page > 1 )
+{
+	$page_title .= ' ' . NV_TITLEBAR_DEFIS . ' ' . $lang_global['page'] . ' ' . $page;
+	$description .= ' ' . $page;
 }
 
 include NV_ROOTDIR . '/includes/header.php';

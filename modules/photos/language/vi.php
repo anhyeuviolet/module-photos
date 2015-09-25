@@ -84,3 +84,11 @@ $lang_module['search_none'] = 'Không tìm thấy dữ liệu nào có liên qua
 $lang_module['empty_data_search'] = 'Bạn cần chọn ít nhất 1 truờng tìm kiếm';
 $lang_module['search_in_module'] = 'trong mục';
 $lang_module['view_all_title'] = 'Xem tất cả các kết quả tìm kiếm';
+
+$lang_module['module_info'] = 'Thông tin chung';
+$lang_module['album_nums'] = 'Số album được đăng';
+$lang_module['album_incat_nums'] = 'Số album trong chuyên mục';
+$lang_module['album_incat_topview'] = 'Album xem nhiều nhất';
+$lang_module['category_nums'] = 'Số chuyên mục';
+$lang_module['photo_nums'] = 'Số ảnh được đăng';
+$lang_module['photo_incat_nums'] = 'Số ảnh trong chuyên mục';

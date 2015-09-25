@@ -165,6 +165,17 @@
 						</div>	 
 									 
 						<div class="form-group">
+							<label class="col-sm-4 control-label" for="input-status">{LANG.album_allow_rating}</label>
+							<div class="col-sm-20">
+								<select name="allow_rating" id="input-allow_rating" class="form-control">
+									<!-- BEGIN: allow_rating -->
+									<option value="{RATING.key}" {RATING.selected}>{RATING.name}</option>
+									<!-- END: allow_rating -->
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-status">{LANG.album_show_status}</label>
 							<div class="col-sm-20">
 								<select name="status" id="input-status" class="form-control">
@@ -174,26 +185,27 @@
 								</select>
 							</div>
 						</div>
+						
 					</div>
 				
 					<div class="tab-pane" id="tab-image">
 							<ul class="glt-upload-step clearfix">
 								<li >
 									<span class="stepicon"><span>&nbsp;</span></span>
-									<span class="steptext">Bước 1: Tạo Album</span>
+									<span class="steptext">{LANG.album_step_1}</span>
 								</li>
 								<li class="active">
 									<span class="stepicon"><span>&nbsp;</span></span>
-									<span class="steptext">Bước 2: Chọn và tải ảnh</span>
+									<span class="steptext">{LANG.album_step_2}</span>
 								</li>
 								<li>
 									<span class="stepicon"><span>&nbsp;</span></span>
-									<span class="steptext">Bước 3: Cập nhật thông tin ảnh</span>
+									<span class="steptext">{LANG.album_step_3}</span>
 								</li>
 							</ul>
 							<div class="form-inline">
 								<div id="uploader">
-									<p>Bạn đang sử dụng trình duyệt không hỗ trợ ít nhất: HTML5, Flash hay Silverlight. Vui lòng nâng cấp lên trình duyệt có hỗ trợ một trong các yêu cầu trên</p>
+									<p>{LANG.album_upload_require}</p>
 								</div>
 							</div>
 							<a href="javascript:void(0);" class="nextstep btn btn-primary">{LANG.album_next_step} </a>
@@ -313,15 +325,15 @@
 						<ul class="glt-upload-step clearfix">
 							<li>
 								<span class="stepicon"><span>&nbsp;</span></span>
-								<span class="steptext">Bước 1: Tạo Album</span>
+								<span class="steptext">{LANG.album_step_1}</span>
 							</li>
 							<li>
 								<span class="stepicon"><span>&nbsp;</span></span>
-								<span class="steptext">Bước 2: Chọn và tải ảnh</span>
+								<span class="steptext">{LANG.album_step_2}</span>
 							</li>
 							<li class="active">
 								<span class="stepicon"><span>&nbsp;</span></span>
-								<span class="steptext">Bước 3: Cập nhật thông tin ảnh</span>
+								<span class="steptext">{LANG.album_step_3}</span>
 							</li>
 						</ul>
 						<div class="clear"></div>

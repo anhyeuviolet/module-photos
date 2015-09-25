@@ -16,44 +16,55 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
  
 	function block_photo_detail( $block_config )
 	{
-		global $data_album, $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $blockID;
+		global $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $blockID, $nv_Request;
+		$module = $block_config['module'];
+		$mod_data = $site_mods[$module]['module_data'];
+		$mod_file = $site_mods[$module]['module_file'];
+		
+		if( file_exists( NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/'. $mod_file .'/module.block_detail.tpl' ) )
+		{
+			$block_theme = $module_info['template'];
+		}
+		else
+		{
+			$block_theme = 'default';
+		}
+		$xtpl = new XTemplate( 'module.block_detail.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/'. $mod_file .'/' );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
+		$xtpl->assign( 'TEMPLATE', $module_info['template'] );
+		$xtpl->assign( 'MODULE_FILE', $mod_file );
+		$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
+		$xtpl->assign( 'BLOCK_ID', $blockID );
 
 		if(  $op == 'detail_album' )
-		{
-			$module = $block_config['module'];
-			$mod_data = $site_mods[$module]['module_data'];
-			$mod_file = $site_mods[$module]['module_file'];
-			
-			if( file_exists( NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/'. $mod_file .'/module.block_detail.tpl' ) )
-			{
-				$block_theme = $module_info['template'];
-			}
-			else
-			{
-				$block_theme = 'default';
-			}
-			$xtpl = new XTemplate( 'module.block_detail.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/'. $mod_file .'/' );
-			$xtpl->assign( 'LANG', $lang_module );
-			$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
-			$xtpl->assign( 'TEMPLATE', $module_info['template'] );
-			$xtpl->assign( 'MODULE_FILE', $mod_file );
-			$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
-			$xtpl->assign( 'BLOCK_ID', $blockID );
-			
+		{	
+			global $data_album;
 			$data_album['image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $data_album['file'];
 			$data_album['thumb'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/thumbs/' . $data_album['thumb'];
-			
-			$ratingwidth = ( $data_album['total_rating'] > 0 ) ? ( $data_album['total_rating'] * 100 / ( $data_album['click_rating'] * 5 ) ) * 0.01 : 0;
-			
-			$data_album['langstar'] = array(
-			'note' => $lang_module['star_note'],
-			'verypoor' => $lang_module['star_verypoor'],
-			'poor' => $lang_module['star_poor'],
-			'ok' => $lang_module['star_ok'],
-			'good' => $lang_module['star_good}'],
-			'verygood' => $lang_module['star_verygood']
-			);
-
+			if($data_album['allow_rating'] > 0)
+			{
+				$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $data_album['id'], 'cookie', 0 );
+				if( $time_set_rating > 0 )
+				{
+					$data_album['disablerating'] = 1;
+				}
+				else
+				{
+					$data_album['disablerating'] = 0;
+				}
+				
+				$ratingwidth = ( $data_album['total_rating'] > 0 ) ? ( $data_album['total_rating'] * 100 / ( $data_album['click_rating'] * 5 ) ) * 0.01 : 0;
+				
+				$data_album['langstar'] = array(
+				'note' => $lang_module['star_note'],
+				'verypoor' => $lang_module['star_verypoor'],
+				'poor' => $lang_module['star_poor'],
+				'ok' => $lang_module['star_ok'],
+				'good' => $lang_module['star_good}'],
+				'verygood' => $lang_module['star_verygood']
+				);
+			}
 		 
 			$xtpl->assign( 'RATINGVALUE', ( $data_album['total_rating'] > 0 ) ? round( $data_album['total_rating']/$data_album['click_rating'], 1) : 0 );
 			$xtpl->assign( 'RATINGCOUNT', $data_album['click_rating'] );
@@ -70,21 +81,162 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 			$xtpl->assign( 'DATA', $data_album );
 			if($data_album['model'])
 			{
-				$xtpl->parse( 'main.model' );
+				$xtpl->parse( 'album.model' );
 			}
 			if($data_album['capturelocal'])
 			{
-				$xtpl->parse( 'main.capturelocal' );
+				$xtpl->parse( 'album.capturelocal' );
 			}
 			if($data_album['capturedate'])
 			{
-				$xtpl->parse( 'main.capturedate' );
+				$xtpl->parse( 'album.capturedate' );
 			}
 			if($data_album['total_rating'] > 0)
 			{
-				$xtpl->parse( 'main.data_rating' );
+				$xtpl->parse( 'album.allowed_rating.data_rating' );
+			}
+			
+			if($data_album['disablerating'] > 0)
+			{
+				$xtpl->parse( 'album.allowed_rating.disablerating' );
 			}
 
+			if($data_album['allow_rating'] > 0)
+			{
+				$xtpl->parse( 'album.allowed_rating' );
+			}
+			$xtpl->parse( 'album' );
+			return $xtpl->text( 'album' );
+		}
+		elseif($op == 'detail')
+		{
+			global $data_detail;
+			// truy van lay thong tin album
+			$query = $db->query( 
+			'SELECT a.*, r.file, r.thumb FROM ' . TABLE_PHOTO_NAME . '_album a 
+			LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
+			WHERE a.status= 1 AND r.defaults = 1 AND a.album_id = ' . $data_detail['album_id'] );
+
+			$album = $query->fetch();
+			if( $album['album_id'] > 0 )
+			{
+				$album['image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
+				$album['thumb'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/thumbs/' . $album['thumb'];
+				if($album['allow_rating'] > 0)
+				{
+					$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $album['id'], 'cookie', 0 );
+					if( $time_set_rating > 0 )
+					{
+						$album['disablerating'] = 1;
+					}
+					else
+					{
+						$album['disablerating'] = 0;
+					}
+					
+					$ratingwidth = ( $album['total_rating'] > 0 ) ? ( $album['total_rating'] * 100 / ( $album['click_rating'] * 5 ) ) * 0.01 : 0;
+					
+					$album['langstar'] = array(
+					'note' => $lang_module['star_note'],
+					'verypoor' => $lang_module['star_verypoor'],
+					'poor' => $lang_module['star_poor'],
+					'ok' => $lang_module['star_ok'],
+					'good' => $lang_module['star_good}'],
+					'verygood' => $lang_module['star_verygood']
+					);
+				}
+			 
+				$xtpl->assign( 'RATINGVALUE', ( $album['total_rating'] > 0 ) ? round( $album['total_rating']/$album['click_rating'], 1) : 0 );
+				$xtpl->assign( 'RATINGCOUNT', $album['click_rating'] );
+				$xtpl->assign( 'REVIEWCOUNT', $album['total_rating'] );
+				$xtpl->assign( 'RATINGWIDTH', round( $ratingwidth, 2) );
+				$xtpl->assign( 'ALBUM_ID', $album['album_id']);
+				$xtpl->assign( 'LANGSTAR', $album['langstar']);
+
+				$checkss = md5( $album['album_id'] . session_id() . $global_config['sitekey'] );
+				$xtpl->assign( 'CHECKSS', $checkss);
+				$xtpl->assign( 'LINK_RATE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module . '&' . NV_OP_VARIABLE . '=rating&album_id=' . $album['album_id'] );
+				
+				$album['capturedate'] = nv_date('d-m-Y', $album['capturedate']);
+				$xtpl->assign( 'DATA', $album );
+				if($album['model'])
+				{
+					$xtpl->parse( 'detail.model' );
+				}
+				if($album['capturelocal'])
+				{
+					$xtpl->parse( 'detail.capturelocal' );
+				}
+				if($album['capturedate'])
+				{
+					$xtpl->parse( 'detail.capturedate' );
+				}
+				if($album['total_rating'] > 0)
+				{
+					$xtpl->parse( 'detail.allowed_rating.data_rating' );
+				}
+				
+				if($album['disablerating'] > 0)
+				{
+					$xtpl->parse( 'detail.allowed_rating.disablerating' );
+				}
+
+				if($album['allow_rating'] > 0)
+				{
+					$xtpl->parse( 'detail.allowed_rating' );
+				}
+				$xtpl->parse( 'detail' );
+				return $xtpl->text( 'detail' );
+			}
+		}
+		elseif($op == 'viewcat')
+		{
+			global $data_viewcat, $global_photo_cat;
+			$db->sqlreset()
+				->select( 'COUNT(*)' )
+				->from( TABLE_PHOTO_NAME . '_album' )
+				->where( 'status=1 and category_id=' . $data_viewcat['category_id'] );
+			$num_albums = $db->query( $db->sql() )->fetchColumn();
+			
+			$db->select( 'album_id, category_id, name, alias' )
+				->order('viewed DESC')
+				->limit( 1 );
+			$_top_view_album = $db->query( $db->sql() );
+			while( $data = $_top_view_album->fetch() )
+			{
+				$data['link'] = $global_photo_cat[$data['category_id']]['link'] . '/' . $data['alias'] . '-' . $data['album_id'];
+				$xtpl->assign( 'DATA', $data);
+			}
+				
+			$xtpl->assign( 'NUM_ALBUMS', $num_albums);
+
+			$xtpl->parse( 'viewcat' );
+			return $xtpl->text( 'viewcat' );
+		}
+		elseif($op == 'main')
+		{
+			$db->sqlreset()
+				->select( 'COUNT(*)' )
+				->from( TABLE_PHOTO_NAME . '_album' )
+				->where( 'status =1' );
+			$num_albums = $db->query( $db->sql() )->fetchColumn();
+			
+			$db->sqlreset()
+				->select( 'COUNT(*)' )
+				->from( TABLE_PHOTO_NAME . '_category' )
+				->where( 'status =1' );
+			$num_cats = $db->query( $db->sql() )->fetchColumn();
+			
+			$db->sqlreset()
+				->select( 'COUNT(*)' )
+				->from( TABLE_PHOTO_NAME . '_rows' )
+				->where( 'status =1' );
+			$num_photos = $db->query( $db->sql() )->fetchColumn();
+			
+			$xtpl->assign( 'NUM_ALBUMS', $num_albums);
+			$xtpl->assign( 'NUM_CATS', $num_cats);
+			$xtpl->assign( 'NUM_PHOTOS', $num_photos);
+			
 			$xtpl->parse( 'main' );
 			return $xtpl->text( 'main' );
 		}
