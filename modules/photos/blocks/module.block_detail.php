@@ -16,7 +16,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
  
 	function block_photo_detail( $block_config )
 	{
-		global $module_photo_cat, $lang_module, $op, $client_info, $site_mods, $module_info, $module_name, $db, $module_config, $global_config, $blockID, $nv_Request;
+		global $module_photo_cat, $module_name, $lang_module, $op, $client_info, $site_mods, $module_info, $db, $module_config, $global_config, $blockID, $nv_Request;
 		$module = $block_config['module'];
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
@@ -44,7 +44,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 			$data_album['thumb'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/thumbs/' . $data_album['thumb'];
 			if($data_album['allow_rating'] > 0)
 			{
-				$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $data_album['id'], 'cookie', 0 );
+				$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $data_album['album_id'], 'cookie', 0 );
 				if( $time_set_rating > 0 )
 				{
 					$data_album['disablerating'] = 1;
@@ -124,7 +124,7 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 				$album['thumb'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/thumbs/' . $album['thumb'];
 				if($album['allow_rating'] > 0)
 				{
-					$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $album['id'], 'cookie', 0 );
+					$time_set_rating = $nv_Request->get_int( $module_name . '_' . $op . '_' . $album['album_id'], 'cookie', 0 );
 					if( $time_set_rating > 0 )
 					{
 						$album['disablerating'] = 1;
