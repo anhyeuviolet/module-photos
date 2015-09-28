@@ -188,6 +188,10 @@ $(document).ready(function () {
 				</a>
 			</div>
 			<div class="panel-footer view_detail pd5">
+			<div class="album-name">
+				<h3><a title="{OTHER.name}" href="{OTHER.link}">{OTHER.name}</a></h3>
+			</div>
+			<div class="clear"></div>
 			<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{OTHER.viewed}</span>
 				<a href="{OTHER.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 			</div>

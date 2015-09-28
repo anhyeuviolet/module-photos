@@ -16,6 +16,7 @@ $allow_func = array(
 	'category',
 	'alias',
 	'album',
+	'view',
 	'setting' );
 
 define( 'NV_IS_FILE_ADMIN', true );
