@@ -189,7 +189,7 @@ $(document).ready(function () {
 			</div>
 			<div class="panel-footer view_detail pd5">
 			<div class="album-name">
-				<h3><a title="{ALBUM.name}" href="{ALBUM.link}">{ALBUM.name}</a></h3>
+				<h3><a title="{OTHER.name}" href="{OTHER.link}">{OTHER.name}</a></h3>
 			</div>
 			<div class="clear"></div>
 			<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{OTHER.viewed}</span>
