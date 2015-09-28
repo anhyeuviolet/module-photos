@@ -183,7 +183,7 @@ $(document).ready(function () {
 	<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 		<div class="panel panel-default">
 			<div class="panel-body pd5">
-				<a href="{OTHER.thumb}" title="{OTHER.name}">
+				<a href="{OTHER.link}" title="{OTHER.name}">
 					<img class="lazy img-responsive center-block" data-original="{OTHER.thumb}" src="{OTHER.thumb}" alt="{OTHER.description}" width="640" height="480"/>
 				</a>
 			</div>
