@@ -42,7 +42,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	
 	$album_id = $row['album_id'];
 	
-	$next_chapter = $previous_chapter = '';
+	$next_photo = $previous_photo = '';
 	//Next Photo
 	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
