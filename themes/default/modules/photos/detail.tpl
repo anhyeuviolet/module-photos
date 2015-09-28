@@ -10,7 +10,7 @@
 	</div>
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-			<img src="{PHOTO.file}" class="img-thumbnail"/>
+			<img src="{PHOTO.file}" class="img-thumbnail center-block"/>
 		</a>
 	</div>
 	<div class="col-md-24 col-sm-24 col-xs-24 pd10_0" align="center">
