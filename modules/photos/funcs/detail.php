@@ -57,7 +57,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
 	foreach( $list as $previous )
 	{
-		$previous_photo['link'] = $global_photo_album[$next['album_id']]['link'] . '/' . $previous['row_id'] . $global_config['rewrite_exturl'];
+		$previous_photo['link'] = $global_photo_album[$previous['album_id']]['link'] . '/' . $previous['row_id'] . $global_config['rewrite_exturl'];
 	}
 	unset($sql,$list);
 	
