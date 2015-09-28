@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
+ * @Project PHOTOS 4.x
  * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
  * @Based on NukeViet CMS 
