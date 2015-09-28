@@ -15,6 +15,9 @@ $cache_file = '';
 $contents = '';
 $viewcat = $global_photo_cat[$category_id]['viewcat'];
 
+// truyen CATEGORY_ID module block detail
+global $category_id;
+
 $base_url_rewrite = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$category_id]['alias'];
 if( $page > 1 )
 {
@@ -67,9 +70,6 @@ if( empty( $contents ) )
 		{
 			$item['link'] = $global_photo_cat[$category_id]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 			$array_catpage[] = $item;
-			// truyen bien sang module block detail
-			global $data_viewcat;
-			$data_viewcat = $item;
 		}
 		
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );

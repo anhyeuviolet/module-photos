@@ -102,6 +102,8 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 		$return['error'] = array();
 		$return['config'] = array();
  		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
+ 		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
+ 		$return['config']['des_length'] = $nv_Request->get_int( 'config_des_length', 'post', 0 );
 		return $return;
 	}
 

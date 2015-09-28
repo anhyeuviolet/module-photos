@@ -191,11 +191,11 @@ if( ! nv_function_exists( 'block_photo_detail' ) )
 		}
 		elseif($op == 'viewcat')
 		{
-			global $data_viewcat, $global_photo_cat;
+			global $category_id, $global_photo_cat;
 			$db->sqlreset()
 				->select( 'COUNT(*)' )
 				->from( TABLE_PHOTO_NAME . '_album' )
-				->where( 'status=1 and category_id=' . $data_viewcat['category_id'] );
+				->where( 'status=1 and category_id=' . $category_id );
 			$num_albums = $db->query( $db->sql() )->fetchColumn();
 			
 			$db->select( 'album_id, category_id, name, alias' )
