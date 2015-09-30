@@ -73,18 +73,15 @@ $(function() {
 <link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
  
-<div class="row" itemscope itemtype="http://schema.org/ImageObject">
-	<a itemprop="url" href="{SELFURL}" style="display:none" title="{ALBUM.name}">
-		<span itemprop="name">{ALBUM.name}</span>
-	</a>
+<div class="pd5">
 	<div class="page-header pd10_0 mg0_10_10">
-		<h3 class="txt20 txt_bold"><span class="pd5">{ALBUM.name}</span></h3><span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
+		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<p class="album_description">{ALBUM.description}</p>
 	</div>
-	<div class="photo-description" itemprop="description" style="display:none"> {ALBUM.description} </div>
-	<span class="contentLocation" itemprop="contentLocation" style="display:none">{ALBUM.capturelocal}</span>
-	<ul class="bxslider">
+	<ul class="bxslider_{OP}">
 		<!-- BEGIN: loop_slide -->
-		<li><img itemprop="image" src="{PHOTO.file}" /></li>
+		<li><img src="{PHOTO.file}" /></li>
 		<!-- END: loop_slide -->
 	</ul>
 
@@ -145,7 +142,7 @@ $(document).ready(function () {
      
     });
 
-    slider = $('.bxslider').bxSlider({
+    slider = $('.bxslider_{OP}').bxSlider({
         pager: false,
 		moveSlides: 1,
 		displaySlideQty: 2,
@@ -158,7 +155,7 @@ function clicked(position) {
     slider.goToSlide(position);
 }
 $(document).ready(function () {
-	$('.bxslider li').css('display', 'block');
+	$('.bxslider_{OP} li').css('display', 'block');
 }) 
 </script>
 <!-- END: slider -->
