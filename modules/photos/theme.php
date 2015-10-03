@@ -74,9 +74,7 @@ function home_view_grid_by_cat( $array_cate )
 			{
 				$xtpl->parse( 'main.loop_catalog' );
 			}
-			
 		}
-		
 	}
 
 	$xtpl->parse( 'main' );

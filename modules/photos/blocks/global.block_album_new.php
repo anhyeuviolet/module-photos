@@ -146,17 +146,16 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 			foreach( $list as $album )
 			{
 				$album['name'] = nv_clean60( $album['name'], $block_config['title_length'] );
-				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
+				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'];
 				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
-				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
+				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
+				$album['datePublished'] = nv_date( 'd/m/Y', $album['datePublished'] );
 				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );
  				$xtpl->parse( 'main.loop_album' );
 			}
- 
-
 			$xtpl->parse( 'main' );
 			return $xtpl->text( 'main' );
 		}
@@ -164,13 +163,13 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 }
 if( defined( 'NV_SYSTEM' ) )
 {
-	global $site_mods, $module_name, $global_array_cat, $module_photo_category;
+	global $site_mods, $module_name, $global_photo_cat, $module_photo_category;
 	$module = $block_config['module'];
 	if( isset( $site_mods[$module] ) )
 	{
 		if( $module == $module_name )
 		{
-			$module_photo_category = $global_array_cat;
+			$module_photo_category = $global_photo_cat;
 			unset( $module_photo_category[0] );
 		}
 		else
