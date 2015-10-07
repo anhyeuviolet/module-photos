@@ -8,24 +8,22 @@
 			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
 		</div>
 	</div>
-	<div class="col-md-24 col-sm-24 col-xs-24">
-		<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-			<img src="{PHOTO.file}" class="img-thumbnail center-block"/>
-		</a>
-	</div>
-	<div class="col-md-24 col-sm-24 col-xs-24 pd10_0" align="center">
-		<div class="col-md-12">
+	
+	<div id="view_image_{PHOTO.row_id}" class="col-md-24 col-sm-24 col-xs-24">
 		<!-- BEGIN: pre -->
-		<a href="{PREV.link}" title="{PREV.name}"><span class="btn btn-info"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;&nbsp;{LANG.prev_photo}</span></a>
+		<a href="{PREV.link}" class="arrow_left" title="{PREV.name}"><i class="fa fa-chevron-circle-left fa-3x"></i></a>
 		<!-- END: pre -->
+		<div class="col-md-24 col-sm-24 col-xs-24">
+			<div id="photo-{PHOTO.row_id}">
+				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+					<img src="{PHOTO.file}" class="img-thumbnail"/>
+				</a>
+			</div>	
 		</div>
-		<div class="col-md-12">
 		<!-- BEGIN: next -->
-		<a href="{NEXT.link}" title="{NEXT.name}"><span class="btn btn-info">{LANG.next_photo}&nbsp;<i class="fa fa-chevron-circle-right"></i></span></a>
+		<a href="{NEXT.link}" class="arrow_right" title="{NEXT.name}"><i class="fa fa-chevron-circle-right fa-3x"></i></a>
 		<!-- END: next -->
-		</div>
 	</div>
-
 	<!-- BEGIN: social_tool -->
 	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
 		<div class="fb-like"></div>
@@ -64,4 +62,12 @@
 	</div>
 </div>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript" data-show="after">
+$(function(){
+    $('html, body').animate({
+        scrollTop: $('#photo-{PHOTO.row_id}').offset().top
+    }, 1500);
+    return false;
+});
+</script>
 <!-- END: main -->
