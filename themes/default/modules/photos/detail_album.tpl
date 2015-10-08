@@ -6,6 +6,7 @@
 	<div class="page-header pd10_0 mg0_10_10">
 		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
 		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<p class="album_author_upload">{LANG.album_author_upload}&nbsp;:&nbsp;{ALBUM.author_upload}</p>
 		<p class="album_description">{ALBUM.description}</p>
 	</div>
 	<div id="album-gallery">

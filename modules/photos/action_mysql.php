@@ -64,6 +64,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	favorite int(11) UNSIGNED NOT NULL DEFAULT '0',
 	status tinyint(1) NOT NULL default '1',
 	groups_view varchar(255) default '',
+	author int(11) UNSIGNED NOT NULL DEFAULT '0',
+	author_modify int(11) UNSIGNED NOT NULL DEFAULT '0',
 	allow_comment varchar(255) default '',
 	hitscm mediumint(8) unsigned NOT NULL default '0',
 	date_added int(11) unsigned NOT NULL default '0',

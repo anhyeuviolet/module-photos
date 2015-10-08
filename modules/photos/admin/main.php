@@ -392,6 +392,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 		$_groups_post = $nv_Request->get_array( 'groups_view', 'post', array() );
 		$data['groups_view'] = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
+		$data['author'] = $admin_info['userid'];
 		
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
@@ -434,6 +435,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					folder = :folder,
 					layout = :layout,
 					groups_view=:groups_view,
+					author=:author,
+					author_modify=:author_modify,
 					allow_rating=:allow_rating,
 					allow_comment=:allow_comment');
 				
@@ -451,6 +454,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
   				$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
   				$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
   				$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':author', $data['author'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':author_modify', $data['author'], PDO::PARAM_STR );
   				$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
   				$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
 				$stmt->execute();
@@ -671,6 +676,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						folder = :folder,
 						layout = :layout,
 						groups_view=:groups_view, 
+						author_modify=:author_modify, 
 						allow_rating=:allow_rating, 
 						allow_comment=:allow_comment
 						WHERE album_id=' . $data['album_id'] );
@@ -689,6 +695,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
 					$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
 					$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+					$stmt->bindParam( ':author_modify', $data['author'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
  	 
@@ -917,9 +924,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				{ 
 					$error['warning'] = $lang_module['album_error_save'];
 				}
-
 			}
-
 		}
 		
 		if( empty( $error ) )
