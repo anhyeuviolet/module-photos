@@ -169,6 +169,10 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 			{
 				$album['author_upload'] = $array_user_i['username'];
 			}
+			if( !empty($array_user_i['photo']) )
+			{
+				$album['author_image'] = $array_user_i['photo'];
+			}
 		}
 	}
 	// goi ham xu ly giao dien 
