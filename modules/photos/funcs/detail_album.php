@@ -173,6 +173,10 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 			{
 				$album['author_image'] = $array_user_i['photo'];
 			}
+			else
+			{
+				$album['author_image'] = 'themes/default/images/users/no_avatar.png';
+			}
 		}
 	}
 	// goi ham xu ly giao dien 
