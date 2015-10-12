@@ -13,7 +13,7 @@ if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(  
 	'name' => 'Photos', 
-	'modfuncs' => 'main, viewcat, detail_album, detail, search', 
+	'modfuncs' => 'main, viewcat, detail_album, detail, detail_viewer, search', 
 	'submenu' => 'rss,search',
 	'is_sysmod' => 0, 
 	'virtual' => 1,  

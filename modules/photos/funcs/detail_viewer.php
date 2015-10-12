@@ -11,11 +11,15 @@
 
 if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
+$xtpl = new XTemplate( 'detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+$row_id = $nv_Request->get_int( 'row_id', 'get', 0 );
+$ajax = $nv_Request->get_int( 'ajax', 'get', 0 );
+
 $contents = '';
 $date_added = 0;
-// kiem tra tu cach xem album
-if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_user_in_groups( $global_photo_album[$album_id]['groups_view'] ) )
-{	
+
+if( $ajax )
+{
 	// anh trong album
 	$db->sqlreset()
 		->select( '*' )
@@ -40,7 +44,15 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 		}
 	}
 	
+	$row['thumb'] = creat_thumbs( $row['row_id'], $row['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
+	$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
+
+	
 	$album_id = $row['album_id'];
+	$view_url = NV_MY_DOMAIN . nv_url_rewrite( $global_photo_album[$row['album_id']]['link'] . '/'. $row['row_id'] . $global_config['rewrite_exturl'], true);
+	$xtpl->assign( 'PHOTO', $row );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'VIEW_URL',$view_url );
 	
 	$next_photo = $previous_photo = '';
 	//Next Photo
@@ -61,13 +73,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	}
 	unset($sql,$list);
 	
-	// rewrite link
-	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$category_id]['alias'] . '/' . $global_photo_album[$row['album_id']]['alias'] . '-' . $row['album_id'] .'/'.$row['row_id']. $global_config['rewrite_exturl'], true );
-	if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
-	{
-		Header( 'Location: ' . $base_url_rewrite );
-		die();
-	}
 	// truyen bien ra module block
 	global $data_detail;
 	$data_detail = $row;
@@ -76,15 +81,28 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$page_title = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
 	$key_words = !empty($global_photo_album[$row['album_id']]['meta_keyword'])?$global_photo_album[$row['album_id']]['meta_keyword']:$global_photo_album[$row['album_id']]['name'];
 	$description = !empty($global_photo_album[$row['album_id']]['meta_description'])?$global_photo_album[$row['album_id']]['meta_description']:strip_tags($global_photo_album[$row['album_id']]['description']);
+	
+	if (!empty($next_photo))
+	{
+		$xtpl->assign( 'NEXT', $next_photo );
+		$xtpl->parse( 'detail_viewer.next' );
+	}
+	if (!empty($previous_photo))
+	{
+		$xtpl->assign( 'PREV', $previous_photo );
+		$xtpl->parse( 'detail_viewer.pre' );
+	}
 
-	// goi ham xu ly giao dien 
-	$contents = detail( $row, $next_photo, $previous_photo );
-}
-else
-{
-	$contents = no_permission($lang_module['no_permission_detailed']);
-}
+	if( $module_config[$module_name]['social_tool'] > 0 )
+	{
+		$xtpl->parse( 'detail_viewer.social_tool' );
+	}
 
-include NV_ROOTDIR . '/includes/header.php';
-echo nv_site_theme( $contents );
-include NV_ROOTDIR . '/includes/footer.php';
+	$xtpl->parse( 'detail_viewer' );
+	$contents = $xtpl->text( 'detail_viewer' );
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo  $contents;
+	include NV_ROOTDIR . '/includes/footer.php';
+	die();
+}

@@ -308,21 +308,12 @@ function detail( $row, $next_photo, $previous_photo )
 		$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
 		$xtpl->assign( 'PHOTO', $row );
 	}
-	if (!empty($next_photo))
-	{
-		$xtpl->assign( 'NEXT', $next_photo );
-		$xtpl->parse( 'main.next' );
-	}
-	if (!empty($previous_photo))
-	{
-		$xtpl->assign( 'PREV', $previous_photo );
-		$xtpl->parse( 'main.pre' );
-	}
- 	if( $module_config[$module_name]['social_tool'] > 0 )
+	
+	if( $module_config[$module_name]['social_tool'] > 0 )
 	{
 		$xtpl->parse( 'main.social_tool' );
 	}
-
+	
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }

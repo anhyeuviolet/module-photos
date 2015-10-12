@@ -13,3 +13,14 @@ function sendrating_album(album_id, point, checkss) {
 		});
 	}
 }
+
+function detai_view_next(next_id, view_next){
+	$('#detail_viewer').load( nv_base_siteurl + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail_viewer&nocache=' + new Date().getTime(),'&ajax=1&row_id=' + next_id, function() {
+		FB.XFBML.parse();
+	});
+}
+function detai_view_pre(pre_id, view_previous){
+	$('#detail_viewer').load( nv_base_siteurl + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail_viewer&nocache=' + new Date().getTime(),'&ajax=1&row_id=' + pre_id, function() {
+		FB.XFBML.parse();
+	});
+}

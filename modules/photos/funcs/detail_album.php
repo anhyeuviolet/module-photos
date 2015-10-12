@@ -43,7 +43,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 			}
 		}
 	}
-	
 
 	// xac thuc lien ket co dung chuan khong 
 	if( $date_added == 0 )

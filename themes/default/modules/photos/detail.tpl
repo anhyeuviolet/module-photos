@@ -1,17 +1,13 @@
-<!-- BEGIN: main -->
-<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
-
-<div class="row">
+<!-- BEGIN: detail_viewer -->
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<div class="page-header pd10_0 mg0_10_10">
 			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.name}</span></h3>
 			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
 		</div>
 	</div>
-	
 	<div id="view_image_{PHOTO.row_id}" class="col-md-24 col-sm-24 col-xs-24">
 		<!-- BEGIN: pre -->
-		<a href="{PREV.link}" class="arrow_left" title="{PREV.name}"><i class="fa fa-chevron-circle-left fa-3x"></i></a>
+		<a href="#" class="arrow_left" title="{PREV.name}" onclick="detai_view_pre('{PREV.row_id}','view_previous');"><i class="fa fa-chevron-circle-left fa-3x"></i></a>
 		<!-- END: pre -->
 		<div class="col-md-24 col-sm-24 col-xs-24">
 			<div id="photo-{PHOTO.row_id}">
@@ -21,15 +17,9 @@
 			</div>	
 		</div>
 		<!-- BEGIN: next -->
-		<a href="{NEXT.link}" class="arrow_right" title="{NEXT.name}"><i class="fa fa-chevron-circle-right fa-3x"></i></a>
+		<a href="#" class="arrow_right" title="{NEXT.name}" onclick="detai_view_next('{NEXT.row_id}','view_next');"><i class="fa fa-chevron-circle-right fa-3x"></i></a>
 		<!-- END: next -->
 	</div>
-	<!-- BEGIN: social_tool -->
-	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
-		<div class="fb-like"></div>
-		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
-	</div>
-	<!-- END: social_tool -->
 	<div id="blueimp-gallery" class="blueimp-gallery">
 		<div class="slides"></div>
 		<h3 class="title"></h3>
@@ -60,14 +50,60 @@
 			</div>
 		</div>
 	</div>
-</div>
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
-<script type="text/javascript" data-show="after">
-$(function(){
-    $('html, body').animate({
-        scrollTop: $('#photo-{PHOTO.row_id}').offset().top
-    }, 1500);
-    return false;
-});
+<script>
+	$('a[href="#"], a[href=""]').attr("href", "javascript:void(0);");
+	var state = '{PHOTO.row_id}';
+	var title = 'View Photos';
+	var view_url = '{VIEW_URL}';
+	window.history.pushState(state, title, view_url);
 </script>
+<!-- BEGIN: social_tool -->
+<div id="social_button" class="col-md-24 col-sm-24 col-xs-24 pd5">
+	<div class="fb-like"></div>
+	<div class="fb-comments" data-href="{VIEW_URL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+</div>
+<!-- END: social_tool -->
+<!-- END: detail_viewer -->
+
+<!-- BEGIN: main -->
+<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
+<div id="fb-root"></div>
+<div class="row" id="detail_viewer"></div>
+<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script type="text/javascript">
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+$('#detail_viewer').load( nv_base_siteurl + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=detail_viewer&ajax=1&row_id={PHOTO.row_id}' );
+</script>
+
+<noscript>
+<div class="row">
+	<div class="col-md-24 col-sm-24 col-xs-24">
+		<div class="page-header pd10_0 mg0_10_10">
+			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.name}</span></h3>
+			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
+		</div>
+	</div>
+	<div id="view_image_{PHOTO.row_id}" class="col-md-24 col-sm-24 col-xs-24">
+		<!-- BEGIN: pre -->
+		<a href="{PREV.link}" class="arrow_left" title="{PREV.name}"><i class="fa fa-chevron-circle-left fa-3x"></i></a>
+		<!-- END: pre -->
+		<div class="col-md-24 col-sm-24 col-xs-24">
+			<div id="photo-{PHOTO.row_id}">
+				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+					<img src="{PHOTO.file}" class="img-thumbnail"/>
+				</a>
+			</div>	
+		</div>
+		<!-- BEGIN: next -->
+		<a href="{NEXT.link}" class="arrow_right" title="{NEXT.name}"><i class="fa fa-chevron-circle-right fa-3x"></i></a>
+		<!-- END: next -->
+	</div>
+</div>
+</noscript>
 <!-- END: main -->
