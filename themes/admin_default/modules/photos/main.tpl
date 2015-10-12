@@ -65,12 +65,13 @@
 						<thead>
 							<tr>
 								<td class="col-md-0 text-center" ><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></td>
-								<td class="col-md-8 text-left"><a href="{URL_NAME}">{LANG.album_name}</a> </td>
-								<td class="col-md-4 text-center"> <strong>{LANG.album_category} </strong></td>
-								<td class="col-md-3 text-center"> <strong>{LANG.album_num_photo} </strong></td>
-								<td class="col-md-3 text-center"> <strong>{LANG.album_status} </strong></td>
-								<td class="col-md-3 text-center"> <strong>{LANG.album_date_added} </strong></td>
-								<td class="col-md-3 text-center"> <strong>{LANG.action} </strong></td>
+								<td class="col-md-4 text-left"><a href="{URL_NAME}">{LANG.album_name}</a> </td>
+								<td class="col-md-4 text-center"><strong>{LANG.album_upload_author}</strong></td>
+								<td class="col-md-4 text-center"><strong>{LANG.album_category} </strong></td>
+								<td class="col-md-3 text-center"><strong>{LANG.album_num_photo} </strong></td>
+								<td class="col-md-3 text-center"><strong>{LANG.album_status} </strong></td>
+								<td class="col-md-3 text-center"><strong>{LANG.album_date_added} </strong></td>
+								<td class="col-md-3 text-center"><strong>{LANG.action} </strong></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -78,8 +79,11 @@
 							<tr id="group_{LOOP.album_id}">
 								<td class="text-left"><input type="checkbox" name="selected[]" value="{LOOP.album_id}"></td>
 								<td class="text-left">
-								<a href="{LOOP.link}"> <strong>{LOOP.name}</strong> </a>
+								<a href="{LOOP.link}"> <strong>{LOOP.name}</strong></a>
 								<a href="{LOOP.link_out}" target="_blank"><i class="fa fa-external-link"></i></a> 
+								</td>
+								<td class="text-center">
+								{LOOP.author_upload}
 								</td>
 								<td class="text-center">
 									 <a href="{LOOP.category_link}">{LOOP.category}</a>

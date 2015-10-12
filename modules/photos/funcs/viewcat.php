@@ -64,10 +64,35 @@ if( empty( $contents ) )
 	{
 		$db->sqlreset()->select( 'COUNT(*)' )->from( TABLE_PHOTO_NAME . '_album a LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )' )->where( 'a.status= 1 AND a.category_id=' . $category_id . ' AND r.defaults = 1' );
 		$num_items = $db->query( $db->sql() )->fetchColumn();
-		$db->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )->order( 'a.date_added DESC' )->limit( $per_page )->offset( ( $page - 1 ) * $per_page );
+		$db->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, a.author, r.file, r.thumb' )->order( 'a.date_added DESC' )->limit( $per_page )->offset( ( $page - 1 ) * $per_page );
 		$result = $db->query( $db->sql() );
 		while( $item = $result->fetch() )
 		{
+			$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
+			$array_user = nv_db_cache( $sql, 'userid', $module_name );
+			if( !empty($array_user))
+			{
+				foreach ( $array_user as $array_user_i )
+				{
+					if( !empty($array_user_i['first_name']) && !empty($array_user_i['last_name']) )
+					{
+						$item['author_upload'] = $array_user_i['first_name'] . ' ' . $array_user_i['last_name'];
+					}
+					else
+					{
+						$item['author_upload'] = $array_user_i['username'];
+					}
+					if( !empty($array_user_i['photo']) )
+					{
+						$item['author_image'] = $array_user_i['photo'];
+					}
+					else
+					{
+						$item['author_image'] = 'themes/default/images/users/no_avatar.png';
+					}
+				}
+			}
+			
 			$item['link'] = $global_photo_cat[$category_id]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 			$array_catpage[] = $item;
 		}

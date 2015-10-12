@@ -1133,7 +1133,7 @@ if( ACTION_METHOD == 'get_album' )
 	exit();
 }
 
-/*show list album*/
+//show list album
 
 $per_page = 50;
 
@@ -1260,6 +1260,17 @@ if( ! empty( $array ) )
 {
 	foreach( $array as $item )
 	{
+		
+		$sql = 'SELECT userid, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
+		$array_user = nv_db_cache( $sql, 'userid', $module_name );
+		if( !empty($array_user))
+		{
+			foreach ( $array_user as $array_user_i )
+			{
+				$item['author_upload'] = $array_user_i['username'];
+			}
+		}
+			
 		$item['category'] = isset( $global_photo_cat[$item['category_id']] ) ? $global_photo_cat[$item['category_id']]['name'] : 'N/A';
 		$item['category_link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&filter_category=" . $item['category_id'];
 		$item['category_link_out'] = $global_photo_cat[$item['category_id']]['link'];
