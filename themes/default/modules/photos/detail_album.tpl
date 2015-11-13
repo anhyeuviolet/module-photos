@@ -72,6 +72,16 @@ $(function() {
 	});
 });
 </script>
+<script>
+document.getElementById('gallery').onclick = function (event) {
+	event = event || window.event;
+	var target = event.target || event.srcElement,
+		link = target.src ? target.parentNode : target,
+		options = {index: link, event: event},
+		links = this.getElementsByTagName('a');
+	blueimp.Gallery(links, options);
+};
+</script>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: view_grid -->
 
