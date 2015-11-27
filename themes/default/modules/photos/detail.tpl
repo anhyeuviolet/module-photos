@@ -1,7 +1,8 @@
 <!-- BEGIN: detail_viewer -->
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<div class="page-header pd10_0 mg0_10_10">
-			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.name}</span></h3>
+			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.title}</span></h3>
+			<p>{PHOTO.description}</p>
 			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
 		</div>
 	</div>
@@ -11,7 +12,7 @@
 		<!-- END: pre -->
 		<div class="col-md-24 col-sm-24 col-xs-24">
 			<div id="photo-{PHOTO.row_id}">
-				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+				<a href="{PHOTO.file}" title="{PHOTO.description}" alt="{PHOTO.description}" data-gallery="gallery">
 					<img src="{PHOTO.file}" class="img-thumbnail"/>
 				</a>
 			</div>	

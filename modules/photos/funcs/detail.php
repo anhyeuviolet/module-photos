@@ -44,7 +44,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	
 	$next_photo = $previous_photo = '';
 	//Next Photo
-	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
+	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
 	foreach( $list as $next_photo )
 	{
@@ -53,7 +53,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	unset($sql,$list);
 	
 	//Previous Photo
-	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
+	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
 	foreach( $list as $previous_photo )
 	{
@@ -73,9 +73,9 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$data_detail = $row;
 
 	// truyen thong tin seo
-	$page_title = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
+	$page_title = !empty($row['name'])?$row['name']:$global_photo_album[$row['album_id']]['name'];
 	$key_words = !empty($global_photo_album[$row['album_id']]['meta_keyword'])?$global_photo_album[$row['album_id']]['meta_keyword']:$global_photo_album[$row['album_id']]['name'];
-	$description = !empty($global_photo_album[$row['album_id']]['meta_description'])?$global_photo_album[$row['album_id']]['meta_description']:strip_tags($global_photo_album[$row['album_id']]['description']);
+	$description = !empty($row['description'])?$row['description']:strip_tags($global_photo_album[$row['album_id']]['description']);
 
 	// goi ham xu ly giao dien 
 	$contents = detail( $row, $next_photo, $previous_photo );

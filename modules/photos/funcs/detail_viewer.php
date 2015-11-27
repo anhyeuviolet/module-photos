@@ -46,7 +46,8 @@ if( $ajax )
 	
 	$row['thumb'] = creat_thumbs( $row['row_id'], $row['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 	$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
-
+	$row['album_title'] = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
+	$row['title'] = !empty($row['name'])?$row['name']:$row['album_title'];
 	
 	$album_id = $row['album_id'];
 	$view_url = NV_MY_DOMAIN . nv_url_rewrite( $global_photo_album[$row['album_id']]['link'] . '/'. $row['row_id'] . $global_config['rewrite_exturl'], true);
@@ -56,7 +57,7 @@ if( $ajax )
 	
 	$next_photo = $previous_photo = '';
 	//Next Photo
-	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
+	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
 	foreach( $list as $next_photo )
 	{
@@ -65,7 +66,7 @@ if( $ajax )
 	unset($sql,$list);
 	
 	//Previous Photo
-	$sql = 'SELECT row_id, album_id, name, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
+	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
 	$list = nv_db_cache( $sql, 'row_id', $module_name );
 	foreach( $list as $previous_photo )
 	{
@@ -78,9 +79,9 @@ if( $ajax )
 	$data_detail = $row;
 
 	// truyen thong tin seo
-	$page_title = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
+	$page_title = !empty($row['name'])?$row['name']:$global_photo_album[$row['album_id']]['name'];
 	$key_words = !empty($global_photo_album[$row['album_id']]['meta_keyword'])?$global_photo_album[$row['album_id']]['meta_keyword']:$global_photo_album[$row['album_id']]['name'];
-	$description = !empty($global_photo_album[$row['album_id']]['meta_description'])?$global_photo_album[$row['album_id']]['meta_description']:strip_tags($global_photo_album[$row['album_id']]['description']);
+	$description = !empty($row['description'])?$row['description']:strip_tags($global_photo_album[$row['album_id']]['description']);
 	
 	if (!empty($next_photo))
 	{

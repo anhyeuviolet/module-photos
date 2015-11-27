@@ -19,7 +19,7 @@
 		<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
-					<a href="{PHOTO.thumb}" title="{PHOTO.name}" data-gallery="gallery">
+					<a href="{PHOTO.thumb}" title="{PHOTO.description}" data-gallery="gallery">
 						<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
