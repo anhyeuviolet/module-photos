@@ -11,9 +11,9 @@
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
-if( ! nv_function_exists( 'creat_thumbs' ) )
+if( ! nv_function_exists( 'photos_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 270, $height = 210, $quality = 90 )
+	function photos_thumbs( $id, $file, $module_upload, $width = 270, $height = 210, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;
@@ -175,7 +175,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
 				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 				$album['capturedate'] = nv_date( 'd/m/Y', $album['capturedate'] );
-				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
+				$album['thumb'] = photos_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );
