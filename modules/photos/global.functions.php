@@ -124,13 +124,13 @@ function creatThumb( $file, $dir, $width, $height = 0 )
 }
 
 /**
- * creat_thumbs()
+ * photos_thumbs()
  * front-end thumbs create
  *
  */
-if( ! nv_function_exists( 'creat_thumbs' ) )
+if( ! nv_function_exists( 'photos_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
+	function photos_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;

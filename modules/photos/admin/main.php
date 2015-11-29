@@ -392,6 +392,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 		$_groups_post = $nv_Request->get_array( 'groups_view', 'post', array() );
 		$data['groups_view'] = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
+		$data['author'] = $admin_info['userid'];
 		
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
@@ -434,6 +435,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					folder = :folder,
 					layout = :layout,
 					groups_view=:groups_view,
+					author=:author,
+					author_modify=:author_modify,
 					allow_rating=:allow_rating,
 					allow_comment=:allow_comment');
 				
@@ -451,6 +454,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
   				$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
   				$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
   				$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':author', $data['author'], PDO::PARAM_STR );
+  				$stmt->bindParam( ':author_modify', $data['author'], PDO::PARAM_STR );
   				$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
   				$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
 				$stmt->execute();
@@ -671,6 +676,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						folder = :folder,
 						layout = :layout,
 						groups_view=:groups_view, 
+						author_modify=:author_modify, 
 						allow_rating=:allow_rating, 
 						allow_comment=:allow_comment
 						WHERE album_id=' . $data['album_id'] );
@@ -689,6 +695,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					$stmt->bindParam( ':folder', $folder, PDO::PARAM_STR );
 					$stmt->bindParam( ':layout', $data['layout'], PDO::PARAM_STR );
 					$stmt->bindParam( ':groups_view', $data['groups_view'], PDO::PARAM_STR );
+					$stmt->bindParam( ':author_modify', $data['author'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
  	 
@@ -917,9 +924,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				{ 
 					$error['warning'] = $lang_module['album_error_save'];
 				}
-
 			}
-
 		}
 		
 		if( empty( $error ) )
@@ -1128,7 +1133,7 @@ if( ACTION_METHOD == 'get_album' )
 	exit();
 }
 
-/*show list album*/
+//show list album
 
 $per_page = 50;
 
@@ -1255,6 +1260,17 @@ if( ! empty( $array ) )
 {
 	foreach( $array as $item )
 	{
+		
+		$sql = 'SELECT userid, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
+		$array_user = nv_db_cache( $sql, 'userid', $module_name );
+		if( !empty($array_user))
+		{
+			foreach ( $array_user as $array_user_i )
+			{
+				$item['author_upload'] = $array_user_i['username'];
+			}
+		}
+			
 		$item['category'] = isset( $global_photo_cat[$item['category_id']] ) ? $global_photo_cat[$item['category_id']]['name'] : 'N/A';
 		$item['category_link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&filter_category=" . $item['category_id'];
 		$item['category_link_out'] = $global_photo_cat[$item['category_id']]['link'];

@@ -6,6 +6,12 @@
 	<div class="page-header pd10_0 mg0_10_10">
 		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
 		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
+		<p class="album_author_upload">
+			<p class="album_author_upload"><strong>{LANG.album_author_upload}</strong></p>
+			<img class="img-thumbnail author_avatar" src="{NV_BASE_SITEURL}{ALBUM.author_image}" alt="{ALBUM.author_upload}"/>
+			<div class="clear"></div>
+			<span class="author_name">{ALBUM.author_upload}</span>
+		</p>
 		<p class="album_description">{ALBUM.description}</p>
 	</div>
 	<div id="album-gallery">
@@ -13,7 +19,7 @@
 		<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
-					<a href="{PHOTO.thumb}" title="{PHOTO.name}" data-gallery="gallery">
+					<a href="{PHOTO.thumb}" title="{PHOTO.description}" data-gallery="gallery">
 						<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
@@ -65,6 +71,16 @@ $(function() {
 	effect : "fadeIn"
 	});
 });
+</script>
+<script>
+document.getElementById('gallery').onclick = function (event) {
+	event = event || window.event;
+	var target = event.target || event.srcElement,
+		link = target.src ? target.parentNode : target,
+		options = {index: link, event: event},
+		links = this.getElementsByTagName('a');
+	blueimp.Gallery(links, options);
+};
 </script>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: view_grid -->

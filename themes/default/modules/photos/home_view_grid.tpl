@@ -25,6 +25,7 @@
 						<div class="catalog_content panel-footer view_detail pd5">
 							<div class="album-name">
 								<h3><a title="{ALBUM.name}" href="{ALBUM.link}">{ALBUM.name}</a></h3>
+								<h4>{ALBUM.author_upload}</h4>
 							</div>
 							<div class="clear"></div>
 							<a href="{ALBUM.link}" title="{ALBUM.name}" class="btn btn-primary"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
@@ -59,6 +60,7 @@
 							<div class="catalog_content panel-footer view_detail pd5">
 								<div class="album-name">
 									<h3><a title="{ALBUM.name}" href="{ALBUM.link}">{ALBUM.name}</a></h3>
+									<h4>{ALBUM.author_upload}</h4>
 								</div>
 								<div class="clear"></div>
 								<a href="{ALBUM.link}" title="{ALBUM.name}" class="btn btn-primary"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
