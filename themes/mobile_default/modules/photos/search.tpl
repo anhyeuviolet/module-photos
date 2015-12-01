@@ -14,7 +14,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<h3 class="text-center"><em class="fa fa-search">&nbsp;</em>{LANG.info_title}</h3>
-			<hr/>
+			<hr />
 			<div class="form-group">
 				<label class="col-sm-7 control-label">{LANG.key_title}</label>
 				<div class="col-sm-17">
@@ -50,13 +50,12 @@
 				<label class="col-sm-7 control-label">{LANG.to_date}</label>
 				<div class="col-sm-17">
 					<div class="input-group">
-						<input type="text" class="form-control" name="to_date" id="to_date" value="{TO_DATE}" readonly="readonly" />
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" id="to-btn">
-								<em class="fa fa-calendar fa-fix">&nbsp;</em>
-							</button>
-						</span>
-					</div>
+							<input type="text" class="form-control" name="to_date" id="to_date" value="{TO_DATE}" readonly="readonly" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="to-btn">
+									<em class="fa fa-calendar fa-fix">&nbsp;</em>
+								</button></span>
+						</div>
 				</div>
 			</div>
 
@@ -92,16 +91,16 @@
 <!-- BEGIN: results -->
 <div class="panel panel-default">
 	<div class="panel-body">
-		<h3 class="text-center"><em class="fa fa-filter">&nbsp;</em>{LANG.search_on}&nbsp;{TITLE_MOD}</h3>
-		<hr/>
+		<h3 class="text-center"><em class="fa fa-filter">&nbsp;</em>{LANG.search_on} {TITLE_MOD}</h3>
+		<hr />
 		<!-- BEGIN: noneresult -->
 		<p>
-			<em>{LANG.search_none} : <strong class="label label-info">{KEY}</strong>&nbsp;{LANG.search_in_module}&nbsp;<strong>{INMOD}</strong></em>
+			<em>{LANG.search_none} : <strong class="label label-info">{KEY}</strong> {LANG.search_in_module} <strong>{INMOD}</strong></em>
 		</p>
 		<!-- END: noneresult -->
 
 		<!-- BEGIN: result -->
-		<div class="clear">
+		<div class="clearfix">
 			<h3><a href="{LINK}">{TITLEROW}</a></h3>
 			<div class="text-justify col-sm-24">
 				<p>
@@ -112,7 +111,6 @@
 					<!-- END: result_img -->
 					{CONTENT}
 				</p>
-				<div class="clear"></div>
 				<p class="text-justify text-muted">
 					{TIME}
 				</p>
@@ -125,14 +123,17 @@
 			{VIEW_PAGES}
 		</div>
 		<!-- END: pages_result -->
+
 		<div class="alert alert-info">
 			<p>
-				<em>{LANG.search_sum_title}&nbsp;<strong>{NUMRECORD}</strong>&nbsp;{LANG.result_title}
-				<br/>{LANG.info_adv}&nbsp;</em>
+				<em>{LANG.search_sum_title} <strong>{NUMRECORD}</strong> {LANG.result_title}
+				<br />
+				{LANG.info_adv} </em>
 			</p>
 		</div>
-		<h4><strong>{LANG.search_adv_internet}&nbsp;:</strong></h4>
-		<div class="center-block">
+
+		<h4><strong>{LANG.search_adv_internet} :</strong></h4>
+		<div align="center">
 			<form method="get" action="http://www.google.com/search" target="_top">
 				<input type="hidden" name="domains" value="{MY_DOMAIN}" />
 
@@ -144,10 +145,11 @@
 					<div class="col-md-8"><input type="submit" name="sa" value="{LANG.search_title}" id="sbb" class="btn btn-default">
 					</div>
 				</div>
+
 				<div class="form-group">
-					<div class="col-md-8"><input type="radio" name="sitesearch" value="" checked id="ss0" />{LANG.search_on_internet}
+					<div class="col-md-8"><input type="radio" name="sitesearch" value="" checked id="ss0" /> {LANG.search_on_internet}
 					</div>
-					<div class="col-md-8"><input type="radio" name="sitesearch" value="{MY_DOMAIN}" />&nbsp;{LANG.search_on_nuke}&nbsp;{MY_DOMAIN}
+					<div class="col-md-8"><input type="radio" name="sitesearch" value="{MY_DOMAIN}" /> {LANG.search_on_nuke} {MY_DOMAIN}
 					</div>
 					<div class="col-md-8"></div>
 				</div>

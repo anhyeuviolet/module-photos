@@ -11,9 +11,9 @@
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
-if( ! nv_function_exists( 'creat_thumbs' ) )
+if( ! nv_function_exists( 'photos_thumbs' ) )
 {
-	function creat_thumbs( $id, $file, $module_upload, $width = 270, $height = 210, $quality = 90 )
+	function photos_thumbs( $id, $file, $module_upload, $width = 270, $height = 210, $quality = 90 )
 	{
 		if( $width >= $height ) $rate = $width / $height;
 		else  $rate = $height / $width;
@@ -145,7 +145,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 		$category_id = implode( ',', $block_config['category_id'] );
  
 		$db->sqlreset()
-			->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, r.file, r.thumb' )
+			->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.capturedate, r.file, r.thumb' )
 			->from( NV_PREFIXLANG . '_' . $mod_data . '_album a LEFT JOIN  ' . NV_PREFIXLANG . '_' . $mod_data . '_rows r ON ( a.album_id = r.album_id )' )
 			->where( 'a.status= 1 AND a.category_id IN(' . $category_id . ') AND r.defaults = 1' )
 			->order( 'a.date_added DESC' )
@@ -171,10 +171,11 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 			foreach( $list as $album )
 			{
 				$album['name'] = nv_clean60( $album['name'], $block_config['title_length'] );
-				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . $global_config['rewrite_exturl'];
+				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'];
 				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
-				$album['datePublished'] = date( 'Y-m-d', $album['date_added'] );
-				$album['thumb'] = creat_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
+				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
+				$album['capturedate'] = nv_date( 'd/m/Y', $album['capturedate'] );
+				$album['thumb'] = photos_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );

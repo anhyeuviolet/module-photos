@@ -40,22 +40,3 @@
     line-height: 1.5;
     height: 40px;
 }
-
-.arrow_left{
-	position: absolute;
-	z-index: 999;
-	top: 50%;
-	left: 2%
-}
-.arrow_right{
-	position: absolute;
-	z-index: 999;
-	top: 50%;
-	right: 2%
-}
-
-.author_avatar {
-	border-radius: 150px;
-	-webkit-border-radius: 150px;
-	-moz-border-radius: 150px;
-	}

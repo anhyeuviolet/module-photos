@@ -165,3 +165,6 @@ $lang_module['home_view_grid_by_cat']='Hiển thị dạng lưới theo chuyên 
 $lang_module['home_view_grid_by_album']='Hiển thị dạng lưới theo album';
 $lang_module['album_view_slider']='Hiển thị dạng slider';
 $lang_module['album_view_grid']='Hiển thị dạng lưới';
+$lang_module['album_upload_author']='Người đăng';
+$lang_module['album_last_modifier']='Chỉnh sửa';
+

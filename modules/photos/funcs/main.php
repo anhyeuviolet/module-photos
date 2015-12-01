@@ -47,7 +47,7 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 				$num_count = $db->query( $db->sql() )->fetchColumn();
 
 				$db->sqlreset()
-					->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )
+					->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, a.author, r.file, r.thumb' )
 					->from( TABLE_PHOTO_NAME . '_album a' )
 					->join('LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )')
 					->where( ' a.status =1 AND r.defaults = 1 AND a.category_id IN (' . implode( ',', $array_cat ).' )')
@@ -56,8 +56,34 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 				$result = $db->query( $db->sql() );
 				
 				$array_content = array();
-				while( list( $album_id, $category_id, $name, $alias, $capturelocal, $description, $num_photo, $date_added, $viewed, $file, $thumb ) = $result->fetch( 3 ) )
+				while( list( $album_id, $category_id, $name, $alias, $capturelocal, $description, $num_photo, $date_added, $viewed, $author_id, $file, $thumb ) = $result->fetch( 3 ) )
 				{
+					
+					$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $author_id;
+					$array_user = nv_db_cache( $sql, 'userid', $module_name );
+					if( !empty($array_user))
+					{
+						foreach ( $array_user as $array_user_i )
+						{
+							if( !empty($array_user_i['first_name']) && !empty($array_user_i['last_name']) )
+							{
+								$author_upload = $array_user_i['first_name'] . ' ' . $array_user_i['last_name'];
+							}
+							else
+							{
+								$author_upload = $array_user_i['username'];
+							}
+							if( !empty($array_user_i['photo']) )
+							{
+								$author_image = $array_user_i['photo'];
+							}
+							else
+							{
+								$author_image = 'themes/default/images/users/no_avatar.png';
+							}
+						}
+					}
+					
 					$array_content[] = array(
 						'album_id' => $album_id,
 						'category_id' => $category_id,
@@ -68,6 +94,8 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 						'num_photo' => $num_photo,
 						'date_added' => $date_added,
 						'viewed' => $viewed,
+						'author_upload' => $author_upload,
+						'author_image' => $author_image,
 						'file' => $file,
 						'thumb' => $thumb,
 						'link' => $global_photo_cat[$category_id]['link'] . '/' . $alias . '-' . $album_id,
@@ -103,7 +131,7 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 			->where( 'a.status=1 AND r.defaults=1' );
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 				
-		$db->select( 'a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, r.file, r.thumb' )
+		$db->select( 'a.album_id, a.name, a.category_id, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.viewed, a.author, r.file, r.thumb' )
 			->order( 'a.date_added DESC' )
 			->limit( $per_page )
 			->where('a.status= 1 AND r.defaults = 1')
@@ -113,6 +141,30 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 		
 		while( $item = $result->fetch() )
 		{
+			$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
+			$array_user = nv_db_cache( $sql, 'userid', $module_name );
+			if( !empty($array_user))
+			{
+				foreach ( $array_user as $array_user_i )
+				{
+					if( !empty($array_user_i['first_name']) && !empty($array_user_i['last_name']) )
+					{
+						$item['author_upload'] = $array_user_i['first_name'] . ' ' . $array_user_i['last_name'];
+					}
+					else
+					{
+						$item['author_upload'] = $array_user_i['username'];
+					}
+					if( !empty($array_user_i['photo']) )
+					{
+						$item['author_image'] = $array_user_i['photo'];
+					}
+					else
+					{
+						$item['author_image'] = 'themes/default/images/users/no_avatar.png';
+					}
+				}
+			}
 			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 			
 			$array_album[] = $item;

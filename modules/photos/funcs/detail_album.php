@@ -27,23 +27,22 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	
  	if( $album['album_id'] > 0 )
 	{
-		if( defined( 'NV_IS_MODADMIN' ) or ( $album['status'] == 1 ) )
+		if( defined( 'NV_IS_MODADMIN' ) ) // cap nhat luot xem
 		{
-			// cap nhat luot xem
 			$time_set = $nv_Request->get_int( $module_data . '_' . $op . '_' . $album['album_id'], 'session' );
 			if( empty( $time_set ) )
 			{
 				$nv_Request->set_Session( $module_data . '_' . $op . '_' . $album['album_id'], NV_CURRENTTIME );
 				$db->query( 'UPDATE ' . TABLE_PHOTO_NAME . '_album SET viewed=viewed+1 WHERE album_id=' . $album['album_id'] );
 			}
-
-			if( $alias_url == $album['alias'] )
-			{
-				$date_added = intval( $album['date_added'] );
-			}
+		}
+		
+		if( $alias_url == $album['alias'] )
+		{
+			$date_added = intval( $album['date_added'] );
 		}
 	}
-	
+
 	// xac thuc lien ket co dung chuan khong 
 	if( $date_added == 0 )
 	{
@@ -153,6 +152,30 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	// Phan trang
 	$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 	
+	$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $album['author'];
+	$array_user = nv_db_cache( $sql, 'userid', $module_name );
+	if( !empty($array_user))
+	{
+		foreach ( $array_user as $array_user_i )
+		{
+			if( !empty($array_user_i['first_name']) && !empty($array_user_i['last_name']) )
+			{
+				$album['author_upload'] = $array_user_i['first_name'] . ' ' . $array_user_i['last_name'];
+			}
+			else
+			{
+				$album['author_upload'] = $array_user_i['username'];
+			}
+			if( !empty($array_user_i['photo']) )
+			{
+				$album['author_image'] = $array_user_i['photo'];
+			}
+			else
+			{
+				$album['author_image'] = 'themes/default/images/users/no_avatar.png';
+			}
+		}
+	}
 	// goi ham xu ly giao dien 
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid' )
 	{
