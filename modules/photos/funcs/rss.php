@@ -67,7 +67,7 @@ if ( $module_info['rss'] )
 			'link' => NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $catalias . '/' . $alias . '-' . $album_id, //
 			'guid' => $module_name . '_' . $album_id, //
 			'description' => $rimages . $hometext, //
-			'pubdate' => $publtime  //
+			'pubdate' => $date_added  //
         );
     }
 }
