@@ -19,7 +19,7 @@
 		<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 			<div class="panel panel-default">
 				<div class="panel-body pd5">
-					<a href="{PHOTO.thumb}" title="{PHOTO.description}" data-gallery="gallery">
+					<a href="{PHOTO.file}" title="{PHOTO.description}" data-gallery="gallery">
 						<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
 					</a>
 				</div>
@@ -88,7 +88,7 @@ document.getElementById('gallery').onclick = function (event) {
 <!-- BEGIN: slider -->
 <link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
- 
+
 <div class="pd5">
 	<div class="page-header pd10_0 mg0_10_10">
 		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
@@ -139,11 +139,11 @@ var isMobile = {
 
 var adaptive = false;
 
-if( isMobile.any() ) 
+if( isMobile.any() )
 {
    adaptive = true;
 }
- 
+
 
 var carousel;
 var slider;
@@ -155,7 +155,7 @@ $(document).ready(function () {
         moveSlides: 1,
         slideMargin: 0,
         pager: false
-     
+
     });
 
     slider = $('.bxslider_{OP}').bxSlider({
@@ -172,7 +172,7 @@ function clicked(position) {
 }
 $(document).ready(function () {
 	$('.bxslider_{OP} li').css('display', 'block');
-}) 
+})
 </script>
 <!-- END: slider -->
 
@@ -210,7 +210,7 @@ $(document).ready(function () {
 			</div>
 		</div>
 	</div>
-	<!-- END: loop_album -->	
+	<!-- END: loop_album -->
 	<div class="clear"></div>
 </div>
 <!-- END: other_album -->
