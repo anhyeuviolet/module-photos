@@ -4,15 +4,15 @@
 
 <div class="row">
 	<div class="page-header pd10_0 mg0_10_10">
-		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
-		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-		<p class="album_author_upload">
-			<p class="album_author_upload"><strong>{LANG.album_author_upload}</strong></p>
-			<img class="img-thumbnail author_avatar" src="{NV_BASE_SITEURL}{ALBUM.author_image}" alt="{ALBUM.author_upload}"/>
-			<div class="clear"></div>
-			<span class="author_name">{ALBUM.author_upload}</span>
-		</p>
+		<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
+		<ul class="list-inline text-muted">
+			<li><em class="fa fa-user">&nbsp;</em>{LANG.album_author_upload}: {ALBUM.author_upload}</li>
+			<li><em class="fa fa-eye">&nbsp;</em>{LANG.viewed}: {ALBUM.viewed}</li>
+		</ul>
+		<!-- BEGIN: description -->
+		<hr />
 		<p class="album_description">{ALBUM.description}</p>
+		<!-- END: description -->
 	</div>
 	<div id="album-gallery">
 		<!-- BEGIN: loop_img -->
@@ -181,6 +181,7 @@ $(document).ready(function () {
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
+<hr />
 <div class="album_comment pd5">
 <!-- BEGIN: comment -->
 {CONTENT_COMMENT}
