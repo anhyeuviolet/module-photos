@@ -266,6 +266,11 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 	}
 	elseif ($module_config[$module_name]['album_view'] == 'album_view_slider')
 	{
+		if( !empty( $album['description'] ) )
+		{
+			$xtpl->parse( 'main.slider.description' );
+		}
+
 		$xtpl->parse( 'main.slider' );
 	}
 
