@@ -14,11 +14,7 @@
 					<div class="catalog_content panel-footer view_detail pd5">
 						<div class="album-name">
 							<h3><a title="{ALBUM.name}" href="{ALBUM.link}">{ALBUM.name}</a></h3>
-							<h4>{ALBUM.author_upload}</h4>
 						</div>
-						<div class="clear"></div>
-						<a href="{ALBUM.link}" title="{ALBUM.name}" class="btn btn-primary"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
-						<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
 					</div>
 				</div>
 			</div>
@@ -27,7 +23,7 @@
 	</div>
 	<hr />
 	<!-- BEGIN: social_tool -->
-	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
+	<div class="social_tool">
 		<div class="fb-like"></div>
 		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
 	</div>
