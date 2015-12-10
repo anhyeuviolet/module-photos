@@ -3,18 +3,20 @@
 	<ul class="nav nav-tabs" role="tablist" id="block_album_tab_new_{BLOCK_ID}">
 		<!-- BEGIN: tabs -->
 		<li role="presentation">
-			<a href="#{TABS.alias}" aria-controls="home" role="tab" data-toggle="tab">{TABS.name}</a>
+			<a href="#{TABS.alias}_{BLOCK_ID}" aria-controls="home" role="tab" data-toggle="tab">{TABS.name}</a>
 		</li>
 		<!-- END: tabs -->
 	</ul>
 
 	<div class="tab-content">
 		<!-- BEGIN: tabs_data -->
-		<div role="tabpanel" class="tab-pane" id="{TABS.alias}" style="padding: 10px">
+		<div role="tabpanel" class="tab-pane" id="{TABS.alias}_{BLOCK_ID}" style="padding: 10px">
 			<div class="row">
 				<!-- BEGIN: loop -->
 				<div class="col-xs-24 col-sm-6 col-md-6">
-					<a href="{DATA.link}" title="{DATA.name}"><img src="{DATA.thumb}" alt="{DATA.name}" class="img-thumbnail" /></a>
+					<div class="m-bottom">
+						<a href="{DATA.link}" title="{DATA.name}"><img src="{DATA.thumb}" alt="{DATA.name}" class="img-thumbnail" /></a>
+					</div>
 				</div>
 				<!-- END: loop -->
 			</div>
