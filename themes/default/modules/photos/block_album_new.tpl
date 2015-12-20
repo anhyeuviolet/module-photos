@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<ul id="{BLOCK_ID}">
+<ul id="{BLOCK_ID}" class="photos_block_album_new">
 	<!-- BEGIN: loop_album -->
 	<li>
 		<a class="images" href="{ALBUM.link}" title="{ALBUM.name}">
