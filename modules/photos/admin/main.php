@@ -2,9 +2,9 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS 
+ * @Based on NukeViet CMS
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
@@ -35,17 +35,17 @@ if( ACTION_METHOD == 'status' )
 
 			$content = 'OK_' . $album_id;
 		}
- 
+
 		nv_del_moduleCache( $module_name );
 	}
 	echo $content;
 	exit();
 
 }
- 
+
 if( ACTION_METHOD == 'deleterows' )
 {
-	$info = array();	
+	$info = array();
 	$album_id = $nv_Request->get_int( 'album_id', 'post', 0 );
 	$row_id = $nv_Request->get_int( 'row_id', 'post', 0 );
 	$token = $nv_Request->get_string( 'token', 'post', '' );
@@ -58,15 +58,15 @@ if( ACTION_METHOD == 'deleterows' )
 		$data = $db->query( 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_rows WHERE row_id=' . $row_id . ' AND album_id=' . $album_id )->fetch( );
 		if( $data['row_id'] > 0 )
 		{
-				
+
 			if( $db->query( 'DELETE FROM ' . TABLE_PHOTO_NAME . '_rows WHERE row_id = ' . $row_id . ' AND album_id=' . $album_id ) )
 			{
-				$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_album SET num_photo = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id = '. $data['album_id'] .') WHERE album_id = '. $data['album_id'] );	
-				
+				$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_album SET num_photo = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id = '. $data['album_id'] .') WHERE album_id = '. $data['album_id'] );
+
 				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $data['file'] );
 				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $data['thumb'] );
 				nv_del_moduleCache( $module_name );
-				
+
 				$info['success'] = $lang_module['photo_success_delete'];
 			}
 		}
@@ -75,12 +75,12 @@ if( ACTION_METHOD == 'deleterows' )
 		@nv_deletefile( NV_ROOTDIR . $thumb );
 		@nv_deletefile( NV_ROOTDIR . $image_url );
 		$info['success'] = $lang_module['photo_success_delete'];
-		
+
 	}else{
-				
+
 		$info['error'] = $lang_module['photo_error_delete'];
 	}
-	
+
 	header( 'Content-Type: application/json' );
 	echo json_encode( $info );
 	exit();
@@ -92,7 +92,7 @@ if( ACTION_METHOD == 'delete' )
 	$info = array();
 	$album_id = $nv_Request->get_int( 'album_id', 'post', 0 );
 	$token = $nv_Request->get_title( 'token', 'post', '' );
-	
+
 	$listid = $nv_Request->get_string( 'listid', 'post', '' );
 	if( $listid != '' and md5( $global_config['sitekey'] . session_id() ) == $token )
 	{
@@ -102,49 +102,49 @@ if( ACTION_METHOD == 'delete' )
 	{
 		$del_array = array( $album_id );
 	}
- 
+
 	if( ! empty( $del_array ) )
 	{
 		$a = 0;
 		foreach( $del_array as $album_id )
 		{
- 
+
 			$album = $db->query( 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_album WHERE album_id=' . (int)$album_id )->fetch();
-			
+
 			$delete = $db->prepare('DELETE FROM ' . TABLE_PHOTO_NAME . '_album WHERE album_id=' . (int)$album['album_id'] );
 			$delete->execute();
-			
+
 			if( $delete->rowCount() )
-			{ 
+			{
 				$result = $db->query( 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id=' . (int)$album['album_id'] );
 				while( $data = $result->fetch( ) )
 				{
 					if( $db->query( 'DELETE FROM ' . TABLE_PHOTO_NAME . '_rows WHERE row_id = ' . $data['row_id'] ) )
 					{
- 
+
 						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_upload . '/images/' . $data['file'] );
-						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_name . '/thumb/' . $data['thumb'] );	
+						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_name . '/thumb/' . $data['thumb'] );
 					}
 				}
- 		
+
 				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['folder'] );
 				@rmdir( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $album['folder'] );
-						
+
 				$nv_Request->unset_request( $module_data . '_success', 'session' );
 				nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_album', $album['album_id'], $admin_info['userid'] );
 				nv_del_moduleCache( $module_name );
-				
+
 				$info['id'][$a] = $album_id;
- 
+
 				++$a;
 			}
- 	
+
 		}
 		if( !empty( $a ) )
 		{
 			$info['success'] = $lang_module['album_success_delete'] ;
 		}
-		
+
 	}else
 	{
 		$info['error'] = $lang_module['album_error_delete'];
@@ -152,7 +152,7 @@ if( ACTION_METHOD == 'delete' )
 	echo json_encode( $info );
 	exit();
 }
-  
+
 $db->sqlreset()
 	->select( 'COUNT(*)' )
 	->from( TABLE_PHOTO_NAME . '_category' );
@@ -173,10 +173,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$array_structure_image['Y_m'] = $module_name . '/images/' . date( 'Y/m' );
 	$array_structure_image['Ym_d'] = $module_name . '/images/' . date( 'Y_m/d' );
 	$array_structure_image['Y_m_d'] = $module_name . '/images/' . date( 'Y/m/d' );
-	 
+
 	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpath = isset( $array_structure_image[$structure_upload] ) ? $array_structure_image[$structure_upload] : '';
-  
+
 	if( file_exists( NV_UPLOADS_REAL_DIR . '/' . $currentpath ) )
 	{
 		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $currentpath;
@@ -208,10 +208,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		}
 		$upload_real_dir_page = str_replace( '\\', '/', $upload_real_dir_page );
 	}
- 
+
 	$currentpath = str_replace( NV_ROOTDIR . '/', '', $upload_real_dir_page );
  	$imagepath = str_replace( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/', '', $upload_real_dir_page );
- 
+
 	/*Folder thumb*/
 	$array_structure_thumb = array();
 	$array_structure_thumb[''] = $module_name.'/thumbs';
@@ -220,10 +220,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$array_structure_thumb['Y_m'] = $module_name . '/thumbs/' . date( 'Y/m' );
 	$array_structure_thumb['Ym_d'] = $module_name . '/thumbs/' . date( 'Y_m/d' );
 	$array_structure_thumb['Y_m_d'] = $module_name . '/thumbs/' . date( 'Y/m/d' );
-	 
+
 	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpaththumb = isset( $array_structure_thumb[$structure_upload] ) ? $array_structure_thumb[$structure_upload] : '';
- 
+
 	if( file_exists( NV_UPLOADS_REAL_DIR . '/' . $currentpaththumb ) )
 	{
 		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $currentpaththumb;
@@ -257,7 +257,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 
 	$currentpaththumb = str_replace( NV_ROOTDIR . '/', '', $upload_real_dir_page );
- 
+
 	$selectthemes = ( ! empty( $site_mods[$module_name]['theme'] ) ) ? $site_mods[$module_name]['theme'] : $global_config['site_theme'];
 	$layout_array = nv_scandir( NV_ROOTDIR . '/themes/' . $selectthemes . '/layout', $global_config['check_op_layout'] );
 
@@ -270,9 +270,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			$cat_form_exit[] = $m[1];
 		}
 	}
-	
+
 	$groups_list = nv_groups_list();
-	
+
 	$data = array(
 		'album_id' => 0,
 		'category_id' => 0,
@@ -301,24 +301,24 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		'date_modified' => NV_CURRENTTIME,
 		'albums' => array(),
 	);
-	 
+
 	$error = array();
- 
+
 	$data['album_id'] = $nv_Request->get_int( 'album_id', 'get,post', 0 );
  	if( $data['album_id'] > 0 )
 	{
 		$data = $db->query( 'SELECT *
-		FROM ' . TABLE_PHOTO_NAME . '_album  
+		FROM ' . TABLE_PHOTO_NAME . '_album
 		WHERE album_id=' . $data['album_id'] )->fetch();
 		$data['old_category_id'] = $data['category_id'];
 		$folder = explode('/', $data['folder']);
 		$data['folder'] = end( $folder );
-		
+
 		$array_photo = $db->query( 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id=' . $data['album_id'] )->fetchAll();
 		foreach( $array_photo as $photo )
 		{
 			$data['albums'][] =  array(
-				'row_id'=> $photo['row_id'], 
+				'row_id'=> $photo['row_id'],
 				'token'=>  md5( $global_config['sitekey'] . session_id() . $photo['row_id'] ),
 				'token_image'=> '',
 				'token_thumb'=> '',
@@ -331,7 +331,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				'description'=> $photo['description'],
 			);
 		}
- 
+
 		$caption = $lang_module['album_edit'];
 	}
 	else
@@ -347,10 +347,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$data['folder'] = nv_substr( $nv_Request->get_title( 'folder', 'post', '', '' ), 0, 255 );
 		$data['folder'] = strtolower(change_alias( $data['folder'] ) );
 		$data['category_id'] = $nv_Request->get_int( 'category_id', 'post', 0 );
-		
+
 		$description = $nv_Request->get_string( 'description', 'post', '' );
 		$data['description'] = defined( 'NV_EDITOR' ) ? nv_nl2br( $description, '' ) : nv_nl2br( nv_htmlspecialchars( strip_tags( $description ) ), '<br />' );
-		
+
 		$data['meta_title'] = nv_substr( $nv_Request->get_title( 'meta_title', 'post', '', '' ), 0, 255 );
 		$data['meta_description'] = nv_substr( $nv_Request->get_title( 'meta_description', 'post', '', '' ), 0, 255 );
 		$data['meta_keyword'] = nv_substr( $nv_Request->get_title( 'meta_keyword', 'post', '', '' ), 0, 255 );
@@ -359,7 +359,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$data['capturelocal'] = nv_substr( $nv_Request->get_title( 'capturelocal', 'post', '', '' ), 0, 255 );
 		$data['status'] = $nv_Request->get_int( 'status', 'post', 0 );
 		$data['allow_rating'] = $nv_Request->get_int( 'allow_rating', 'post', 0 );
-		
+
 		$data['capturedate'] = nv_substr( $nv_Request->get_title( 'capturedate', 'post', '', '' ), 0, 10 );
 		if( preg_match( '/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $data['capturedate'], $m ) )
 		{
@@ -369,60 +369,60 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		{
 			$data['capturedate'] = 0;
 		}
-		
+
 		$data['albums'] = $nv_Request->get_typed_array( 'albums', 'post', '', array() );
-		
+
 		if( empty( $data['name'] ) )
 		{
-			$error['name'] = $lang_module['album_error_name'];	
+			$error['name'] = $lang_module['album_error_name'];
 		}
 		if( empty( $data['folder'] ) )
 		{
-			$error['folder'] = $lang_module['album_error_folder'];	
+			$error['folder'] = $lang_module['album_error_folder'];
 		}
 		if( empty( $data['category_id'] ) )
 		{
-			$error['category'] = $lang_module['album_error_category'];	
+			$error['category'] = $lang_module['album_error_category'];
 		}
-		
+
 		if( ! empty( $error ) && ! isset( $error['warning'] ) )
 		{
 			$error['warning'] = $lang_module['album_error_warning'];
 		}
- 
+
 		$_groups_post = $nv_Request->get_array( 'groups_view', 'post', array() );
 		$data['groups_view'] = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
 		$data['author'] = $admin_info['userid'];
-		
+
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
 
-		
+
 		if( !empty( $data['folder'] ) && ! is_dir( NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'] ) )
 		{
 			$mkdir = nv_mkdir( NV_ROOTDIR . '/' . $currentpath, $data['folder'] );
 			if( $mkdir[0] == 0 )
 			{
-				$error['warning'] = $lang_module['album_error_create_folder']; 
+				$error['warning'] = $lang_module['album_error_create_folder'];
 			}else
 			{
-				$db->query( "INSERT IGNORE INTO " . NV_UPLOAD_GLOBALTABLE . "_dir (dirname, time) VALUES ('" . $currentpath . '/'. $data['folder'] . "', 0)" );		
+				$db->query( "INSERT IGNORE INTO " . NV_UPLOAD_GLOBALTABLE . "_dir (dirname, time) VALUES ('" . $currentpath . '/'. $data['folder'] . "', 0)" );
 			}
 		}
-		
+
 		$data['alias'] = strtolower( $data['alias'] );
-		
+
 		if( empty( $error ) )
 		{
 			$mime = nv_parse_ini_file( NV_ROOTDIR . '/includes/ini/mime.ini', true );
-	
+
 			if( $data['album_id'] == 0 )
 			{
- 				$stmt = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_album SET 
-					category_id = ' . intval( $data['category_id'] ) . ', 
-					status=' . intval( $data['status'] ) . ', 
-					date_added=' . intval( $data['date_added'] ) . ',  
-					date_modified=' . intval( $data['date_modified'] ) . ', 
+ 				$stmt = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_album SET
+					category_id = ' . intval( $data['category_id'] ) . ',
+					status=' . intval( $data['status'] ) . ',
+					date_added=' . intval( $data['date_added'] ) . ',
+					date_modified=' . intval( $data['date_modified'] ) . ',
 					name =:name,
 					alias =:alias,
 					description =:description,
@@ -439,9 +439,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					author_modify=:author_modify,
 					allow_rating=:allow_rating,
 					allow_comment=:allow_comment');
-				
-				$folder =  $imagepath . '/' . $data['folder']; 
-				
+
+				$folder =  $imagepath . '/' . $data['folder'];
+
 				$stmt->bindParam( ':name', $data['name'], PDO::PARAM_STR );
 				$stmt->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
 				$stmt->bindParam( ':description', $data['description'], PDO::PARAM_STR );
@@ -464,29 +464,29 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				{
 					try
 					{
-						$count = 0;	
+						$count = 0;
 						foreach( $data['albums'] as $key => $photo )
 						{
- 							$photo['row_id'] = isset( $photo['row_id'] ) ? $photo['row_id'] : 0;	
-							$photo['name'] = isset( $photo['name'] ) ? $photo['name'] : '';	
-							$photo['filePath'] = isset( $photo['filePath'] ) ? $photo['filePath'] : $photo['filePath'];	
-							$photo['image_url'] = isset( $photo['image_url'] ) ? $photo['image_url'] : $photo['image_url'];	
-							$photo['thumb'] = isset( $photo['thumb'] ) ? $photo['thumb'] : $photo['thumb'];	
- 							
-							$photo['description'] = isset( $photo['description'] ) ? $photo['description'] : '';	
+ 							$photo['row_id'] = isset( $photo['row_id'] ) ? $photo['row_id'] : 0;
+							$photo['name'] = isset( $photo['name'] ) ? $photo['name'] : '';
+							$photo['filePath'] = isset( $photo['filePath'] ) ? $photo['filePath'] : $photo['filePath'];
+							$photo['image_url'] = isset( $photo['image_url'] ) ? $photo['image_url'] : $photo['image_url'];
+							$photo['thumb'] = isset( $photo['thumb'] ) ? $photo['thumb'] : $photo['thumb'];
+
+							$photo['description'] = isset( $photo['description'] ) ? $photo['description'] : '';
 							$photo['description'] = nv_nl2br( nv_htmlspecialchars( strip_tags( $photo['description'] ) ), '<br />' );
- 							$photo['defaults'] = isset( $photo['defaults'] ) ? $photo['defaults'] : 0;	
- 
+ 							$photo['defaults'] = isset( $photo['defaults'] ) ? $photo['defaults'] : 0;
+
 							// Kiem tra anh hop le
-	
+
 							$image_info = nv_is_image( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/'  . $photo['basename'] );
 
 							if( empty( $image_info ) or ! isset( $mime['images'][$image_info['ext']] ) )
 							{
 								$error['error_image'][] = $lang_module['album_error_mime'] . ' ' . $photo['basename'];
-								
+
 								@nv_deletefile( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'] );
-							
+
 								unset( $data['albums'][$key] );
 							}
 							else
@@ -496,12 +496,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								$photo['mime'] = $image_info['mime'];
 								$photo['size'] = filesize( $image_info['src'] );
 							}
- 
+
 							$folder_album = NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'];
-							
+
 							if( is_dir( $folder_album ) )
 							{
-								
+
 								// Copy file anh goc
 								$basename = $photo['basename'];
 								$basename2 = $basename;
@@ -514,7 +514,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								$basename = $basename2;
 								$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 								$newFilePath = $folder_album . '/' . $basename;
-								
+
 								$rename = nv_copyfile( $filePath, $newFilePath );
 								if( ! $rename )
 								{
@@ -523,20 +523,20 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								}
 								else
 								{
-							
+
 									// Xoa anh tam
 									@nv_deletefile( $filePath );
-									
-									
+
+
 									$upload_logo = '';
 									if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
 									{
 										$upload_logo = $module_config[$module_name]['module_logo'];
-									} 
+									}
 									if( ! empty( $upload_logo ) )
 									{
 										$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
- 
+
 										if( $photo['width'] <= 150 )
 										{
 											$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
@@ -570,12 +570,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$createImage = new image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 										$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 										$createImage->save( $folder_album, $basename );
-										 
+
 									}
- 	
+
 									$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' ) );
-									
-									
+
+
 									// Copy file thumb
 									//$thum_folder  = floor( $data['album_id'] / 1000 );
 									$thumbName = $fileName = substr( $photo['thumb'], strlen( NV_BASE_SITEURL . NV_TEMP_DIR . '/' ) );
@@ -589,7 +589,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 									$fileName = $fileName2;
 									$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $thumbName;
 									$newFilePath = NV_ROOTDIR . '/' . $currentpaththumb . '/' . $fileName;
-								
+
 									$rename = nv_copyfile( $filePath, $newFilePath );
 									if( ! $rename )
 									{
@@ -601,16 +601,16 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										// Xoa anh tam
 										@nv_deletefile( $filePath );
 										$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/thumb/' ) );
-										
-										$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET 
-											album_id = ' . (int)$data['album_id'] . ', 
-											defaults = ' . (int)$photo['defaults'] . ', 
-											size = ' . (int)$photo['size'] . ', 
-											width = ' . (int)$photo['width'] . ', 
-											height = ' . (int)$photo['height'] . ', 
-											status=' . intval( 1 ) . ', 
-											date_added=' . intval( NV_CURRENTTIME ) . ',  
-											date_modified=' . intval( NV_CURRENTTIME ) . ', 
+
+										$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET
+											album_id = ' . (int)$data['album_id'] . ',
+											defaults = ' . (int)$photo['defaults'] . ',
+											size = ' . (int)$photo['size'] . ',
+											width = ' . (int)$photo['width'] . ',
+											height = ' . (int)$photo['height'] . ',
+											status=' . intval( 1 ) . ',
+											date_added=' . intval( NV_CURRENTTIME ) . ',
+											date_modified=' . intval( NV_CURRENTTIME ) . ',
 											name = :name,
 											description = :description,
 											file = :file,
@@ -636,13 +636,13 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						}
 					}
 					catch ( PDOException $e )
-					{ 
+					{
 						$error['warning'] = $lang_module['album_error_save'];
 						//var_dump($e);
 					}
-					
+
 					$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_category SET num_album = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album WHERE category_id = '. $data['category_id'] .') WHERE category_id = '. $data['category_id'] );
-					nv_insert_logs( NV_LANG_DATA, $module_name, 'Add A Album', 'album_id: ' . $data['album_id'], $admin_info['userid'] );	 
+					nv_insert_logs( NV_LANG_DATA, $module_name, 'Add A Album', 'album_id: ' . $data['album_id'], $admin_info['userid'] );
 
 				}
 				else
@@ -655,15 +655,15 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			}
 			else
 			{
-				
+
 				try
 				{
-						
-					$stmt = $db->prepare( 'UPDATE ' . TABLE_PHOTO_NAME . '_album SET 
-						category_id = ' . intval( $data['category_id'] ) . ', 
-						status=' . intval( $data['status'] ) . ', 
-						date_added=' . intval( $data['date_added'] ) . ',  
-						date_modified=' . intval( $data['date_modified'] ) . ', 
+
+					$stmt = $db->prepare( 'UPDATE ' . TABLE_PHOTO_NAME . '_album SET
+						category_id = ' . intval( $data['category_id'] ) . ',
+						status=' . intval( $data['status'] ) . ',
+						date_added=' . intval( $data['date_added'] ) . ',
+						date_modified=' . intval( NV_CURRENTTIME ) . ',
 						name =:name,
 						alias =:alias,
 						description =:description,
@@ -675,14 +675,14 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 						capturelocal = :capturelocal,
 						folder = :folder,
 						layout = :layout,
-						groups_view=:groups_view, 
-						author_modify=:author_modify, 
-						allow_rating=:allow_rating, 
+						groups_view=:groups_view,
+						author_modify=:author_modify,
+						allow_rating=:allow_rating,
 						allow_comment=:allow_comment
 						WHERE album_id=' . $data['album_id'] );
-						
-					$folder =  $imagepath . '/' . $data['folder']; 
-					
+
+					$folder =  $imagepath . '/' . $data['folder'];
+
 					$stmt->bindParam( ':name', $data['name'], PDO::PARAM_STR );
 					$stmt->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
 					$stmt->bindParam( ':description', $data['description'], PDO::PARAM_STR );
@@ -698,37 +698,37 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 					$stmt->bindParam( ':author_modify', $data['author'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_rating', $data['allow_rating'], PDO::PARAM_STR );
 					$stmt->bindParam( ':allow_comment', $data['allow_comment'], PDO::PARAM_STR );
- 	 
+
 					if( $stmt->execute() )
 					{
 						try
 						{
-							$count = 0;	
+							$count = 0;
 							foreach( $data['albums'] as $key => $photo )
 							{
-								$photo['row_id'] = isset( $photo['row_id'] ) ? $photo['row_id'] : 0;	
- 								$photo['name'] = isset( $photo['name'] ) ? $photo['name'] : '';	
-								$photo['filePath'] = isset( $photo['filePath'] ) ? $photo['filePath'] : $photo['filePath'];	
-								$photo['image_url'] = isset( $photo['image_url'] ) ? $photo['image_url'] : $photo['image_url'];	
-								$photo['thumb'] = isset( $photo['thumb'] ) ? $photo['thumb'] : $photo['thumb'];	
- 								
-								$photo['description'] = isset( $photo['description'] ) ? $photo['description'] : '';	
+								$photo['row_id'] = isset( $photo['row_id'] ) ? $photo['row_id'] : 0;
+ 								$photo['name'] = isset( $photo['name'] ) ? $photo['name'] : '';
+								$photo['filePath'] = isset( $photo['filePath'] ) ? $photo['filePath'] : $photo['filePath'];
+								$photo['image_url'] = isset( $photo['image_url'] ) ? $photo['image_url'] : $photo['image_url'];
+								$photo['thumb'] = isset( $photo['thumb'] ) ? $photo['thumb'] : $photo['thumb'];
+
+								$photo['description'] = isset( $photo['description'] ) ? $photo['description'] : '';
 								$photo['description'] = nv_nl2br( nv_htmlspecialchars( strip_tags( $photo['description'] ) ), '<br />' );
- 								$photo['defaults'] = isset( $photo['defaults'] ) ? $photo['defaults'] : 0;	
-								
+ 								$photo['defaults'] = isset( $photo['defaults'] ) ? $photo['defaults'] : 0;
+
 								if( $photo['row_id'] == 0 )
 								{
- 
+
 									// Kiem tra anh hop le
-			
+
 									$image_info = nv_is_image( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/'  . $photo['basename'] );
 
 									if( empty( $image_info ) or ! isset( $mime['images'][$image_info['ext']] ) )
 									{
 										$error['error_image'][] = $lang_module['album_error_mime'] . ' ' . $photo['basename'];
-										
+
 										@nv_deletefile( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'] );
-									
+
 										unset( $data['albums'][$key] );
 									}
 									else
@@ -738,9 +738,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$photo['mime'] = $image_info['mime'];
 										$photo['size'] = filesize( $image_info['src'] );
 									}
-		 
+
 									$folder_album = NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'];
- 
+
 									if( is_dir( $folder_album ) )
 									{
 										// Copy file anh goc
@@ -755,9 +755,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$basename = $basename2;
 										$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 										$newFilePath = $folder_album . '/' . $basename;
-										
+
 										$rename = nv_copyfile( $filePath, $newFilePath );
-										
+
 										if( ! $rename )
 										{
 											$error['warning'] = $lang_module['album_error_copy_photo'] . basename( $filePath );
@@ -765,20 +765,20 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										}
 										else
 										{
-									
+
 											// Xoa anh tam
 											@nv_deletefile( $filePath );
-											
-											
+
+
 											$upload_logo = '';
 											if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
 											{
 												$upload_logo = $module_config[$module_name]['module_logo'];
-											} 
+											}
 											if( ! empty( $upload_logo ) )
 											{
 												$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
-		 
+
 												if( $photo['width'] <= 150 )
 												{
 													$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
@@ -812,12 +812,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 												$createImage = new image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 												$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 												$createImage->save( $folder_album, $basename );
-												 
+
 											}
-			
+
 											$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' ) );
-											
-											
+
+
 											// Copy file thumb
 											//$thum_folder  = floor( $data['album_id'] / 1000 );
 											$thumbName = $fileName = substr( $photo['thumb'], strlen( NV_BASE_SITEURL . NV_TEMP_DIR . '/' ) );
@@ -831,7 +831,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 											$fileName = $fileName2;
 											$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $thumbName;
 											$newFilePath = NV_ROOTDIR . '/' . $currentpaththumb . '/' . $fileName;
-										
+
 											$rename = nv_copyfile( $filePath, $newFilePath );
 											if( ! $rename )
 											{
@@ -843,16 +843,16 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 												// Xoa anh tam
 												@nv_deletefile( $filePath );
 												$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/thumb/' ) );
-												
-												$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET 
-													album_id = ' . (int)$data['album_id'] . ', 
-													defaults = ' . (int)$photo['defaults'] . ', 
-													size = ' . (int)$photo['size'] . ', 
-													width = ' . (int)$photo['width'] . ', 
-													height = ' . (int)$photo['height'] . ', 
-													status=' . intval( 1 ) . ', 
-													date_added=' . intval( NV_CURRENTTIME ) . ',  
-													date_modified=' . intval( NV_CURRENTTIME ) . ', 
+
+												$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET
+													album_id = ' . (int)$data['album_id'] . ',
+													defaults = ' . (int)$photo['defaults'] . ',
+													size = ' . (int)$photo['size'] . ',
+													width = ' . (int)$photo['width'] . ',
+													height = ' . (int)$photo['height'] . ',
+													status=' . intval( 1 ) . ',
+													date_added=' . intval( NV_CURRENTTIME ) . ',
+													date_modified=' . intval( NV_CURRENTTIME ) . ',
 													name = :name,
 													description = :description,
 													file = :file,
@@ -873,11 +873,11 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								}
 								else
 								{
-									$sth = $db->prepare( 'UPDATE ' . TABLE_PHOTO_NAME . '_rows SET 
-											defaults = ' . (int)$photo['defaults'] . ',  
-											date_modified=' . intval( NV_CURRENTTIME ) . ', 
+									$sth = $db->prepare( 'UPDATE ' . TABLE_PHOTO_NAME . '_rows SET
+											defaults = ' . (int)$photo['defaults'] . ',
+											date_modified=' . intval( NV_CURRENTTIME ) . ',
 											name = :name,
-											description = :description 
+											description = :description
 											WHERE row_id=' . $photo['row_id'] );
 
 									$sth->bindParam( ':name', $photo['name'], PDO::PARAM_STR );
@@ -887,12 +887,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 									++$count;
 								}
 							}
-							
+
 							if( $count > 0 )
 							{
 								$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_album SET num_photo = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_rows WHERE album_id = '. $data['album_id'] .') WHERE album_id = '. $data['album_id'] );
 							}
-							
+
 							if( $data['old_category_id'] == $data['category_id'] )
 							{
 								$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_category SET num_album = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album WHERE category_id = '. $data['category_id'] .') WHERE category_id = '. $data['category_id'] );
@@ -901,16 +901,16 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_category SET num_album = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album WHERE category_id = '. $data['category_id'] .') WHERE category_id = '. $data['category_id'] );
 								$db->query('UPDATE ' . TABLE_PHOTO_NAME . '_category SET num_album = (SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album WHERE category_id = '. $data['old_category_id'] .') WHERE category_id = '. $data['old_category_id'] );
 							}
-							
-							
+
+
 						}
 						catch ( PDOException $e )
-						{ 
+						{
 							$error['warning'] = $lang_module['album_error_save'];
 						}
- 
+
 						nv_insert_logs( NV_LANG_DATA, $module_name, 'Edit A Album', 'album_id: ' . $data['album_id'], $admin_info['userid'] );
-						
+
 					}
 					else
 					{
@@ -921,12 +921,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 
 				}
 				catch ( PDOException $e )
-				{ 
+				{
 					$error['warning'] = $lang_module['album_error_save'];
 				}
 			}
 		}
-		
+
 		if( empty( $error ) )
 		{
 			nv_del_moduleCache( $module_name );
@@ -935,7 +935,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		}
 
 	}
-	
+
 	$data['capturedate'] = !empty( $data['capturedate'] ) ? date('d/m/Y', $data['capturedate']) : '';
 
 	$xtpl = new XTemplate( 'album_add.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
@@ -959,11 +959,11 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	$xtpl->assign( 'CANCEL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op );
 	$xtpl->assign( 'UPLOAD_URL', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=upload&token=' . md5( $nv_Request->session_id . $global_config['sitekey'] ) );
 
-	
+
 	foreach( $global_photo_cat as $catid_i => $array_value )
 	{
 		$lev_i = $array_value['lev'];
- 
+
 		$xtitle_i = '';
 		if( $lev_i > 0 )
 		{
@@ -985,11 +985,11 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			'selected' => $sl,
 			'name' => $xtitle_i ) );
 		$xtpl->parse( 'main.category' );
- 	 
+
 	}
-	
+
 	$num_row = 0;
-	
+
 	$data['description'] = htmlspecialchars( nv_editor_br2nl( $data['description'] ) );
 	if( defined( 'NV_EDITOR' ) and function_exists( 'nv_aleditor' ) )
 	{
@@ -1000,7 +1000,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$edits = "<textarea style=\"width: 100%\" name=\"description\" id=\"description\" cols=\"20\" rows=\"15\">" . $data['description'] . "</textarea>";
 	}
 	$xtpl->assign( 'edit_description', $edits );
-	
+
 	if( !empty( $data['albums'] ) )
 	{
 		foreach( $data['albums'] as $key => $photo )
@@ -1008,24 +1008,24 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			$photo['key'] = $key;
 			$xtpl->assign( 'PHOTO', $photo );
 			$xtpl->parse( 'main.photo' );
-			
+
 			++$num_row;
 		}
 	}
 	$xtpl->assign( 'num_row', $num_row );
-	
+
 	if( isset( $error['warning'] ) )
 	{
 		$xtpl->assign( 'error_warning', $error['warning'] );
 		$xtpl->parse( 'main.error_warning' );
 	}
-	
+
 	if( isset( $error['folder'] ) )
 	{
 		$xtpl->assign( 'error_folder', $error['folder'] );
 		$xtpl->parse( 'main.error_folder' );
 	}
-	
+
 	if( isset( $error['category'] ) )
 	{
 		$xtpl->assign( 'error_category', $error['category'] );
@@ -1037,27 +1037,27 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$xtpl->assign( 'error_name', $error['name'] );
 		$xtpl->parse( 'main.error_name' );
 	}
-	
+
 	if( isset( $error['meta_title'] ) )
 	{
 		$xtpl->assign( 'error_meta_title', $error['meta_title'] );
-		$xtpl->parse( 'main.error_meta_title' );	
+		$xtpl->parse( 'main.error_meta_title' );
 	}
- 
+
 	foreach( $layout_array as $value )
 	{
 		$value = preg_replace( $global_config['check_op_layout'], '\\1', $value );
 		$xtpl->assign( 'LAYOUT', array( 'key' => $value, 'selected' => ( $data['layout'] == $value ) ? ' selected="selected"' : '' ) );
 		$xtpl->parse( 'main.layout' );
 	}
- 
-	
+
+
 	foreach( $array_status as $key => $name )
 	{
 		$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['status'] ) ? 'selected="selected"' : '' ) );
 		$xtpl->parse( 'main.status' );
 	}
-	
+
 	foreach( $array_status as $key => $name )
 	{
 		$xtpl->assign( 'RATING', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['allow_rating'] ) ? 'selected="selected"' : '' ) );
@@ -1073,7 +1073,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			'title' => $_title ) );
 		$xtpl->parse( 'main.groups_view' );
 	}
-	
+
 	$allow_comment = explode( ',', $data['allow_comment'] );
 	foreach( $groups_list as $_group_id => $_title )
 	{
@@ -1113,7 +1113,7 @@ if( ACTION_METHOD == 'get_album' )
 		$and .= ' AND name LIKE :name ';
 	}
 
-	$sql = 'SELECT album_id, name FROM ' . TABLE_PHOTO_NAME . '_album  
+	$sql = 'SELECT album_id, name FROM ' . TABLE_PHOTO_NAME . '_album
 	WHERE 1 ' . $and . '
 	ORDER BY name DESC LIMIT 0, 10';
 
@@ -1146,20 +1146,20 @@ $data['filter_category'] = $nv_Request->get_int( 'filter_category', 'get', 0 );
 
 $sort = $nv_Request->get_string( 'sort', 'get', '' );
 $order = $nv_Request->get_string( 'order', 'get' ) == 'desc' ? 'desc' : 'asc';
- 
- 
+
+
 $sql = TABLE_PHOTO_NAME . '_album WHERE 1';
- 
+
 if( ! empty( $data['filter_name'] ) )
 {
 	$sql .= " AND name LIKE '" . $db->dblikeescape( $data['filter_name'] ) . "%'";
 }
- 
+
 if( $data['filter_category'] > 0 )
 {
 	$sql .= " AND category_id = " . ( int )$data['filter_category'];
 }
- 
+
 if( isset( $data['filter_status'] ) && is_numeric( $data['filter_status'] ) )
 {
 	$sql .= " AND status = " . ( int )$data['filter_status'];
@@ -1192,13 +1192,13 @@ else
 	$sql .= " ASC";
 }
 
- 
+
 $num_items = $db->query( 'SELECT COUNT(*) FROM ' . $sql )->fetchColumn();
 
 $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=main&amp;sort=' . $sort . '&amp;order=' . $order . '&amp;per_page=' . $per_page;
 
 $db->sqlreset()->select( '*' )->from( $sql )->limit( $per_page )->offset( ( $page - 1 ) * $per_page );
- 
+
 $result = $db->query( $db->sql() );
 
 $array = array();
@@ -1230,7 +1230,7 @@ $xtpl->assign( 'URL_WEIGHT', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE 
 $xtpl->assign( 'URL_category', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=category_id&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
 
 $xtpl->assign( 'ADD_NEW', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op . "&action=add" );
- 
+
 /*search*/
 
 foreach( $global_photo_cat as $key => $value )
@@ -1245,7 +1245,7 @@ foreach( $global_photo_cat as $key => $value )
 		}
 		$xtitle_i .= '>&nbsp;';
 	}
-	$xtitle_i .= $value['name'];	
+	$xtitle_i .= $value['name'];
 	$xtpl->assign( 'category', array( 'key'=> $key, 'name'=> $xtitle_i, 'selected'=> ( $key == $data['filter_category'] ) ? 'selected="selected"': '' ) );
 	$xtpl->parse( 'main.filter_category' );
 
@@ -1255,12 +1255,12 @@ foreach( $array_status as $key => $name )
 	$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['filter_status'] && is_numeric( $data['filter_status'] ) ) ? 'selected="selected"': '' ) );
 	$xtpl->parse( 'main.filter_status' );
 }
- 
+
 if( ! empty( $array ) )
 {
 	foreach( $array as $item )
 	{
-		
+
 		$sql = 'SELECT userid, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
 		$array_user = nv_db_cache( $sql, 'userid', $module_name );
 		if( !empty($array_user))
@@ -1270,19 +1270,19 @@ if( ! empty( $array ) )
 				$item['author_upload'] = $array_user_i['username'];
 			}
 		}
-			
+
 		$item['category'] = isset( $global_photo_cat[$item['category_id']] ) ? $global_photo_cat[$item['category_id']]['name'] : 'N/A';
 		$item['category_link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&filter_category=" . $item['category_id'];
 		$item['category_link_out'] = $global_photo_cat[$item['category_id']]['link'];
 		$item['date_added'] = nv_date( 'd/m/Y', $item['date_added'] );
 		$item['token'] = md5( $global_config['sitekey'] . session_id() . $item['album_id'] );
-		
+
 		$item['link'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&action=view&token=" . $item['token'] . "&album_id=" . $item['album_id'];
 		$item['link_out'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
 		$item['edit'] = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=main&action=edit&token=" . $item['token'] . "&album_id=" . $item['album_id'];
- 
+
 		$xtpl->assign( 'LOOP', $item );
-		
+
 		foreach( $array_status as $key => $name )
 		{
 			$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $item['status'] ) ? 'selected="selected"': '' ) );
@@ -1291,7 +1291,7 @@ if( ! empty( $array ) )
  		$xtpl->parse( 'main.loop' );
 	}
 }
- 
+
 $generate_page = nv_generate_page( $base_url, $num_items, $per_page, $page );
 if( ! empty( $generate_page ) )
 {
