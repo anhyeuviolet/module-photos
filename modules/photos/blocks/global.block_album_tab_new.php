@@ -34,7 +34,7 @@ if( ! nv_function_exists( 'photos_thumbs' ) )
 			else
 			{
 
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+				$_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
 				if( $imginfo['width'] <= $imginfo['height'] )
 				{
@@ -134,7 +134,7 @@ if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
 			->order( 'a.date_added DESC' )
 			->limit( $block_config['numrow'] );
 
-		$list = nv_db_cache( $db->sql(), 'album_id', $module );
+		$list = $nv_Cache->db( $db->sql(), 'album_id', $module );
 
 		if( ! empty( $list ) )
 		{
@@ -216,7 +216,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_photo_category = array();
 			$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_category ORDER BY sort_order ASC';
-			$list = nv_db_cache( $sql, 'category_id', $module );
+			$list = $nv_Cache->db( $sql, 'category_id', $module );
 			foreach( $list as $l )
 			{
 				$module_photo_category[$l['category_id']] = $l;

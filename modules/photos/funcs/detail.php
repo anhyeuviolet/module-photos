@@ -45,7 +45,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$next_photo = $previous_photo = '';
 	//Next Photo
 	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id > '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id ASC LIMIT 1';
-	$list = nv_db_cache( $sql, 'row_id', $module_name );
+	$list = $nv_Cache->db( $sql, 'row_id', $module_name );
 	foreach( $list as $next_photo )
 	{
 		$next_photo['link'] = $global_photo_album[$next_photo['album_id']]['link'] . '/' . $next_photo['row_id'] . $global_config['rewrite_exturl'];
@@ -54,7 +54,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	
 	//Previous Photo
 	$sql = 'SELECT row_id, album_id, name, status, description FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE row_id < '.$row['row_id'].' AND album_id='.$row['album_id'].' ORDER BY row_id DESC LIMIT 1';
-	$list = nv_db_cache( $sql, 'row_id', $module_name );
+	$list = $nv_Cache->db( $sql, 'row_id', $module_name );
 	foreach( $list as $previous_photo )
 	{
 		$previous_photo['link'] = $global_photo_album[$previous_photo['album_id']]['link'] . '/' . $previous_photo['row_id'] . $global_config['rewrite_exturl'];

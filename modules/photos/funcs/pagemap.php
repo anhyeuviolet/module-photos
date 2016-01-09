@@ -59,7 +59,7 @@ else
 
 	$pa = NV_CURRENTTIME - 7200;
 
-	if( ( $cache = nv_get_cache( $module_name, $cacheFile ) ) != false and filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR . '/' . $module_name . '/' . $cacheFile ) >= $pa )
+	if( ( $cache = $nv_Cache->getItem( $module_name, $cacheFile ) ) != false and filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR . '/' . $module_name . '/' . $cacheFile ) >= $pa )
 	{
 		$array_url = unserialize( $cache );
 	}
@@ -101,7 +101,7 @@ else
 	 
 		
 		$cache = serialize( $array_url );
-		nv_set_cache( $module_name, $cacheFile, $cache );
+		$nv_Cache->setItem( $module_name, $cacheFile, $cache );
 	}
 	$content ="";
 	$content.="<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n";

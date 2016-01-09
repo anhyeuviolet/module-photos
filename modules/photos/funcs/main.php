@@ -60,7 +60,7 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 				{
 					
 					$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $author_id;
-					$array_user = nv_db_cache( $sql, 'userid', $module_name );
+					$array_user = $nv_Cache->db( $sql, 'userid', $module_name );
 					if( !empty($array_user))
 					{
 						foreach ( $array_user as $array_user_i )
@@ -142,7 +142,7 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 		while( $item = $result->fetch() )
 		{
 			$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $item['author'];
-			$array_user = nv_db_cache( $sql, 'userid', $module_name );
+			$array_user = $nv_Cache->db( $sql, 'userid', $module_name );
 			if( !empty($array_user))
 			{
 				foreach ( $array_user as $array_user_i )
