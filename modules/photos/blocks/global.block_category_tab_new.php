@@ -127,9 +127,32 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
 
+		$array_data = array();
+		$albums = array();
+
+		$db->sqlreset()
+			->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.capturedate, r.file, r.thumb' )
+			->from( NV_PREFIXLANG . '_' . $mod_data . '_album a LEFT JOIN  ' . NV_PREFIXLANG . '_' . $mod_data . '_rows r ON ( a.album_id = r.album_id )' )
+			->where( 'a.status= 1 AND r.defaults = 1' )
+			->order( 'a.date_modified DESC' )
+			->limit( $block_config['numrow'] );
+		$result = $db->query( $db->sql() );
+		while( $row = $result->fetch() )
+		{
+			$row['thumb'] = photos_thumbs( $row['album_id'], $row['file'], $site_mods[$module]['module_upload'], $thumb_width, $thumb_height, 90 );
+			$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $site_mods[$module]['module_upload'] . '/images/' . $row['file'];
+			$row['link'] = $module_photo_category[$row['category_id']]['link'] . '/' . $row['alias'] . '-' . $row['album_id'] . $global_config['rewrite_exturl'];
+			$albums[] = $row;
+		}
+
+		$array_data[0] = array(
+			'name' => $block_config['title'],
+			'alias' => change_alias( $block_config['title'] ),
+			'albums' => $albums
+		);
+
 		if( !empty( $module_photo_category ) )
 		{
-			$array_data = array();
 			foreach( $module_photo_category as $photo_category )
 			{
 				$albums = array();
@@ -138,18 +161,18 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 					->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.capturedate, r.file, r.thumb' )
 					->from( NV_PREFIXLANG . '_' . $mod_data . '_album a LEFT JOIN  ' . NV_PREFIXLANG . '_' . $mod_data . '_rows r ON ( a.album_id = r.album_id )' )
 					->where( 'a.status= 1 AND r.defaults = 1 AND a.category_id=' . $photo_category['category_id'] )
-					->order( 'a.date_added DESC' )
+					->order( 'a.date_modified DESC' )
 					->limit( $block_config['numrow'] );
 				$result = $db->query( $db->sql() );
 				while( $row = $result->fetch() )
 				{
 					$row['thumb'] = photos_thumbs( $row['album_id'], $row['file'], $site_mods[$module]['module_upload'], $thumb_width, $thumb_height, 90 );
 					$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $site_mods[$module]['module_upload'] . '/images/' . $row['file'];
-					$row['link'] = $module_photo_category[$row['album_id']]['link'] . '/' . $row['alias'] . '-' . $row['album_id'] . $global_config['rewrite_exturl'];
-					$albums[$row['album_id']] = $row;
+					$row['link'] = $module_photo_category[$photo_category['category_id']]['link'] . '/' . $row['alias'] . '-' . $row['album_id'] . $global_config['rewrite_exturl'];
+					$albums[] = $row;
 				}
 
-				$array_data[$photo_category['category_id']][$row['album_id']] = array(
+				$array_data[$photo_category['category_id']] = array(
 					'name' => $photo_category['name'],
 					'alias' => $photo_category['alias'],
 					'albums' => $albums
@@ -175,20 +198,17 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 			{
 				foreach( $array_data as $category_id => $category_data )
 				{
-					foreach( $category_data as $data )
-					{
-						$xtpl->assign( 'TABS', $data );
-						$xtpl->parse( 'main.tabs' );
+					$xtpl->assign( 'TABS', $category_data );
+					$xtpl->parse( 'main.tabs' );
 
-						if( !empty( $data['albums'] ) )
+					if( !empty( $category_data['albums'] ) )
+					{
+						foreach( $category_data['albums'] as $album )
 						{
-							foreach( $data['albums'] as $album )
-							{
-								$xtpl->assign( 'DATA', $album );
-								$xtpl->parse( 'main.tabs_data.loop' );
-							}
-							$xtpl->parse( 'main.tabs_data' );
+							$xtpl->assign( 'DATA', $album );
+							$xtpl->parse( 'main.tabs_data.loop' );
 						}
+						$xtpl->parse( 'main.tabs_data' );
 					}
 				}
 			}
