@@ -72,7 +72,6 @@ elseif( $mod == 'folder' )
 		$alias .= '-' . ( intval( $nb ) + 1 );
 	}
 }
- 
 
 include NV_ROOTDIR . '/includes/header.php';
 echo strtolower( $alias );
