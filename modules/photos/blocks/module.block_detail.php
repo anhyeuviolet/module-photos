@@ -259,7 +259,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_photo_cat = array();
 			$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_category ORDER BY sort_order ASC';
-			$list = nv_db_cache( $sql, 'category_id', $module  );
+			$list = $nv_Cache->db( $sql, 'category_id', $module  );
 			foreach( $list as $l )
 			{
 				$module_photo_cat[$l['category_id']] = $l;

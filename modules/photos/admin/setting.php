@@ -60,8 +60,8 @@ if( ! empty( $savesetting ) )
 	}
 	$sth->closeCursor();
 
-	nv_del_moduleCache( 'settings' );
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( 'settings' );
+	$nv_Cache->delMod( $module_name );
 	$nv_Request->set_Session( $module_data . '_success', $lang_module['setting_update_success'] );
 	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&rand=' . nv_genpass() );
 	die();
@@ -96,24 +96,19 @@ $xtpl->assign( 'CANCEL', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=
 if( $nv_Request->get_string( $module_data . '_success', 'session' ) )
 {
 	$xtpl->assign( 'SUCCESS', $nv_Request->get_string( $module_data . '_success', 'session' ) );
-
 	$xtpl->parse( 'main.success' );
-
 	$nv_Request->unset_request( $module_data . '_success', 'session' );
-
 } 
 
 foreach( $array_home_view as $key => $title )
 {
 	$xtpl->assign( 'HOME_VIEW', array( 'key' => $key, 'title' => $title, 'selected' => $key == $module_config[$module_name]['home_view'] ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.home_view' );	
-	
 }
 
 //Set home_layout
 foreach( $layout_array as $value )
 {
-	//var_dump($value);die;
 	$value = preg_replace( $global_config['check_op_layout'], '\\1', $value );
 	$xtpl->assign( 'LAYOUT', array( 'key' => $value, 'selected' => ( $module_config[$module_name]['home_layout'] == $value ) ? ' selected="selected"' : '' ) );
 	$xtpl->parse( 'main.home_layout' );
