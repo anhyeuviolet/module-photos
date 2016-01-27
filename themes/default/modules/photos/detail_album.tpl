@@ -185,6 +185,14 @@ $(document).ready(function () {
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
+
+<!-- BEGIN: social_tool -->
+<div class="social_tool pd5">
+	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
+	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+</div>
+<!-- END: social_tool -->
+
 <hr />
 <div class="album_comment pd5">
 <!-- BEGIN: comment -->
@@ -219,12 +227,5 @@ $(document).ready(function () {
 	<div class="clear"></div>
 </div>
 <!-- END: other_album -->
-
-<!-- BEGIN: social_tool -->
-<div class="social_tool pd5">
-	<div class="fb-like"></div>
-	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
-</div>
-<!-- END: social_tool -->
 
 <!-- END: main -->

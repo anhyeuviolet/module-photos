@@ -20,7 +20,7 @@
 		<div class="panel-heading">
 			<h3 class="panel-title" style="float:left"><i class="fa fa-pencil"></i> {CAPTION}</h3>
 			<div class="pull-right">
-				<button type="submit" data-toggle="tooltip" id="album_save" name="album_save" class="btn btn-primary" title="{LANG.save}"><i class="fa fa-save"></i></button> 
+				<button type="submit" data-toggle="tooltip" id="album_save" name="album_save" class="btn btn-primary" title="{LANG.save}"><i class="fa fa-save"></i></button>
 				<a href="{CANCEL}" data-toggle="tooltip" class="btn btn-default" title="{LANG.cancel}"><i class="fa fa-reply"></i></a>
 			</div>
 			<div style="clear:both"></div>
@@ -76,10 +76,10 @@
 									</div>
 								</div>
 								<!-- BEGIN: error_folder--><div class="text-danger">{error_folder}</div><!-- END: error_folder -->
-								
+
 							</div>
 						</div>
-						
+
 						<div class="form-group required">
 							<label class="col-sm-4 control-label" for="input-parent">{LANG.album_category}</label>
 							<div class="col-sm-20">
@@ -92,7 +92,7 @@
 								<!-- BEGIN: error_category--><div class="text-danger">{error_category}</div><!-- END: error_category -->
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							 <label class="col-sm-4 control-label" for="input-description">{LANG.album_description} </label>
 							<div class="col-sm-20">{edit_description}</div>
@@ -133,7 +133,7 @@
 									<input type="text" name="capturelocal" value="{DATA.capturelocal}" placeholder="{LANG.album_capturelocal}" id="input-capturelocal" class="form-control" />
  								</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-parent">{LANG.album_layout}</label>
 							<div class="col-sm-20">
@@ -145,7 +145,7 @@
 								</select>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-keyword"> {GLANG.groups_view}</label>
 							<div class="col-sm-20">
@@ -153,8 +153,8 @@
 								<label><input name="groups_view[]" type="checkbox" value="{GROUPS_VIEW.value}" {GROUPS_VIEW.checked} />{GROUPS_VIEW.title}</label>
 								<!-- END: groups_view -->
 							</div>
-						</div>	 
-									 
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-keyword"> {LANG.allow_comment}</label>
 							<div class="col-sm-20">
@@ -162,8 +162,8 @@
 								<label><input name="allow_comment[]" type="checkbox" value="{ALLOW_COMMENT.value}" {ALLOW_COMMENT.checked} />{ALLOW_COMMENT.title}</label>
 								<!-- END: allow_comment -->
 							</div>
-						</div>	 
-									 
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-status">{LANG.album_allow_rating}</label>
 							<div class="col-sm-20">
@@ -174,7 +174,7 @@
 								</select>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="input-status">{LANG.album_show_status}</label>
 							<div class="col-sm-20">
@@ -185,9 +185,9 @@
 								</select>
 							</div>
 						</div>
-						
+
 					</div>
-				
+
 					<div class="tab-pane" id="tab-image">
 							<ul class="glt-upload-step clearfix">
 								<li >
@@ -215,7 +215,7 @@
 							<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/i18n/vi.js"></script>
 							<script type="text/javascript">
 								$(function() {
- 
+
 									$("#uploader").pluploadQueue({
 										runtimes: 'html5,flash,silverlight,html4',
 										url: '{UPLOAD_URL}',
@@ -245,16 +245,16 @@
 
 											FilesAdded: function (up, files) {},
 											UploadComplete: function (up, files) {
-												//$('.plupload_filelist_footer .plupload_file_name').append('<a href="javascript:void(0);" class="plupload_button plupload_submit nextstep">{LANG.album_next_step}</a>'); 
+												//$('.plupload_filelist_footer .plupload_file_name').append('<a href="javascript:void(0);" class="plupload_button plupload_submit nextstep">{LANG.album_next_step}</a>');
 												$(".plupload_button").css("display", "inline");
 												$(".plupload_upload_status").css("display", "inline");
-												Shadowbox.init({ skipSetup: true }); Shadowbox.setup(); 
-												 
+												Shadowbox.init({ skipSetup: true }); Shadowbox.setup();
+
  											}
 										}
-										   
+
 									});
-									var uploader = $("#uploader").pluploadQueue();  
+									var uploader = $("#uploader").pluploadQueue();
 									uploader.bind('BeforeUpload', function(up) {
 										 up.settings.multipart_params = {
 												'folder': $('input[name="folder"]').val()
@@ -262,10 +262,10 @@
 									});
 									var i = {num_row};
 									uploader.bind('FileUploaded', function(up, file, response) {
-										
+
  										var content = $.parseJSON(response.response).data;
- 
-										var item='';		  
+
+										var item='';
 										item+='<div id="images-'+ i +'" class="col-sm-12 col-md-6">';
 										item+='<div class="table-responsive row">';
 										item+='	<table class="table table-striped table-bordered table-hover">';
@@ -278,7 +278,7 @@
 										item+='					<input type="hidden" name="albums['+ i +'][image_url]" value="'+ content['image_url'] +'">';
 										item+='					<input type="hidden" name="albums['+ i +'][thumb]" value="'+ content['thumb'] +'">';
 										item+='					<a href="'+ content['image_url'] +'" rel="shadowbox[miss]" class="glt-upload2-thumb">';
-										item+='						<span><img src="'+ content['thumb'] +'" width="90"></span>'; 
+										item+='						<span><img src="'+ content['thumb'] +'" width="90"></span>';
 										item+='					</a>';
 										item+='				</td>';
 										item+='				<td class="col-md-10 control">';
@@ -295,23 +295,23 @@
 										item+='	</table>';
 										item+='</div>';
 										item+='</div>';
-										
-										$('#insert-image').append(item);										
-										++i;  
-										  
+
+										$('#insert-image').append(item);
+										++i;
+
 									});
-									
+
 									uploader.bind("UploadComplete", function () {
 										$('.nextstep').css("display", "inline-block");
 									});
-									
+
 									uploader.bind('QueueChanged', function() {
 										$('.nextstep').css("display", "none");
 									});
- 
-								 	
+
+
 									$('.nextstep').on('click', function(){
-										$('a[rel="tab-info-image"]').tab('show'); 
+										$('a[rel="tab-info-image"]').tab('show');
 										uploader.splice();
 										uploader.refresh();
 										uploader.init( );
@@ -359,23 +359,23 @@
 														<a href="{PHOTO.image_url}" rel="shadowbox[miss]" class="glt-upload2-thumb"> <span><img src="{PHOTO.thumb}" width="90"></span> </a>
 													</td>
 													<td class="col-md-10 control">
-														<label class="labelradio"><input type="radio" name="albums[{PHOTO.key}][defaults]" value="1" class="form-control fixradio" {PHOTO.defaults}> {LANG.defaults}</label>	
+														<label class="labelradio"><input type="radio" name="albums[{PHOTO.key}][defaults]" value="1" class="form-control fixradio" {PHOTO.defaults}> {LANG.defaults}</label>
 														<label class="labelradio fr deleterows" data-toggle="tooltip" title="{LANG.delete}" data-row="{PHOTO.row_id}" data-token="{PHOTO.token}" data-token-image="{PHOTO.token_image}" data-token-thumb="{PHOTO.token_thumb}" data-key="{PHOTO.key}" >
 															<i class="fa fa-spinner fa-lg  fa-spin"></i>
 															<i class="fa fa-trash-o fa-lg fixtrash"></i>
-														</label>	
+														</label>
 														<input type="text" name="albums[{PHOTO.key}][name]" value="{PHOTO.name}" class="form-control" placeholder="{LANG.photo_name}">
 														<input type="text" name="albums[{PHOTO.key}][description]" value="{PHOTO.description}" class="form-control" placeholder="{LANG.photo_description}"> </td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
-								</div>			
+								</div>
 								<!-- END: photo -->
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
 				<div align="center">
 					<input type="hidden" name ="album_id" value="{DATA.album_id}" />
 					<input name="action" type="hidden" value="add" />
@@ -383,7 +383,7 @@
 					<!-- <input class="btn btn-primary" type="submit" value="{LANG.save}" /> -->
 					<!-- <a class="btn btn-primary" href="{CANCEL}" title="{LANG.cancel}">{LANG.cancel}</a>  -->
 				</div>
-                     
+
 			</form>
 		</div>
 	</div>
@@ -392,7 +392,7 @@
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>												
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
 var album_error_name = '{LANG.album_error_name}';
 var album_error_folder = '{LANG.album_error_folder}';
@@ -412,17 +412,17 @@ $("#input-name").change(function() {
 <!-- END: getalias -->
 
 <script type="text/javascript">
-$('a[rel="tab-image"], a[rel="tab-info-image"]').hover( function(e) {	
+$('a[rel="tab-image"], a[rel="tab-info-image"]').hover( function(e) {
 	return checkform();
 });
-$('a[rel="tab-image"], a[rel="tab-info-image"], input[type="submit"], button[type="submit"], input[type="text"], select[name="category_id"]').on('click keyup blur change', function(e) {	
+$('a[rel="tab-image"], a[rel="tab-info-image"], input[type="submit"], button[type="submit"], input[type="text"], select[name="category_id"]').on('click keyup blur change', function(e) {
 	return checkform();
 });
 
-$("button[id*='album']").on('click', function() 
+$("button[id*='album']").on('click', function()
 {
 	var checked = 0;
-	$('body .fixradio').each(function() 
+	$('body .fixradio').each(function()
 	{
 		if( $(this).is(':checked') )
 		{
@@ -438,11 +438,16 @@ $("button[id*='album']").on('click', function()
 	{
 		$('.message_info').hide();
 	}
-	
+
 	if( checkform() == true )
 	{
 		$("form[id*='album-']").submit();
 	}
 });
+
+item+='<a href="#" onclick="' + modalShow( "'+a+'", "'+b+'" ); return false;" >';
+item+='	<span><img src="" width="100%"></span>';
+item+='</a>';
+
 </script>
 <!-- END: main -->
