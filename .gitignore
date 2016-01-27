@@ -36,3 +36,5 @@
 !/themes/default/modules/photos
 !/themes/default/modules/photos/*
 /.project
+/vendor/
+/composer.json
