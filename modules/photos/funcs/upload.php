@@ -2,15 +2,15 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS 
+ * @Based on NukeViet CMS
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
- 
+
 // Khong cho phep cache
 header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
 header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . " GMT" );
@@ -105,13 +105,13 @@ if( ! $chunks || $chunk == $chunks - 1 )
 {
 	// Strip the temp .part suffix off
 	$check = @rename( "{$filePath}.part", $filePath );
-	
+
 	if( empty( $check ) )
 	{
 		gltJsonResponse( array( 'code' => 200, 'message' => $lang_module['uploadErrorRenameFile'] ) );
 	}
 }
- 
+
 //$image_info = nv_is_image( $filePath );
 
 $thumb = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . creatThumb( $filePath, NV_ROOTDIR . '/' . NV_TEMP_DIR, 90, 72 );
@@ -121,4 +121,3 @@ $token_image = md5( $global_config['sitekey'] . session_id() . $image_url );
 $token_thumb = md5( $global_config['sitekey'] . session_id() . $thumb );
 $token = md5( $global_config['sitekey'] . session_id() );
 gltJsonResponse( array(), array( 'row_id' => 0, 'token' => $token, 'token_image' => $token_image, 'token_thumb' => $token_thumb, 'filePath' => $filePath, 'basename' => $fileName, 'image_url' => $image_url, 'thumb' => $thumb, 'ext' => $fileExt ) );
-
