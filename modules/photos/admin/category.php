@@ -180,7 +180,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		'weight' => '',
 		'sort_order' => '',
 		'lev' => '',
-		'layout' => 'body-right',
+		'layout' => 'default',
 		'viewcat' => 'viewcat_grid',
 		'numsubcat' => '',
 		'subcatid' => '',

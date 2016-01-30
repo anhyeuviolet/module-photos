@@ -275,7 +275,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		'capturelocal' => '',
 		'folder' => '',
 		'thumb' => '',
-		'layout' => 'body-right',
+		'layout' => 'default',
 		'num_photo' => 0,
 		'viewed' => 0,
 		'weight' => '',
