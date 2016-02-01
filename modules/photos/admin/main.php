@@ -115,7 +115,7 @@ if( ACTION_METHOD == 'delete' )
 					{
  
 						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_upload . '/images/' . $data['file'] );
-						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_name . '/thumb/' . $data['thumb'] );	
+						@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/'. $module_upload . '/thumb/' . $data['thumb'] );	
 					}
 				}
  		
@@ -155,12 +155,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 
  	$array_structure_image = array();
-	$array_structure_image[''] = $module_name;
-	$array_structure_image['Y'] = $module_name . '/images/' . date( 'Y' );
-	$array_structure_image['Ym'] = $module_name . '/images/' . date( 'Y_m' );
-	$array_structure_image['Y_m'] = $module_name . '/images/' . date( 'Y/m' );
-	$array_structure_image['Ym_d'] = $module_name . '/images/' . date( 'Y_m/d' );
-	$array_structure_image['Y_m_d'] = $module_name . '/images/' . date( 'Y/m/d' );
+	$array_structure_image[''] = $module_upload;
+	$array_structure_image['Y'] = $module_upload . '/images/' . date( 'Y' );
+	$array_structure_image['Ym'] = $module_upload . '/images/' . date( 'Y_m' );
+	$array_structure_image['Y_m'] = $module_upload . '/images/' . date( 'Y/m' );
+	$array_structure_image['Ym_d'] = $module_upload . '/images/' . date( 'Y_m/d' );
+	$array_structure_image['Y_m_d'] = $module_upload . '/images/' . date( 'Y/m/d' );
 	 
 	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpath = isset( $array_structure_image[$structure_upload] ) ? $array_structure_image[$structure_upload] : '';
@@ -202,12 +202,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 	//Folder thumb
 	$array_structure_thumb = array();
-	$array_structure_thumb[''] = $module_name.'/thumbs';
-	$array_structure_thumb['Y'] = $module_name . '/thumbs/' . date( 'Y' );
-	$array_structure_thumb['Ym'] = $module_name . '/thumbs/' . date( 'Y_m' );
-	$array_structure_thumb['Y_m'] = $module_name . '/thumbs/' . date( 'Y/m' );
-	$array_structure_thumb['Ym_d'] = $module_name . '/thumbs/' . date( 'Y_m/d' );
-	$array_structure_thumb['Y_m_d'] = $module_name . '/thumbs/' . date( 'Y/m/d' );
+	$array_structure_thumb[''] = $module_upload.'/thumbs';
+	$array_structure_thumb['Y'] = $module_upload . '/thumbs/' . date( 'Y' );
+	$array_structure_thumb['Ym'] = $module_upload . '/thumbs/' . date( 'Y_m' );
+	$array_structure_thumb['Y_m'] = $module_upload . '/thumbs/' . date( 'Y/m' );
+	$array_structure_thumb['Ym_d'] = $module_upload . '/thumbs/' . date( 'Y_m/d' );
+	$array_structure_thumb['Y_m_d'] = $module_upload . '/thumbs/' . date( 'Y/m/d' );
 	 
 	$structure_upload = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
 	$currentpaththumb = isset( $array_structure_thumb[$structure_upload] ) ? $array_structure_thumb[$structure_upload] : '';
@@ -311,8 +311,8 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				'token_thumb'=> '',
 				'basename'=> '',
 				'filePath'=> '',
-				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/thumbs/' . $photo['thumb'],
-				'image_url'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $photo['file'],
+				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $photo['thumb'],
+				'image_url'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'],
 				'defaults'=> ( $photo['defaults'] == 1 ) ? 'checked="checked"' : '',
 				'name'=> $photo['name'],
 				'description'=> $photo['description'],
@@ -582,7 +582,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 									{
 										// Xoa anh tam
 										@nv_deletefile( $filePath );
-										$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/thumb/' ) );
+										$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/thumb/' ) );
 										
 										$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET 
 											album_id = ' . (int)$data['album_id'] . ', 
@@ -790,7 +790,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 												 
 											}
 			
-											$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' ) );
+											$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' ) );
 											
 											// Copy file thumb
 											//$thum_folder  = floor( $data['album_id'] / 1000 );
@@ -816,7 +816,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 											{
 												// Xoa anh tam
 												@nv_deletefile( $filePath );
-												$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/thumb/' ) );
+												$photo['thumb'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/thumb/' ) );
 												
 												$sth = $db->prepare( 'INSERT INTO ' . TABLE_PHOTO_NAME . '_rows SET 
 													album_id = ' . (int)$data['album_id'] . ', 
