@@ -14,7 +14,7 @@ if ( ! defined( 'NV_IS_MOD_RSS' ) ) die( 'Stop!!!' );
 $rssarray = array();
 
 $sql = "SELECT category_id AS catid, parent_id AS parentid, name AS title, alias  FROM " . NV_PREFIXLANG . "_" . $mod_data . "_category ORDER BY sort_order";
-$list = nv_db_cache( $sql, '', $mod_name );
+$list = $nv_Cache->db( $sql, '', $mod_name );
 
 foreach( $list as $value )
 {
