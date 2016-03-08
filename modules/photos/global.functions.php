@@ -15,7 +15,7 @@ global $global_photo_cat, $global_photo_album;
 //$global_photo_cat
 $global_photo_cat = array();
 $sql = 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_category ORDER BY sort_order ASC';
-$list = nv_db_cache( $sql, 'category_id', $module_name );
+$list = $nv_Cache->db( $sql, 'category_id', $module_name );
 foreach( $list as $l )
 {
 	$global_photo_cat[$l['category_id']] = $l;
@@ -26,7 +26,7 @@ unset( $sql, $list );
 //$global_photo_album 
 $global_photo_album = array();
 $sql = 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_album ORDER BY weight ASC';
-$list = nv_db_cache( $sql, 'album_id', $module_name );
+$list = $nv_Cache->db( $sql, 'album_id', $module_name );
 foreach( $list as $l )
 {
 	$global_photo_album[$l['album_id']] = $l;
@@ -85,7 +85,7 @@ function GetCatidInParent( $category_id, $check_inhome = 0 )
 function creatThumb( $file, $dir, $width, $height = 0 )
 {
 
-	$image = new image( $file, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+	$image = new NukeViet\Files\Image( $file, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
 	if( empty( $height ) )
 	{
@@ -151,7 +151,7 @@ if( ! nv_function_exists( 'photos_thumbs' ) )
 			else
 			{
 
-				$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+				$_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 
 				if( $imginfo['width'] <= $imginfo['height'] )
 				{

@@ -90,7 +90,7 @@ if( in_array( ACTION_METHOD, array(
 			$content = 'OK_' . $parent_id;
 		}
  
-		nv_del_moduleCache( $module_name );
+		$nv_Cache->delMod( $module_name );
 	}
 	echo $content;
 	exit();
@@ -139,7 +139,7 @@ if( ACTION_METHOD == 'delete' )
 		{
 			nv_fix_cat_order();
 			nv_insert_logs( NV_LANG_DATA, $module_name, 'Delete Category', implode( ', ', $_del_array ), $admin_info['userid'] );
-			nv_del_moduleCache( $module_name );
+			$nv_Cache->delMod( $module_name );
 			$info['success'] = $lang_module['category_delete_success'];
 		}
 	}
@@ -180,7 +180,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		'weight' => '',
 		'sort_order' => '',
 		'lev' => '',
-		'layout' => 'body-right',
+		'layout' => 'default',
 		'viewcat' => 'viewcat_grid',
 		'numsubcat' => '',
 		'subcatid' => '',
@@ -386,7 +386,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit' )
 		}
 		if( empty( $error ) )
 		{
-			nv_del_moduleCache( $module_name );
+			$nv_Cache->delMod( $module_name );
 			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=category&parent_id=' . $data['parent_id'] );
 			die();
 		}

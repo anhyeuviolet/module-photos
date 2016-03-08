@@ -209,10 +209,10 @@
 								</div>
 							</div>
 							<a href="javascript:void(0);" class="nextstep btn btn-primary">{LANG.album_next_step} </a>
-							<link type="text/css" href="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
-							<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/plupload.full.min.js"></script>
-							<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
-							<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/i18n/vi.js"></script>
+							<link type="text/css" href="{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
+							<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/plupload.full.min.js"></script>
+							<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+							<script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/i18n/vi.js"></script>
 							<script type="text/javascript">
 								$(function() {
  
@@ -236,8 +236,8 @@
 												extensions: "jpg,gif,png,jpeg"
 											}, ]
 										},
-										flash_swf_url: '{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/Moxie.swf',
-										silverlight_xap_url: '{NV_BASE_SITEURL}modules/{MODULE_FILE}/plupload/Moxie.xap',
+										flash_swf_url: '{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/Moxie.swf',
+										silverlight_xap_url: '{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/Moxie.xap',
 										multi_selection: true,
 										prevent_duplicates: true,
 										multiple_queues: false,

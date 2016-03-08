@@ -2,9 +2,9 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS 
+ * @Based on NukeViet CMS
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
@@ -19,7 +19,7 @@ if( ! nv_function_exists( 'photos_thumbs' ) )
 		else  $rate = $height / $width;
 
 		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
- 
+
 		if( $file != '' and file_exists( $image ) )
 		{
 			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
@@ -72,90 +72,100 @@ if( ! nv_function_exists( 'photos_thumbs' ) )
 	}
 }
 
-if( ! nv_function_exists( 'nv_block_category_album' ) )
+if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
 {
-	function nv_block_config_category_album( $module, $data_block, $lang_block )
+	function nv_block_config_album_tab_new( $module, $data_block, $lang_block )
 	{
 		global $site_mods;
 
 		$html = '<tr>';
-		$html .= '<td>' . $lang_block['category_id'] . '</td>';
-		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_category ORDER BY sort_order ASC';
-		$list = $nv_Cache->db( $sql, '', $module );
-		$html .= '<td>';
-		foreach( $list as $l )
-		{
-			$xtitle_i = '';
-
-			if( $l['lev'] > 0 )
-			{
-				for( $i = 1; $i <= $l['lev']; ++$i )
-				{
-					$xtitle_i .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				}
-			}
-			$html .= $xtitle_i . '<label><input type="checkbox" name="config_category[]" value="' . $l['category_id'] . '" ' . ( ( in_array( $l['category_id'], $data_block['category_id'] ) ) ? ' checked="checked"' : '' ) . '</input>' . $l['name'] . '</label><br />';
-		}
-		$html .= '</td>';
-		$html .= '</tr>';
-		
-		$html .= '<tr>';
 		$html .= '<td>' . $lang_block['numrow'] . '</td>';
 		$html .= '<td><input type="text" class="form-control w200" name="config_numrow" size="5" value="' . $data_block['numrow'] . '"/></td>';
 		$html .= '</tr>';
-		
+
 		$html .= '<tr>';
 		$html .= '<td>' . $lang_block['title_length'] . '</td>';
 		$html .= '<td><input type="text" class="form-control w200" name="config_title_length" size="5" value="' . $data_block['title_length'] . '"/></td>';
 		$html .= '</tr>';
-		
+
 		$html .= '<tr>';
-		$html .= '<td>' . $lang_block['des_length'] . '</td>';
-		$html .= '<td><input type="text" class="form-control w200" name="config_des_length" size="5" value="' . $data_block['des_length'] . '"/></td>';
+		$html .= '<td>' . $lang_block['width'] . ' (px)</td>';
+		$html .= '<td><input type="number" class="form-control w200" name="config_width" size="5" value="' . $data_block['width'] . '"/></td>';
 		$html .= '</tr>';
+
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['height'] . ' (px)</td>';
+		$html .= '<td><input type="number" class="form-control w200" name="config_height" size="5" value="' . $data_block['height'] . '"/></td>';
+		$html .= '</tr>';
+
 		return $html;
 	}
 
-	function nv_block_config_category_album_submit( $module, $lang_block )
+	function nv_block_config_album_tab_new_submit( $module, $lang_block )
 	{
 		global $nv_Request;
 		$return = array();
 		$return['error'] = array();
 		$return['config'] = array();
-		$return['config']['category_id'] = $nv_Request->get_array( 'config_category', 'post', array() );
-		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
-		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
-		$return['config']['des_length'] = $nv_Request->get_int( 'config_des_length', 'post', 0 );
+ 		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
+ 		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
+ 		$return['config']['width'] = $nv_Request->get_int( 'config_width', 'post', 0 );
+		$return['config']['height'] = $nv_Request->get_int( 'config_height', 'post', 0 );
 		return $return;
 	}
 
-	function nv_block_category_album( $block_config )
+	function nv_block_album_tab_new( $block_config )
 	{
-		global $module_photo_category, $module_info, $site_mods, $module_config, $lang_module, $global_config, $db, $blockID;
-		
+		global $module_photo_category, $module_info, $site_mods, $module_config, $global_config, $db, $blockID;
+
 		$module = $block_config['module'];
-		$thumb_width = $module_config[$module]['cr_thumb_width'];
-		$thumb_height = $module_config[$module]['cr_thumb_height'];
+
+		$thumb_width = !empty( $block_config['width'] ) ? $block_config['width'] : $module_config[$module]['cr_thumb_width'];
+		$thumb_height = !empty( $block_config['height'] ) ? $block_config['height'] : $module_config[$module]['cr_thumb_height'];
 		$thumb_quality = $module_config[$module]['cr_thumb_quality'];
+
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
- 
-		if( empty( $block_config['category_id'] ) ) return '';
 
-		$category_id = implode( ',', $block_config['category_id'] );
- 
 		$db->sqlreset()
 			->select( 'a.album_id, a.category_id, a.name, a.alias, a.capturelocal, a.description, a.num_photo, a.date_added, a.capturedate, r.file, r.thumb' )
 			->from( NV_PREFIXLANG . '_' . $mod_data . '_album a LEFT JOIN  ' . NV_PREFIXLANG . '_' . $mod_data . '_rows r ON ( a.album_id = r.album_id )' )
-			->where( 'a.status= 1 AND a.category_id IN(' . $category_id . ') AND r.defaults = 1' )
+			->where( 'a.status= 1 AND r.defaults = 1' )
 			->order( 'a.date_added DESC' )
 			->limit( $block_config['numrow'] );
-		
+
 		$list = $nv_Cache->db( $db->sql(), 'album_id', $module );
 
 		if( ! empty( $list ) )
 		{
-			if( file_exists( NV_ROOTDIR . '/themes/' . $global_config['module_theme']  . '/modules/' . $mod_file . '/block_category_album.tpl' ) )
+			$array_data = array();
+			foreach( $list as $album_id => $album )
+			{
+				$db->sqlreset()
+					->select( '*' )
+					->from( NV_PREFIXLANG . '_' . $mod_data . '_rows' )
+					->where( 'status=1 AND album_id =' . $album['album_id'] );
+
+				$photo = $db->query( $db->sql() );
+
+				$array_photos = array();
+				while( $row = $photo->fetch() )
+				{
+					$row['thumb'] = photos_thumbs( $row['row_id'], $row['file'], $site_mods[$module]['module_upload'], $thumb_width, $thumb_height, 90 );
+					$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $site_mods[$module]['module_upload'] . '/images/' . $row['file'];
+					$row['link'] = $module_photo_category[$row['album_id']]['link'] . '/' . $album['alias'] . '-' . $row['album_id'] .'/'. $row['row_id'] . $global_config['rewrite_exturl'];
+					$array_photos[] = $row;
+				}
+
+				$array_data[$album_id] = array(
+					'album_id' => $album_id,
+					'name' => nv_clean60( $album['name'], $block_config['title_length'] ),
+					'alias' => $album['alias'],
+					'photos' => $array_photos
+				);
+			}
+
+			if( file_exists( NV_ROOTDIR . '/themes/' . $global_config['module_theme']  . '/modules/' . $mod_file . '/block_album_tab_new.tpl' ) )
 			{
 				$block_theme = $global_config['module_theme'] ;
 			}
@@ -164,24 +174,28 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$block_theme = 'default';
 			}
 
-			$xtpl = new XTemplate( 'block_category_album.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/' . $mod_file );
+			$xtpl = new XTemplate( 'block_album_tab_new.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/' . $mod_file );
 			$xtpl->assign( 'BLOCK_ID', $blockID );
-			$xtpl->assign( 'LANG', $lang_module );
 
-			foreach( $list as $album )
+			if( !empty( $array_data ) )
 			{
-				$album['name'] = nv_clean60( $album['name'], $block_config['title_length'] );
-				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'];
-				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
-				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
-				$album['capturedate'] = nv_date( 'd/m/Y', $album['capturedate'] );
-				$album['thumb'] = photos_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
-				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
+				foreach( $array_data as $album_id => $data )
+				{
+					$xtpl->assign( 'TABS', $data );
+					$xtpl->parse( 'main.tabs' );
 
-				$xtpl->assign( 'ALBUM', $album );
- 				$xtpl->parse( 'main.loop_album' );
+					if( !empty( $data['photos'] ) )
+					{
+						foreach( $data['photos'] as $photo )
+						{
+							$xtpl->assign( 'DATA', $photo );
+							$xtpl->parse( 'main.tabs_data.loop' );
+						}
+						$xtpl->parse( 'main.tabs_data' );
+					}
+				}
 			}
-			
+
 			$xtpl->parse( 'main' );
 			return $xtpl->text( 'main' );
 		}
@@ -209,6 +223,6 @@ if( defined( 'NV_SYSTEM' ) )
 				$module_photo_category[$l['category_id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $l['alias'];
 			}
 		}
-		$content = nv_block_category_album( $block_config );
+		$content = nv_block_album_tab_new( $block_config );
 	}
 }

@@ -2,38 +2,36 @@
 <!-- BEGIN: view_grid -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 
-<div class="row">
-	<div class="page-header pd10_0 mg0_10_10">
-		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
-		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-		<p class="album_author_upload">
-			<p class="album_author_upload"><strong>{LANG.album_author_upload}</strong></p>
-			<img class="img-thumbnail author_avatar" src="{NV_BASE_SITEURL}{ALBUM.author_image}" alt="{ALBUM.author_upload}"/>
-			<div class="clear"></div>
-			<span class="author_name">{ALBUM.author_upload}</span>
-		</p>
-		<p class="album_description">{ALBUM.description}</p>
-	</div>
-	<div id="album-gallery">
-		<!-- BEGIN: loop_img -->
-		<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
-			<div class="panel panel-default">
-				<div class="panel-body pd5">
-					<a href="{PHOTO.thumb}" title="{PHOTO.description}" data-gallery="gallery">
-						<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
-					</a>
-				</div>
-				<div class="panel-footer view_detail pd5">
-				<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{PHOTO.viewed}</span>
-					<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_image}</a>
-				</div>
+<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
+<ul class="list-inline text-muted">
+	<li><em class="fa fa-user">&nbsp;</em>{LANG.album_author_upload}: {ALBUM.author_upload}</li>
+	<li><em class="fa fa-eye">&nbsp;</em>{LANG.viewed}: {ALBUM.viewed}</li>
+</ul>
+<!-- BEGIN: description -->
+<hr />
+<p class="album_description">{ALBUM.description}</p>
+<!-- END: description -->
+
+<div id="album-gallery">
+	<div class="row">
+	<!-- BEGIN: loop_img -->
+	<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
+		<div class="panel panel-default">
+			<div class="panel-body pd5">
+				<a href="{PHOTO.file}" title="{PHOTO.description}" data-gallery="gallery">
+					<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
+				</a>
+			</div>
+			<div class="panel-footer view_detail pd5">
+			<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{PHOTO.viewed}</span>
+				<a href="{PHOTO.link_img}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_image}</a>
 			</div>
 		</div>
-		<!-- END: loop_img -->
 	</div>
-	<div class="clear"></div>
+	<!-- END: loop_img -->
+	</div>
 </div>
-<div class="clear"></div>
+
 <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
     <h3 class="title"></h3>
@@ -88,13 +86,19 @@ document.getElementById('gallery').onclick = function (event) {
 <!-- BEGIN: slider -->
 <link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
- 
+
 <div class="pd5">
-	<div class="page-header pd10_0 mg0_10_10">
-		<h3 class="txt20 txt_bold">{ALBUM.name}</h3>
-		<span class="pd5 text-muted"><em class="fa fa-eye"></em>&nbsp;{ALBUM.viewed}</span>
-		<p class="album_description">{ALBUM.description}</p>
-	</div>
+	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
+	<ul class="list-inline text-muted">
+		<li><em class="fa fa-user">&nbsp;</em>{LANG.album_author_upload}: {ALBUM.author_upload}</li>
+		<li><em class="fa fa-eye">&nbsp;</em>{LANG.viewed}: {ALBUM.viewed}</li>
+	</ul>
+	<!-- BEGIN: description -->
+	<hr />
+	<p class="album_description">{ALBUM.description}</p>
+	<hr />
+	<!-- END: description -->
+
 	<ul class="bxslider_{OP}">
 		<!-- BEGIN: loop_slide -->
 		<li><img src="{PHOTO.file}" /></li>
@@ -139,11 +143,11 @@ var isMobile = {
 
 var adaptive = false;
 
-if( isMobile.any() ) 
+if( isMobile.any() )
 {
    adaptive = true;
 }
- 
+
 
 var carousel;
 var slider;
@@ -155,7 +159,7 @@ $(document).ready(function () {
         moveSlides: 1,
         slideMargin: 0,
         pager: false
-     
+
     });
 
     slider = $('.bxslider_{OP}').bxSlider({
@@ -172,7 +176,7 @@ function clicked(position) {
 }
 $(document).ready(function () {
 	$('.bxslider_{OP} li').css('display', 'block');
-}) 
+})
 </script>
 <!-- END: slider -->
 
@@ -181,6 +185,15 @@ $(document).ready(function () {
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
+
+<!-- BEGIN: social_tool -->
+<div class="social_tool pd5">
+	<div class="fb-like" data-href="{SELFURL}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true">&nbsp;</div>
+	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
+</div>
+<!-- END: social_tool -->
+
+<hr />
 <div class="album_comment pd5">
 <!-- BEGIN: comment -->
 {CONTENT_COMMENT}
@@ -201,25 +214,18 @@ $(document).ready(function () {
 				</a>
 			</div>
 			<div class="panel-footer view_detail pd5">
-			<div class="album-name">
-				<h3><a title="{OTHER.name}" href="{OTHER.link}">{OTHER.name}</a></h3>
-			</div>
-			<div class="clear"></div>
-			<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{OTHER.viewed}</span>
+				<div class="album-name">
+					<h3><a title="{OTHER.name}" href="{OTHER.link}">{OTHER.name}</a></h3>
+				</div>
+				<div class="clear"></div>
+				<span class="text-muted"><em class="fa fa-eye"></em>&nbsp;{OTHER.viewed}</span>
 				<a href="{OTHER.link}" class="btn btn-primary pull-right"><i class="fa fa-picture-o"></i>&nbsp;{LANG.view_album}</a>
 			</div>
 		</div>
 	</div>
-	<!-- END: loop_album -->	
+	<!-- END: loop_album -->
 	<div class="clear"></div>
 </div>
 <!-- END: other_album -->
-
-<!-- BEGIN: social_tool -->
-<div class="col-md-24 col-sm-24 col-xs-24 pd5">
-	<div class="fb-like"></div>
-	<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
-</div>
-<!-- END: social_tool -->
 
 <!-- END: main -->
