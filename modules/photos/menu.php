@@ -12,14 +12,13 @@
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
 $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $mod_data . "_category ORDER BY sort_order ASC";
-$result = $db->query( $sql );
-
-While( $row = $result->fetch() )
-{
-	$array_item[$row['category_id']] = array(
-		'module' => $module, //
-		'key' => $row['category_id'], //
-		'title' => $row['name'], //
-		'alias' => $row['alias'],  //
-	);
+$result = $db->query($sql);
+while ($row = $result->fetch()) {
+    $array_item[$row['category_id']] = array(
+        'parentid' => $row['parent_id'],
+        'groups_view' => $row['groups_view'],
+        'key' => $row['category_id'],
+        'title' => $row['name'],
+        'alias' => $row['alias']
+    );
 }
