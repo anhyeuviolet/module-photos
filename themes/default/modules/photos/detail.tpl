@@ -13,7 +13,7 @@
 		<div class="col-md-24 col-sm-24 col-xs-24">
 			<div id="photo-{PHOTO.row_id}">
 				<a href="{PHOTO.file}" title="{PHOTO.description}" alt="{PHOTO.description}" data-gallery="gallery">
-					<img src="{PHOTO.file}" class="img-thumbnail"/>
+					<img src="{PHOTO.file}" class="img-thumbnail center-block"/>
 				</a>
 			</div>	
 		</div>

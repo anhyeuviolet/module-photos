@@ -76,6 +76,8 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	$page_title = !empty($row['name'])?$row['name']:$global_photo_album[$row['album_id']]['name'];
 	$key_words = !empty($global_photo_album[$row['album_id']]['meta_keyword'])?$global_photo_album[$row['album_id']]['meta_keyword']:$global_photo_album[$row['album_id']]['name'];
 	$description = !empty($row['description'])?$row['description']:strip_tags($global_photo_album[$row['album_id']]['description']);
+	$src = photos_thumbs( $row['row_id'], $row['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );;
+	$meta_property['og:image'] = (preg_match('/^(http|https|ftp|gopher)\:\/\//', $src)) ? $src : NV_MY_DOMAIN . $src;
 
 	// goi ham xu ly giao dien 
 	$contents = detail( $row, $next_photo, $previous_photo );
