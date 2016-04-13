@@ -51,10 +51,10 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	}
 
 	// rewrite link
-	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'], true );
+	$base_url_rewrite = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'];
 	if( $page > 1 )
 	{
-		$base_url_rewrite .= 'page-' . $page.'/';
+		$base_url_rewrite .= '/page-' . $page;
 	}
 	$base_url_rewrite = nv_url_rewrite( $base_url_rewrite, true );
 	if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
@@ -148,8 +148,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	$page_title = !empty($album['meta_title'])?$album['meta_title']:$album['name'];
 	$key_words = !empty($album['meta_keyword'])?$album['meta_keyword']:$album['name'];
 	$description = !empty($album['meta_description'])?$album['meta_description']:strip_tags($album['description']);
-	$src = photos_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );;
-	$meta_property['og:image'] = (preg_match('/^(http|https|ftp|gopher)\:\/\//', $src)) ? $src : NV_MY_DOMAIN . $src;
 
 	// Phan trang
 	$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
