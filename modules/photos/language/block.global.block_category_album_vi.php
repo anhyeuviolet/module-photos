@@ -18,7 +18,7 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_block';
 
 $lang_block['category_id'] = 'Chủ đề';
-$lang_block['numrow'] = 'Số bài hiển thị';
+$lang_block['numrow'] = 'Số Album hiển thị';
 $lang_block['title_length'] = 'Cắt tiêu đề';
 $lang_block['des_length'] = 'Cắt mô tả ngắn';
  

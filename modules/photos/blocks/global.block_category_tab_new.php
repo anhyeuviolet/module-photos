@@ -89,12 +89,12 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 		$html .= '</tr>';
 
 		$html .= '<tr>';
-		$html .= '<td>' . $lang_block['width'] . ' (px)</td>';
+		$html .= '<td>' . $lang_block['width'] . '</td>';
 		$html .= '<td><input type="number" class="form-control w200" name="config_width" size="5" value="' . $data_block['width'] . '"/></td>';
 		$html .= '</tr>';
 
 		$html .= '<tr>';
-		$html .= '<td>' . $lang_block['height'] . ' (px)</td>';
+		$html .= '<td>' . $lang_block['height'] . '</td>';
 		$html .= '<td><input type="number" class="form-control w200" name="config_height" size="5" value="' . $data_block['height'] . '"/></td>';
 		$html .= '</tr>';
 
@@ -145,7 +145,7 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 				{
 					$row['thumb'] = photos_thumbs( $row['album_id'], $row['file'], $site_mods[$module]['module_upload'], $thumb_width, $thumb_height, 90 );
 					$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $site_mods[$module]['module_upload'] . '/images/' . $row['file'];
-					$row['link'] = $module_photo_category[$row['album_id']]['link'] . '/' . $row['alias'] . '-' . $row['album_id'] . $global_config['rewrite_exturl'];
+					$row['link'] = $module_photo_category[$photo_category['category_id']]['link'] . '/' . $row['alias'] . '-' . $row['album_id'] . $global_config['rewrite_exturl'];
 					$albums[$row['album_id']] = $row;
 				}
 
@@ -184,6 +184,7 @@ if( ! nv_function_exists( 'nv_block_category_tab_new' ) )
 						{
 							foreach( $data['albums'] as $album )
 							{
+								$album['name_cut'] = nv_clean60( $album['name'], $block_config['title_length'] );
 								$xtpl->assign( 'DATA', $album );
 								$xtpl->parse( 'main.tabs_data.loop' );
 							}

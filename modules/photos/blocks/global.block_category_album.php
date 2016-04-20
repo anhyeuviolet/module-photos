@@ -76,7 +76,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 {
 	function nv_block_config_category_album( $module, $data_block, $lang_block )
 	{
-		global $site_mods;
+		global $nv_Cache, $site_mods;
 
 		$html = '<tr>';
 		$html .= '<td>' . $lang_block['category_id'] . '</td>';
@@ -94,7 +94,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 					$xtitle_i .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			}
-			$html .= $xtitle_i . '<label><input type="checkbox" name="config_category[]" value="' . $l['category_id'] . '" ' . ( ( in_array( $l['category_id'], $data_block['category_id'] ) ) ? ' checked="checked"' : '' ) . '</input>' . $l['name'] . '</label><br />';
+			$html .= $xtitle_i . '<label><input type="checkbox" name="config_category[]" value="' . $l['category_id'] . '" ' . ( ( in_array( $l['category_id'], $data_block['category_id'] = !empty($data_block['category_id']) ? $data_block['category_id'] : array()) ) ? ' checked="checked"' : '' ) . '</input>' . $l['name'] . '</label><br />';
 		}
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -131,7 +131,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 
 	function nv_block_category_album( $block_config )
 	{
-		global $module_photo_category, $module_info, $site_mods, $module_config, $lang_module, $global_config, $db, $blockID;
+		global $nv_Cache, $module_photo_category, $module_info, $site_mods, $module_config, $lang_module, $global_config, $db, $blockID;
 		
 		$module = $block_config['module'];
 		$thumb_width = $module_config[$module]['cr_thumb_width'];
@@ -189,7 +189,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 }
 if( defined( 'NV_SYSTEM' ) )
 {
-	global $site_mods, $module_name, $global_photo_cat, $module_photo_category;
+	global $nv_Cache, $site_mods, $module_name, $global_photo_cat, $module_photo_category;
 	$module = $block_config['module'];
 	if( isset( $site_mods[$module] ) )
 	{

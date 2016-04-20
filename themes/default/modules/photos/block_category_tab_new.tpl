@@ -13,9 +13,10 @@
 		<div role="tabpanel" class="tab-pane" id="{TABS.alias}_{BLOCK_ID}" style="padding: 10px">
 			<div class="row">
 				<!-- BEGIN: loop -->
-				<div class="col-xs-24 col-sm-6 col-md-6">
+				<div class="col-xs-24 col-sm-6 col-md-6" style="margin-bottom: 7px">
 					<div class="m-bottom">
 						<a href="{DATA.link}" title="{DATA.name}"><img src="{DATA.thumb}" alt="{DATA.name}" class="img-thumbnail" /></a>
+						<a href="{DATA.link}" title="{DATA.name}"><span><strong>{DATA.name_cut}</strong></span></a>
 					</div>
 				</div>
 				<!-- END: loop -->

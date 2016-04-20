@@ -69,7 +69,7 @@
 									</select>
 								</td>
 								
-								<td align="left">
+								<td>
 									<select class="form-control" id="id_viewcat_{LOOP.category_id}" onchange="nv_change_category('{LOOP.category_id}','viewcat');">
 										<!-- BEGIN: viewcat -->
 										<option value="{VIEWCAT.key}"{VIEWCAT.selected}>{VIEWCAT.title}</option>
