@@ -42,7 +42,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 			$date_added = intval( $album['date_added'] );
 		}
 	}
-
 	// xac thuc lien ket co dung chuan khong
 	if( $date_added == 0 )
 	{
@@ -64,7 +63,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	}
 
 	$base_url =  $global_photo_album[$album_id]['link'];
-	// link duy nhat tranh trung lap tren google
+
 	$canonicalUrl = NV_MAIN_DOMAIN . $base_url_rewrite;
 	// Dem so anh trong album
 	$db->sqlreset()
@@ -148,7 +147,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	$page_title = !empty($album['meta_title'])?$album['meta_title']:$album['name'];
 	$key_words = !empty($album['meta_keyword'])?$album['meta_keyword']:$album['name'];
 	$description = !empty($album['meta_description'])?$album['meta_description']:strip_tags($album['description']);
-	$src = 	photos_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
+	$src = photos_thumbs( $album['album_id'], $album['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 	$meta_property['og:image'] = (preg_match('/^(http|https|ftp|gopher)\:\/\//', $src)) ? $src : NV_MY_DOMAIN . $src;
 
 	// Phan trang
@@ -178,7 +177,6 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 			}
 		}
 	}
-	// goi ham xu ly giao dien
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid' )
 	{
 		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page );
