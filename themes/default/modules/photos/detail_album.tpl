@@ -1,12 +1,14 @@
 <!-- BEGIN: main -->
 <!-- BEGIN: view_grid -->
-<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
-
-<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
-<ul class="list-inline text-muted">
-	<li><em class="fa fa-user">&nbsp;</em>{LANG.album_author_upload}: {ALBUM.author_upload}</li>
-	<li><em class="fa fa-eye">&nbsp;</em>{LANG.viewed}: {ALBUM.viewed}</li>
-</ul>
+<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
+<div class="page-header pd10_0 mg0_0_10">
+	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
+	<span class="text-muted">{LANG.category}:&nbsp;</span><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name}</a>
+	<span><i class="spacer"></i></span>
+	<span class="text-muted">{LANG.album_author_upload}: {ALBUM.author_upload}</span>
+	<span><i class="spacer"></i></span>
+	<span class="text-muted">{LANG.viewed}: {ALBUM.viewed}</span>
+</div>
 <!-- BEGIN: description -->
 <hr />
 <p class="album_description">{ALBUM.description}</p>
@@ -63,7 +65,7 @@
     </div>
 </div>
 
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $("img.lazy").lazyload({
@@ -71,12 +73,12 @@ $(function() {
 	});
 });
 </script>
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: view_grid -->
 
 <!-- BEGIN: slider -->
-<link href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
+<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
 
 <div class="pd5">
 	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>

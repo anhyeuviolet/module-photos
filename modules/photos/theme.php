@@ -206,7 +206,6 @@ function detail_album( $album, $array_photo, $other_category_album, $content_com
 	$xtpl->assign( 'OP', $op );
 	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
-
 	$per_line = 24 / $module_config[$module_name]['per_line'];
 	$xtpl->assign( 'PER_LINE', $per_line );
 
@@ -305,7 +304,6 @@ function detail( $row, $next_photo, $previous_photo )
 	$xtpl->assign( 'TEMPLATE', $module_info['template'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
 	$xtpl->assign( 'OP', $op );
-	$xtpl->assign( 'CATALOG', $global_photo_cat[$category_id] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
 
 	if( ! empty( $row ) )

@@ -39,8 +39,11 @@ $lang_module['view_image']='Xem ảnh';
 $lang_module['view_album']='Xem Album';
 $lang_module['other_album']='Album cùng chuyên mục';
 
-$lang_module['view_next']='Xem Album';
-$lang_module['view_previous']='Xem Album';
+$lang_module['view_next']='Xem ảnh tiếp theo';
+$lang_module['view_previous']='Xem ảnh trước';
+
+$lang_module['album']='Album';
+$lang_module['category']='Chuyên mục';
 
 //Rating
 $lang_module['rating'] = 'Đánh giá bài viết';

@@ -1,9 +1,11 @@
 <!-- BEGIN: detail_viewer -->
 	<div class="col-md-24 col-sm-24 col-xs-24">
 		<div class="page-header pd10_0 mg0_10_10">
-			<h3 class="txt20 txt_bold"><span class="pd5">{PHOTO.title}</span></h3>
+			<h3 class="txt20 txt_bold"><span>{PHOTO.title}</span></h3>
 			<p>{PHOTO.description}</p>
-			<span class="pd5 text-muted"><em class="fa fa-eye"></em> {PHOTO.viewed}</span>
+			<span class="text-muted">{LANG.album}:&nbsp;</span><a href="{ALBUM.link}" title="{ALBUM.name}">{ALBUM.name}</a>
+			<i class="spacer"></i>
+			<span class="text-muted">{LANG.viewed}:&nbsp;{PHOTO.viewed}</span>
 		</div>
 	</div>
 	<div id="view_image_{PHOTO.row_id}" class="col-md-24 col-sm-24 col-xs-24">
@@ -60,7 +62,7 @@
 	window.history.pushState(state, title, view_url);
 </script>
 <!-- BEGIN: social_tool -->
-<div id="social_button" class="col-md-24 col-sm-24 col-xs-24 pd5">
+<div id="social_button" class="col-md-24 col-sm-24 col-xs-24 pd10">
 	<div class="fb-like"></div>
 	<div class="fb-comments" data-href="{VIEW_URL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
 </div>
@@ -68,10 +70,10 @@
 <!-- END: detail_viewer -->
 
 <!-- BEGIN: main -->
-<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
+<link rel="stylesheet" href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/blueimp/blueimp-gallery.min.css">
 <div id="fb-root"></div>
 <div class="row" id="detail_viewer"></div>
-<script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript">
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];

@@ -44,6 +44,8 @@ if( $ajax )
 		}
 	}
 	
+	$xtpl->assign( 'ALBUM', $global_photo_album[$row['album_id']] );
+	
 	$row['thumb'] = photos_thumbs( $row['row_id'], $row['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );
 	$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
 	$row['album_title'] = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
@@ -85,7 +87,6 @@ if( $ajax )
 	$description = !empty($row['description'])?$row['description']:strip_tags($global_photo_album[$row['album_id']]['description']);
 	$src = photos_thumbs( $row['row_id'], $row['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality'] );;
 	$meta_property['og:image'] = (preg_match('/^(http|https|ftp|gopher)\:\/\//', $src)) ? $src : NV_MY_DOMAIN . $src;
-
 	if (!empty($next_photo))
 	{
 		$xtpl->assign( 'NEXT', $next_photo );
