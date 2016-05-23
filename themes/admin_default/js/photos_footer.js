@@ -43,17 +43,6 @@ $(document).ready(function() {
 
 });
 
-// Calendar */
-$('#input-date-album').datepicker({
-	showOn : "both",
-	dateFormat : "dd/mm/yy",
-	changeMonth : true,
-	changeYear : true,
-	showOtherMonths : true,
-	buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
-	buttonImageOnly : true
-});
-
 // Autofill */
 (function($) {
 	function Autofill(element, options) {

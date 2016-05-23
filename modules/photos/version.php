@@ -6,7 +6,7 @@
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
  * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
- * @Createdate Wed, 23 Mar 2016 11:00:00 GMT
+ * @Createdate Mon, 23 May 2016 11:00:00 GMT
  */
 
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -17,9 +17,9 @@ $module_version = array(
 	'submenu' => 'rss,search',
 	'is_sysmod' => 0, 
 	'virtual' => 1,  
-	'version' => '1.3.10',  
-	'date' => 'Wed, 23 Mar 2016 11:00:00 GMT',  
-	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail.com)',  
+	'version' => '1.3.11',  
+	'date' => 'Mon, 23 May 2016 11:00:00 GMT',  
+	'author' => 'KENNY NGUYEN (nguyentiendat713@gmail.com)',  
 	'uploads_dir' => array(
 		$module_upload,
 		$module_upload.'/images',

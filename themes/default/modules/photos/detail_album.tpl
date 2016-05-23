@@ -18,8 +18,8 @@
 	<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 		<div class="panel panel-default">
 			<div class="panel-body pd5">
-				<a href="{PHOTO.file}" title="{PHOTO.description}" data-gallery="gallery">
-					<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.description}" width="640" height="480"/>
+				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+					<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.name}" width="640" height="480"/>
 				</a>
 			</div>
 			<div class="panel-footer view_detail pd5">
@@ -32,7 +32,7 @@
 	</div>
 </div>
 
-<div id="blueimp-gallery" class="blueimp-gallery">
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <div class="slides"></div>
     <h3 class="title"></h3>
     <a class="prev">‹</a>
@@ -62,6 +62,7 @@
         </div>
     </div>
 </div>
+
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -69,16 +70,6 @@ $(function() {
 	effect : "fadeIn"
 	});
 });
-</script>
-<script>
-document.getElementById('gallery').onclick = function (event) {
-	event = event || window.event;
-	var target = event.target || event.srcElement,
-		link = target.src ? target.parentNode : target,
-		options = {index: link, event: event},
-		links = this.getElementsByTagName('a');
-	blueimp.Gallery(links, options);
-};
 </script>
 <script src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/lazy/jquery.lazyload.min.js" type="text/javascript" ></script>
 <!-- END: view_grid -->

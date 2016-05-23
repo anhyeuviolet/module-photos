@@ -25,7 +25,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 
 	$photo = $db->query( $db->sql() );
 	$row = $photo->fetch();
-
+	$row['description'] = !empty($row['description'])?$row['description']:$row['name'];
  	if( $row['row_id'] > 0 )
 	{
 		if( defined( 'NV_IS_MODADMIN' ) or ( $row['status'] == 1 ) )

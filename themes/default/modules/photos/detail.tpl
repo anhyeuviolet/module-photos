@@ -12,8 +12,8 @@
 		<!-- END: pre -->
 		<div class="col-md-24 col-sm-24 col-xs-24">
 			<div id="photo-{PHOTO.row_id}">
-				<a href="{PHOTO.file}" title="{PHOTO.description}" alt="{PHOTO.description}" data-gallery="gallery">
-					<img src="{PHOTO.file}" class="img-thumbnail center-block"/>
+				<a href="{PHOTO.file}" title="{PHOTO.title}" data-gallery="gallery">
+					<img class="img-responsive center-block" src="{PHOTO.file}" alt="{PHOTO.title}"/>
 				</a>
 			</div>	
 		</div>
@@ -21,7 +21,8 @@
 		<a href="#" class="arrow_right" title="{NEXT.name}" onclick="detai_view_next('{NEXT.row_id}','view_next');"><i class="fa fa-chevron-circle-right fa-3x"></i></a>
 		<!-- END: next -->
 	</div>
-	<div id="blueimp-gallery" class="blueimp-gallery">
+
+	<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
 		<div class="slides"></div>
 		<h3 class="title"></h3>
 		<a class="prev">‹</a>
@@ -97,7 +98,7 @@ $('#detail_viewer').load( nv_base_siteurl + '?' + nv_name_variable + '=' + nv_mo
 		<div class="col-md-24 col-sm-24 col-xs-24">
 			<div id="photo-{PHOTO.row_id}">
 				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
-					<img src="{PHOTO.file}" class="img-thumbnail"/>
+					<img alt="{PHOTO.name}" title="{PHOTO.name}" src="{PHOTO.file}" class="img-thumbnail"/>
 				</a>
 			</div>	
 		</div>

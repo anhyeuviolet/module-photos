@@ -107,6 +107,7 @@ $lang_module['album_step_2']='Bước 2: Chọn và tải ảnh';
 $lang_module['album_step_3']='Bước 3: Cập nhật thông tin ảnh';
 $lang_module['album_upload_require']='Bạn đang sử dụng trình duyệt không hỗ trợ ít nhất: HTML5, Flash hay Silverlight.<br/> Vui lòng nâng cấp lên trình duyệt có hỗ trợ một trong các yêu cầu trên';
 $lang_module['album_allow_rating']='Cho phép đánh giá';
+$lang_module['album_allow_comment']='Cho phép bình luận';
 
 
 $lang_module['album_error_name']='Lỗi: Tên album không được để trống';

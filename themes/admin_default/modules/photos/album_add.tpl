@@ -1,13 +1,6 @@
 <!-- BEGIN: main -->
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.core.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.theme.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.css" rel="stylesheet" />
-
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/shadowbox/shadowbox.js"></script>
+<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/shadowbox/shadowbox.css" />
-<script type="text/javascript">Shadowbox.init();</script>
 <div id="content">
     <!-- BEGIN: error_warning -->
     <div class="alert alert-danger">
@@ -156,7 +149,7 @@
 						</div>	 
 									 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="input-keyword"> {LANG.allow_comment}</label>
+							<label class="col-sm-4 control-label" for="input-keyword"> {LANG.album_allow_comment}</label>
 							<div class="col-sm-20">
 								<!-- BEGIN: allow_comment -->
 								<label><input name="allow_comment[]" type="checkbox" value="{ALLOW_COMMENT.value}" {ALLOW_COMMENT.checked} />{ALLOW_COMMENT.title}</label>
@@ -388,11 +381,11 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.core.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>												
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/default/modules/{MODULE_FILE}/plugins/shadowbox/shadowbox.js"></script>
+<script type="text/javascript">Shadowbox.init();</script>
+
 <script type="text/javascript">
 var album_error_name = '{LANG.album_error_name}';
 var album_error_folder = '{LANG.album_error_folder}';
@@ -400,6 +393,16 @@ var album_error_category = '{LANG.album_error_category}';
 var album_id = '{DATA.album_id}';
 var lang_confirm = '{LANG.confirm}';
 var lang_check_form = '{LANG.check_form}';
+// Calendar */
+$('#input-date-album').datepicker({
+	showOn : "both",
+	dateFormat : "dd/mm/yy",
+	changeMonth : true,
+	changeYear : true,
+	showOtherMonths : true,
+	buttonImage : nv_base_siteurl + "assets/images/calendar.gif",
+	buttonImageOnly : true
+});
 </script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/photos_footer.js"></script>
 <!-- BEGIN: getalias -->

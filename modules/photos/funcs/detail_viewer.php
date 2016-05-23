@@ -48,6 +48,7 @@ if( $ajax )
 	$row['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $row['file'];
 	$row['album_title'] = !empty($global_photo_album[$row['album_id']]['meta_title'])?$global_photo_album[$row['album_id']]['meta_title']:$global_photo_album[$row['album_id']]['name'];
 	$row['title'] = !empty($row['name'])?$row['name']:$row['album_title'];
+	$row['description'] = !empty($row['description'])?$row['description']:$row['name'];
 	
 	$album_id = $row['album_id'];
 	$view_url = NV_MY_DOMAIN . nv_url_rewrite( $global_photo_album[$row['album_id']]['link'] . '/'. $row['row_id'] . $global_config['rewrite_exturl'], true);
