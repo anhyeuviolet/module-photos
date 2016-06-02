@@ -169,3 +169,6 @@ $lang_module['album_view_grid']='Hiển thị dạng lưới';
 $lang_module['album_upload_author']='Người đăng';
 $lang_module['album_last_modifier']='Chỉnh sửa';
 
+$lang_module['pick_category'] = 'Chọn chuyên mục';
+$lang_module['pick_albumname'] = 'Tên Album';
+$lang_module['pick_albumdate'] = 'Ngày đăng Album';
