@@ -382,7 +382,12 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
-
+		
+		$nb = $db->query( 'SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album  WHERE folder=' . $db->quote($data['folder']) )->fetch();
+		if( ! empty( $nb ) ){
+			$nb = $db->query( 'SELECT MAX(album_id) FROM ' . TABLE_PHOTO_NAME . '_album' )->fetchColumn();
+			$data['folder'] .= '-' . ( intval( $nb ) + 1 );
+		}	
 		if( !empty( $data['folder'] ) AND ! is_dir( NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'] ) )
 		{
 			$mkdir = nv_mkdir( NV_ROOTDIR . '/' . $currentpath, $data['folder'] );
