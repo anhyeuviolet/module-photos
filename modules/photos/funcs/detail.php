@@ -63,7 +63,7 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) && nv_us
 	
 	// rewrite link
 	$base_url_rewrite = nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_photo_cat[$category_id]['alias'] . '/' . $global_photo_album[$row['album_id']]['alias'] . '-' . $row['album_id'] .'/'.$row['row_id']. $global_config['rewrite_exturl'], true );
-	if( $_SERVER['REQUEST_URI'] != $base_url_rewrite )
+	if ($_SERVER['REQUEST_URI'] != $base_url_rewrite and NV_MAIN_DOMAIN . $_SERVER['REQUEST_URI'] != $base_url_rewrite)
 	{
 		Header( 'Location: ' . $base_url_rewrite );
 		die();

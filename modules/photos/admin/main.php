@@ -65,7 +65,7 @@ if( ACTION_METHOD == 'deleterows' )
 			}
 		}
 	}
-	elseif( empty( $row_id ) &&  $token_image == md5( $global_config['sitekey'] . session_id() . $image_url ) && $token_thumb == md5( $global_config['sitekey'] . session_id() . $thumb ) )
+	elseif( empty( $row_id ) AND  $token_image == md5( $global_config['sitekey'] . session_id() . $image_url ) AND $token_thumb == md5( $global_config['sitekey'] . session_id() . $thumb ) )
 	{
 		@nv_deletefile( NV_ROOTDIR . $thumb );
 		@nv_deletefile( NV_ROOTDIR . $image_url );
@@ -311,7 +311,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 				'token_thumb'=> '',
 				'basename'=> '',
 				'filePath'=> '',
-				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs' . $photo['thumb'],
+				'thumb'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $photo['thumb'],
 				'image_url'=> NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'],
 				'defaults'=> ( $photo['defaults'] == 1 ) ? 'checked="checked"' : '',
 				'name'=> $photo['name'],
@@ -371,7 +371,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 			$error['category'] = $lang_module['album_error_category'];	
 		}
 		
-		if( ! empty( $error ) && ! isset( $error['warning'] ) )
+		if( ! empty( $error ) AND ! isset( $error['warning'] ) )
 		{
 			$error['warning'] = $lang_module['album_error_warning'];
 		}
@@ -383,7 +383,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
 
-		if( !empty( $data['folder'] ) && ! is_dir( NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'] ) )
+		if( !empty( $data['folder'] ) AND ! is_dir( NV_ROOTDIR . '/' . $currentpath . '/'. $data['folder'] ) )
 		{
 			$mkdir = nv_mkdir( NV_ROOTDIR . '/' . $currentpath, $data['folder'] );
 			if( $mkdir[0] == 0 )
@@ -486,7 +486,6 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 							
 							if( is_dir( $folder_album ) )
 							{
-								
 								// Copy file anh goc
 								$basename = $photo['basename'];
 								$basename2 = $basename;
@@ -499,64 +498,56 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								$basename = $basename2;
 								$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 								$newFilePath = $folder_album . '/' . $basename;
-								
-								$rename = nv_copyfile( $filePath, $newFilePath );
-								if( ! $rename )
+
+								$upload_logo = $rename = '';
+								if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
 								{
-									$error['warning'] = $lang_module['album_error_copy_photo'] . basename( $filePath );
-									unset( $data['albums'][$key] );
-								}
-								else
-								{
-									// Xoa anh tam
-									@nv_deletefile( $filePath );
-									
-									$upload_logo = '';
-									if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
+									$upload_logo = $module_config[$module_name]['module_logo'];
+									$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
+
+									if( $photo['width'] <= 150 )
 									{
-										$upload_logo = $module_config[$module_name]['module_logo'];
-									} 
-									if( ! empty( $upload_logo ) )
+										$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
+									}
+									elseif( $photo['width'] < 350 )
 									{
-										$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
- 
-										if( $photo['width'] <= 150 )
+										$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
+									}
+									else
+									{
+										if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
 										{
-											$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
-										}
-										elseif( $photo['width'] < 350 )
-										{
-											$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
+											$w = $logo_size[0];
 										}
 										else
 										{
-											if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
-											{
-												$w = $logo_size[0];
-											}
-											else
-											{
-												$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
-											}
+											$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
 										}
-
-										$h = ceil( $w * $logo_size[1] / $logo_size[0] );
-										$x = $photo['width'] - $w - 5;
-										$y = $photo['height'] - $h - 5;
-
-										$config_logo = array();
-										$config_logo['x'] = $photo['width'] - $w - 5;
-										$config_logo['y'] = $photo['height'] - $h - 5;
-										$config_logo['w'] = $w;
-										$config_logo['h'] = $h;
-
-										$createImage = new NukeViet\Files\Image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-										$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
-										$createImage->save( $folder_album, $basename );
-										 
 									}
- 	
-									$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/images/' ) );
+
+									$h = ceil( $w * $logo_size[1] / $logo_size[0] );
+									$x = $photo['width'] - $w - 5;
+									$y = $photo['height'] - $h - 5;
+
+									$config_logo = array();
+									$config_logo['x'] = $photo['width'] - $w - 5;
+									$config_logo['y'] = $photo['height'] - $h - 5;
+									$config_logo['w'] = $w;
+									$config_logo['h'] = $h;
+
+									$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+									$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
+									$createImage->save( $folder_album, $basename );
+								} 
+								else{
+									$rename = nv_copyfile( $filePath, $newFilePath );
+								}
+								if( file_exists($newFilePath) OR $rename )
+								{
+									// Xoa anh tam
+									@nv_deletefile( $filePath );
+	
+									$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' ) );
 									
 									// Copy file thumb
 									//$thum_folder  = floor( $data['album_id'] / 1000 );
@@ -609,6 +600,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$sth->closeCursor();
 										++$count;
 									}
+								}else{
+									$error['warning'] = $lang_module['album_error_copy_photo'] . basename( $filePath );
+									unset( $data['albums'][$key] );
 								}
 							}
 						}
@@ -733,62 +727,52 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 										$newFilePath = $folder_album . '/' . $basename;
 										
-										$rename = nv_copyfile( $filePath, $newFilePath );
-										
-										if( ! $rename )
+										$upload_logo = $rename = '';
+										if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
 										{
-											$error['warning'] = $lang_module['album_error_copy_photo'] . basename( $filePath );
-											unset( $data['albums'][$key] );
-										}
-										else
-										{
-									
-											// Xoa anh tam
-											@nv_deletefile( $filePath );
-											$upload_logo = '';
-											if( file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) && $module_config[$module_name]['active_logo'] == 1 )
+											$upload_logo = $module_config[$module_name]['module_logo'];
+											$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
+	 
+											if( $photo['width'] <= 150 )
 											{
-												$upload_logo = $module_config[$module_name]['module_logo'];
-											} 
-											if( ! empty( $upload_logo ) )
+												$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
+											}
+											elseif( $photo['width'] < 350 )
 											{
-												$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
-		 
-												if( $photo['width'] <= 150 )
+												$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
+											}
+											else
+											{
+												if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
 												{
-													$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize1'] / 100 );
-												}
-												elseif( $photo['width'] < 350 )
-												{
-													$w = ceil( $logo_size[0] * $module_config[$module_name]['autologosize2'] / 100 );
+													$w = $logo_size[0];
 												}
 												else
 												{
-													if( ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 ) > $logo_size[0] )
-													{
-														$w = $logo_size[0];
-													}
-													else
-													{
-														$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
-													}
+													$w = ceil( $photo['width'] * $module_config[$module_name]['autologosize3'] / 100 );
 												}
-
-												$h = ceil( $w * $logo_size[1] / $logo_size[0] );
-												$x = $photo['width'] - $w - 5;
-												$y = $photo['height'] - $h - 5;
-
-												$config_logo = array();
-												$config_logo['x'] = $photo['width'] - $w - 5;
-												$config_logo['y'] = $photo['height'] - $h - 5;
-												$config_logo['w'] = $w;
-												$config_logo['h'] = $h;
-
-												$createImage = new NukeViet\Files\Image( $newFilePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-												$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
-												$createImage->save( $folder_album, $basename );
-												 
 											}
+
+											$h = ceil( $w * $logo_size[1] / $logo_size[0] );
+											$x = $photo['width'] - $w - 5;
+											$y = $photo['height'] - $h - 5;
+
+											$config_logo = array();
+											$config_logo['x'] = $photo['width'] - $w - 5;
+											$config_logo['y'] = $photo['height'] - $h - 5;
+											$config_logo['w'] = $w;
+											$config_logo['h'] = $h;
+
+											$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+											$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
+											$createImage->save( $folder_album, $basename );
+										} 
+										else{
+											$rename = nv_copyfile( $filePath, $newFilePath );
+										}
+										if( file_exists($newFilePath) OR $rename ){
+											// Xoa anh tam
+											@nv_deletefile( $filePath );
 			
 											$photo['file'] = substr( $newFilePath, strlen( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' ) );
 											
@@ -842,6 +826,9 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 												$sth->closeCursor();
 												++$count;
 											}
+										}else{
+											$error['warning'] = $lang_module['album_error_copy_photo'] . basename( $filePath );
+											unset( $data['albums'][$key] );
 										}
 									}
 								}
@@ -1059,7 +1046,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	{
 		$xtpl->parse( 'main.getalias' );
 	}
-	if(isset($module_config[$module_name]['origin_size_width']) && isset($module_config[$module_name]['origin_size_height']) && ($module_config[$module_name]['origin_size_width'] > 0) && ($module_config[$module_name]['origin_size_height'] > 0))
+	if(isset($module_config[$module_name]['origin_size_width']) AND isset($module_config[$module_name]['origin_size_height']) AND ($module_config[$module_name]['origin_size_width'] > 0) AND ($module_config[$module_name]['origin_size_height'] > 0))
 	{
 		$xtpl->parse( 'main.resize_at_browser' );
 	}
@@ -1129,7 +1116,7 @@ if( $data['filter_category'] > 0 )
 	$sql .= " AND category_id = " . ( int )$data['filter_category'];
 }
  
-if( isset( $data['filter_status'] ) && is_numeric( $data['filter_status'] ) )
+if( isset( $data['filter_status'] ) AND is_numeric( $data['filter_status'] ) )
 {
 	$sql .= " AND status = " . ( int )$data['filter_status'];
 }
@@ -1142,7 +1129,7 @@ if( preg_match( '/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $data['filter_date
 	$sql .= " AND date_added BETWEEN " . $date_added_start . " AND " . $date_added_end . "";
 }
 $sort_data = array( 'name', 'category_id', 'date_added' );
-if( isset( $sort ) && in_array( $sort, $sort_data ) )
+if( isset( $sort ) AND in_array( $sort, $sort_data ) )
 {
 
 	$sql .= " ORDER BY " . $sort;
@@ -1152,7 +1139,7 @@ else
 	$sql .= " ORDER BY date_added";
 }
 
-if( isset( $order ) && ( $order == 'desc' ) )
+if( isset( $order ) AND ( $order == 'desc' ) )
 {
 	$sql .= " DESC";
 }
@@ -1195,8 +1182,7 @@ $xtpl->assign( 'URL_SEARCH', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE 
 $order2 = ( $order == 'asc' ) ? 'desc' : 'asc';
 $xtpl->assign( 'URL_NAME', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=name&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
 $xtpl->assign( 'URL_WEIGHT', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=weight&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
-$xtpl->assign( 'URL_CATEGORY', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=category_id&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
-$xtpl->assign( 'URL_DATE', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=date_added&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
+$xtpl->assign( 'URL_category', NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;sort=category_id&amp;order=' . $order2 . '&amp;per_page=' . $per_page );
 
 $xtpl->assign( 'ADD_NEW', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=" . $op . "&action=add" );
  
@@ -1221,7 +1207,7 @@ foreach( $global_photo_cat as $key => $value )
 }
 foreach( $array_status as $key => $name )
 {
-	$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['filter_status'] && is_numeric( $data['filter_status'] ) ) ? 'selected="selected"': '' ) );
+	$xtpl->assign( 'STATUS', array( 'key'=> $key, 'name'=> $name, 'selected'=> ( $key == $data['filter_status'] AND is_numeric( $data['filter_status'] ) ) ? 'selected="selected"': '' ) );
 	$xtpl->parse( 'main.filter_status' );
 }
  
