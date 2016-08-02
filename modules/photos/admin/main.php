@@ -383,8 +383,19 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 		$_allow_cmm = $nv_Request->get_array( 'allow_comment', 'post', array() );
 		$data['allow_comment'] = ! empty( $_allow_cmm ) ? implode( ',', nv_groups_post( array_intersect( $_allow_cmm, array_keys( $groups_list ) ) ) ) : '';
 		
-		$nb = $db->query( 'SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album  WHERE folder=' . $db->quote($data['folder']) )->fetch();
-		if( ! empty( $nb ) ){
+		$array_checkPath = array();
+		$array_checkPath[''] = '';
+		$array_checkPath['Y'] =  date( 'Y' );
+		$array_checkPath['Ym'] =  date( 'Y_m' );
+		$array_checkPath['Y_m'] =  date( 'Y/m' );
+		$array_checkPath['Ym_d'] =  date( 'Y_m/d' );
+		$array_checkPath['Y_m_d'] =  date( 'Y/m/d' );
+		 
+		$folderPath = isset( $module_config[$module_name]['structure_upload'] ) ? $module_config[$module_name]['structure_upload'] : 'Ym';
+		$check_path = isset( $array_checkPath[$folderPath] ) ? $array_checkPath[$folderPath] : '';
+			
+		$_nb = $db->query( 'SELECT COUNT(*) FROM ' . TABLE_PHOTO_NAME . '_album WHERE album_id != ' . $data['album_id'] . ' AND folder=' . $db->quote($check_path . '/' . $data['folder']) )->fetchColumn();
+		if( ! empty( $_nb ) ){
 			$nb = $db->query( 'SELECT MAX(album_id) FROM ' . TABLE_PHOTO_NAME . '_album' )->fetchColumn();
 			$data['folder'] .= '-' . ( intval( $nb ) + 1 );
 		}	
@@ -502,7 +513,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								}
 								$basename = $basename2;
 								$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
-								$newFilePath = $folder_album . '/' . $basename;
+								$newFilePath = $folder_album . '/' . strtolower ($basename);
 
 								$upload_logo = $rename = '';
 								if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
@@ -543,6 +554,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 									$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 									$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 									$createImage->save( $folder_album, $basename );
+									$rename = $createImage->is_destroy;
 								} 
 								else{
 									$rename = nv_copyfile( $filePath, $newFilePath );
@@ -730,7 +742,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										}
 										$basename = $basename2;
 										$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
-										$newFilePath = $folder_album . '/' . $basename;
+										$newFilePath = $folder_album . '/' . strtolower ($basename);
 										
 										$upload_logo = $rename = '';
 										if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
@@ -771,6 +783,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 											$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 											$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
 											$createImage->save( $folder_album, $basename );
+											$rename = $createImage->is_destroy;
 										} 
 										else{
 											$rename = nv_copyfile( $filePath, $newFilePath );
