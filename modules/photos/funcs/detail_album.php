@@ -179,11 +179,11 @@ if( nv_user_in_groups( $global_photo_cat[$category_id]['groups_view'] ) )
 	}
 	if( $module_config[$module_name]['album_view'] == 'album_view_grid' )
 	{
-		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page );
+		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, $generate_page, $page );
 	}
 	else
 	{
-		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment, '' );
+		$contents = detail_album( $album, $array_photo, $other_category_album, $content_comment );
 	}
 }
 else

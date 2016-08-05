@@ -4,9 +4,9 @@
 <div class="page-header pd10_0 mg0_0_10">
 	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
 	<span class="text-muted">{LANG.category}:&nbsp;</span><a href="{CATALOG.link}" title="{CATALOG.name}">{CATALOG.name}</a>
-	<span><i class="spacer"></i></span>
+	<span><i class="fa spacer"></i></span>
 	<span class="text-muted">{LANG.album_author_upload}: {ALBUM.author_upload}</span>
-	<span><i class="spacer"></i></span>
+	<span><i class="fa spacer"></i></span>
 	<span class="text-muted">{LANG.viewed}: {ALBUM.viewed}</span>
 </div>
 <!-- BEGIN: description -->
@@ -20,7 +20,7 @@
 	<div class="col-xs-24 col-sm-12 col-md-{PER_LINE} col-lg-{PER_LINE}">
 		<div class="panel panel-default">
 			<div class="panel-body pd5">
-				<a href="{PHOTO.file}" title="{PHOTO.name}" data-gallery="gallery">
+				<a href="{PHOTO.file}" title="{ALBUM.name}({PHOTO.num}/{ALBUM.num_photo})" data-gallery="gallery">
 					<img class="lazy img-responsive center-block" data-original="{PHOTO.thumb}" src="{PHOTO.thumb}" alt="{PHOTO.name}" width="640" height="480"/>
 				</a>
 			</div>

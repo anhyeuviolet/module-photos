@@ -4,7 +4,7 @@
 			<h3 class="txt20 txt_bold"><span>{PHOTO.title}</span></h3>
 			<p>{PHOTO.description}</p>
 			<span class="text-muted">{LANG.album}:&nbsp;</span><a href="{ALBUM.link}" title="{ALBUM.name}">{ALBUM.name}</a>
-			<i class="spacer"></i>
+			<i class="fa spacer"></i>
 			<span class="text-muted">{LANG.viewed}:&nbsp;{PHOTO.viewed}</span>
 		</div>
 	</div>

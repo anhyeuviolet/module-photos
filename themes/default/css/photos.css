@@ -63,6 +63,6 @@
 	-moz-border-radius: 150px;
 	}
 .spacer::before {
-    content: "•";
+    content: "\f10c";
     margin: 0px 5px;
 }
