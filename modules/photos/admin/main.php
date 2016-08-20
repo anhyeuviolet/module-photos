@@ -155,7 +155,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 
  	$array_structure_image = array();
-	$array_structure_image[''] = $module_upload;
+	$array_structure_image[''] = $module_upload . '/images/';
 	$array_structure_image['Y'] = $module_upload . '/images/' . date( 'Y' );
 	$array_structure_image['Ym'] = $module_upload . '/images/' . date( 'Y_m' );
 	$array_structure_image['Y_m'] = $module_upload . '/images/' . date( 'Y/m' );
@@ -202,7 +202,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
  
 	//Folder thumb
 	$array_structure_thumb = array();
-	$array_structure_thumb[''] = $module_upload.'/thumbs';
+	$array_structure_thumb[''] = $module_upload . '/thumbs';
 	$array_structure_thumb['Y'] = $module_upload . '/thumbs/' . date( 'Y' );
 	$array_structure_thumb['Ym'] = $module_upload . '/thumbs/' . date( 'Y_m' );
 	$array_structure_thumb['Y_m'] = $module_upload . '/thumbs/' . date( 'Y/m' );
