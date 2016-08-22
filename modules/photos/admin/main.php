@@ -155,7 +155,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 
  	$array_structure_image = array();
-	$array_structure_image[''] = $module_upload . '/images/';
+	$array_structure_image[''] = $module_upload . '/images';
 	$array_structure_image['Y'] = $module_upload . '/images/' . date( 'Y' );
 	$array_structure_image['Ym'] = $module_upload . '/images/' . date( 'Y_m' );
 	$array_structure_image['Y_m'] = $module_upload . '/images/' . date( 'Y/m' );
@@ -171,7 +171,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 	else
 	{
-		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload;
+		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images';
 		$e = explode( '/', $currentpath );
 		if( ! empty( $e ) )
 		{
@@ -218,7 +218,7 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 	}
 	else
 	{
-		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload;
+		$upload_real_dir_page = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images';
 		$e = explode( '/', $currentpaththumb );
 		if( ! empty( $e ) )
 		{

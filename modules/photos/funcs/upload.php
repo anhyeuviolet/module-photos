@@ -116,7 +116,7 @@ if( ! $chunks || $chunk == $chunks - 1 )
 
 $thumb = NV_BASE_SITEURL . NV_TEMP_DIR . '/' . creatThumb( $filePath, NV_ROOTDIR . '/' . NV_TEMP_DIR, 90, 72 );
 
-$image_url = str_replace( NV_ROOTDIR, '', $filePath );
+$image_url = NV_BASE_SITEURL . str_replace( NV_ROOTDIR . '/', '', $filePath );
 $token_image = md5( $global_config['sitekey'] . session_id() . $image_url );
 $token_thumb = md5( $global_config['sitekey'] . session_id() . $thumb );
 $token = md5( $global_config['sitekey'] . session_id() );

@@ -13,7 +13,7 @@ if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
-
+$contents = '';
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $base_url_rewrite = nv_url_rewrite( $base_url, true );
 $page_url_rewrite = $page ? nv_url_rewrite( $base_url . '/page-' . $page, true ) : $base_url_rewrite;
@@ -23,21 +23,15 @@ if( ! ( $home OR $request_uri == $base_url_rewrite OR $request_uri == $page_url_
 	$redirect = '<meta http-equiv="Refresh" content="3;URL=' . $base_url_rewrite . '" />';
 	nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] . $redirect );
 }
-
  
 if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 {
 	$array_cate = array();
-	if( ! empty( $global_photo_cat ) )
-	{ 
-
-		foreach( $global_photo_cat as $_category_id => $category  )
-		{
-			if( $category['parent_id'] == 0 and $category['inhome'] != 0 and $category['status'] != 0 )
-			{
+	if( ! empty( $global_photo_cat ) ){ 
+		foreach( $global_photo_cat as $_category_id => $category ){
+			if( $category['parent_id'] == 0 and $category['inhome'] != 0 and $category['status'] != 0 ){
 				$array_cat = array();
 				$array_cat = GetCatidInParent( $_category_id, true );
-
 				// Fetch Limit
 				$db->sqlreset()
 				->select( 'COUNT(*)' )
@@ -115,7 +109,6 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 			}
 		}
 	}
- 
 	$contents = home_view_grid_by_cat( $array_cate );
 }
 elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
@@ -123,7 +116,7 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 	$per_page = $module_config[$module_name]['per_page_album'];
 	$array_album = array();
 	if( ! empty( $global_photo_cat ) )
-	{ 
+	{
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
 			->from( TABLE_PHOTO_NAME . '_album a' )
@@ -166,14 +159,13 @@ elseif( $module_config[$module_name]['home_view'] == 'home_view_grid_by_album' )
 				}
 			}
 			$item['link'] = $global_photo_cat[$item['category_id']]['link'] . '/' . $item['alias'] . '-' . $item['album_id'];
-			
 			$array_album[] = $item;
 		}
 		$result->closeCursor();
+		
+		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
+		$contents = home_view_grid_by_album( $array_album, $generate_page);	
 	}
-
-	$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
-	$contents = home_view_grid_by_album( $array_album, $generate_page);	
 }
 
 include NV_ROOTDIR . '/includes/header.php';
