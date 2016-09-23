@@ -203,7 +203,7 @@ $(document).ready(function () {
 		<div class="panel panel-default">
 			<div class="panel-body pd5">
 				<a href="{OTHER.link}" title="{OTHER.name}">
-					<img class="lazy img-responsive center-block" data-original="{OTHER.thumb}" src="{OTHER.thumb}" alt="{OTHER.description}" width="640" height="480"/>
+					<img class="lazy img-responsive center-block" data-original="{OTHER.thumb}" src="{OTHER.thumb}" alt="{OTHER.name}" width="640" height="480"/>
 				</a>
 			</div>
 			<div class="panel-footer view_detail pd5">
