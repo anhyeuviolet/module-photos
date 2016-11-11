@@ -77,9 +77,30 @@ $(function() {
 <!-- END: view_grid -->
 
 <!-- BEGIN: slider -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.css" type="text/css" rel="stylesheet" media="all" />
-<script src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/bxslider/jquery.bxslider.min.js" type="text/javascript" ></script>
-
+<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/swiper/css/swiper.min.css" type="text/css" rel="stylesheet" media="all" />
+<style>
+.swiper-container {
+	width: 100%;
+	height: auto;
+}
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+</style>
 <div class="pd5">
 	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
 	<ul class="list-inline text-muted">
@@ -91,86 +112,21 @@ $(function() {
 	<p class="album_description">{ALBUM.description}</p>
 	<hr />
 	<!-- END: description -->
-
-	<ul class="bxslider_{OP}">
+    <div class="swiper-container album-{ALBUM.id}">
+		<div class="swiper-wrapper">
 		<!-- BEGIN: loop_slide -->
-		<li><img src="{PHOTO.file}" /></li>
+			<div class="swiper-slide">
+				<img data-src="{PHOTO.file}" class="swiper-lazy" alt="{ALBUM.name}">
+				<div class="swiper-lazy-preloader"></div>
+			</div>
 		<!-- END: loop_slide -->
-	</ul>
-
-	<div id="bx-pager" class="carousel-slide">
-	  <!-- BEGIN: loop_thumb -->
-	  <a  href="javascript:void(0);" onclick="clicked({PHOTO.num});" data-slide-index="{PHOTO.num}"><img src="{PHOTO.thumb}" /></a>
-	  <!-- END: loop_thumb -->
-	</div>
-	<div class="clear"></div>
-	<!-- BEGIN: social_tool -->
-	<div class="col-md-24 col-sm-24 col-xs-24 pd5">
-		<div class="fb-like"></div>
-		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="20" data-colorscheme="light"></div>
-	</div>
-	<!-- END: social_tool -->
+		</div>
+		<div class="swiper-pagination"></div>
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+	</div>	
  </div>
 
-<script type="text/javascript" >
-var isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-    any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-    }
-};
-
-var adaptive = false;
-
-if( isMobile.any() )
-{
-   adaptive = true;
-}
-
-
-var carousel;
-var slider;
-$(document).ready(function () {
-    carousel = $('.carousel-slide').bxSlider({
-        slideWidth: 110,
-        minSlides: 2,
-        maxSlides: 10,
-        moveSlides: 1,
-        slideMargin: 0,
-        pager: false
-
-    });
-
-    slider = $('.bxslider_{OP}').bxSlider({
-        pager: false,
-		moveSlides: 1,
-		displaySlideQty: 2,
-		responsive: true,
-		infiniteLoop: true,
-		adaptiveHeight: adaptive
-    });
-});
-function clicked(position) {
-    slider.goToSlide(position);
-}
-$(document).ready(function () {
-	$('.bxslider_{OP} li').css('display', 'block');
-})
-</script>
 <!-- END: slider -->
 
 <!-- BEGIN: generate_page -->
@@ -186,7 +142,7 @@ $(document).ready(function () {
 </div>
 <!-- END: social_tool -->
 
-<hr />
+<hr/>
 <div class="album_comment pd5">
 <!-- BEGIN: comment -->
 {CONTENT_COMMENT}
@@ -220,5 +176,18 @@ $(document).ready(function () {
 	<div class="clear"></div>
 </div>
 <!-- END: other_album -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/swiper/js/swiper.min.js"></script>
+<script>
+var swiper = new Swiper('.album-{ALBUM.id}', {
+	zoom: true,
+	nextButton: '.swiper-button-next',
+	prevButton: '.swiper-button-prev',
+	pagination: '.swiper-pagination',
+	calculateHeight:true,
+	paginationClickable: true,
+	preloadImages: false,
+	lazyLoading: true
+});
+</script>
 
 <!-- END: main -->
