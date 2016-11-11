@@ -213,7 +213,6 @@ function detail_album($album, $array_photo, $other_category_album, $content_comm
                 $xtpl->assign('PHOTO', $photo);
                 $xtpl->parse('main.view_grid.loop_img');
                 $xtpl->parse('main.slider.loop_slide');
-                $xtpl->parse('main.slider.loop_thumb');
                 ++ $num;
             }
         }

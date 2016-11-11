@@ -12,15 +12,12 @@
 if ( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $url = array();
-$cacheFile = NV_LANG_DATA . "_" . $module_name . "_Sitemap.cache";
-$pa = NV_CURRENTTIME - 7200;
+$cacheFile = NV_LANG_DATA . '_sitemap_' . NV_CACHE_PREFIX . '.cache';
+$cacheTTL = 7200;
 
-if ( ( $cache = $nv_Cache->getItem( $module_name, $cacheFile ) ) != false and filemtime( $cacheFile ) >= $pa )
-{
+if (($cache = $nv_Cache->getItem($module_name, $cacheFile, $cacheTTL)) != false) {
     $url = unserialize( $cache );
-}
-else
-{
+} else {
     $sql = 'SELECT a.album_id, a.category_id, a.date_added, a.alias FROM ' . TABLE_PHOTO_NAME . '_album a 
 						LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )
 						WHERE a.status= 1 AND r.defaults = 1 
@@ -36,7 +33,7 @@ else
     }
     
     $cache = serialize($url);
-    $nv_Cache->setItem( $module_name, $cacheFile, $cache );
+    $nv_Cache->setItem($module_name, $cacheFile, $cache, $cacheTTL);
 }
 
 nv_xmlSitemap_generate( $url );

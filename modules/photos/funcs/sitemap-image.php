@@ -55,17 +55,12 @@ if( empty( $count_op ) )
 else
 {
 	$array_url = array();
-	$cacheFile = NV_LANG_DATA . '_sitemap_image_'. $page  .'_' . NV_CACHE_PREFIX . '.cache';
+	$cacheFile = NV_LANG_DATA . '_sitemap_' . NV_CACHE_PREFIX . '.cache';
+	$cacheTTL = 7200;
 
-	$pa = NV_CURRENTTIME - 7200;
-
-	if( ( $cache = $nv_Cache->getItem( $module_name, $cacheFile ) ) != false and filemtime( NV_ROOTDIR . '/' . NV_CACHEDIR . '/' . $module_name . '/' . $cacheFile ) >= $pa )
-	{
+	if (($cache = $nv_Cache->getItem($module_name, $cacheFile, $cacheTTL)) != false) {
 		$array_url = unserialize( $cache );
-	}
-	else
-	{
-		
+	} else {
 		$db->sqlreset()
 			->select( 'album_id, category_id, name, alias, meta_title' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_album' )
@@ -89,9 +84,7 @@ else
 			{
 				$album['photo'][] = array(
 					'image' => NV_MAIN_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/images/' . $row['file'],
-					'row_id' => $row['row_id'],  
-					//'caption' => $album['meta_title'],  
-					//'title' => $album['name'],   
+					'row_id' => $row['row_id']
 				);
 			}
 			$photo->closeCursor();
@@ -99,9 +92,8 @@ else
 			$array_url[] = $album;
 		}
 	 
-		
-		$cache = serialize( $array_url );
-		$nv_Cache->setItem( $module_name, $cacheFile, $cache );
+		$cache = serialize($url);
+		$nv_Cache->setItem($module_name, $cacheFile, $cache, $cacheTTL);
 	}
 	$content ="";
 	$content.="<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n";
