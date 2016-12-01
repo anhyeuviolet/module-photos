@@ -77,30 +77,7 @@ $(function() {
 <!-- END: view_grid -->
 
 <!-- BEGIN: slider -->
-<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/swiper/css/swiper.min.css" type="text/css" rel="stylesheet" media="all" />
-<style>
-.swiper-container {
-	width: 100%;
-	height: auto;
-}
-.swiper-slide {
-	text-align: center;
-	font-size: 18px;
-	background: #fff;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	-webkit-justify-content: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	-webkit-align-items: center;
-	align-items: center;
-}
-</style>
+<link href="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/magicslideshow/magicslideshow.css" type="text/css" rel="stylesheet" media="all" />
 <div class="pd5">
 	<h1 class="txt20 txt_bold">{ALBUM.name}</h1>
 	<ul class="list-inline text-muted">
@@ -112,19 +89,12 @@ $(function() {
 	<p class="album_description">{ALBUM.description}</p>
 	<hr />
 	<!-- END: description -->
-    <div class="swiper-container album-{ALBUM.id}">
-		<div class="swiper-wrapper">
+	
+	<div class="MagicSlideshow album-{ALBUM.id}" data-options="selectors: bottom; selectors-style: thumbnails; selectors-size: 40px;">
 		<!-- BEGIN: loop_slide -->
-			<div class="swiper-slide">
-				<img data-src="{PHOTO.file}" class="swiper-lazy" alt="{ALBUM.name}">
-				<div class="swiper-lazy-preloader"></div>
-			</div>
+		<img src="{PHOTO.file}" alt="{ALBUM.name}">
 		<!-- END: loop_slide -->
-		</div>
-		<div class="swiper-pagination"></div>
-		<div class="swiper-button-next"></div>
-		<div class="swiper-button-prev"></div>
-	</div>	
+	</div>
  </div>
 
 <!-- END: slider -->
@@ -176,18 +146,5 @@ $(function() {
 	<div class="clear"></div>
 </div>
 <!-- END: other_album -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/swiper/js/swiper.min.js"></script>
-<script>
-var swiper = new Swiper('.album-{ALBUM.id}', {
-	zoom: true,
-	nextButton: '.swiper-button-next',
-	prevButton: '.swiper-button-prev',
-	pagination: '.swiper-pagination',
-	calculateHeight:true,
-	paginationClickable: true,
-	preloadImages: false,
-	lazyLoading: true
-});
-</script>
-
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/{TEMPLATE}/modules/{MODULE_FILE}/plugins/magicslideshow/magicslideshow.js"></script>
 <!-- END: main -->
