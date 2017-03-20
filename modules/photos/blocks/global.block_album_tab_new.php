@@ -102,7 +102,12 @@ if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
 		$html .= '<td>' . $lang_block['height'] . '</td>';
 		$html .= '<td><input type="number" class="form-control w200" name="config_height" size="5" value="' . $data_block['height'] . '"/></td>';
 		$html .= '</tr>';
-
+		
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['gallery_mode'] . '</td>';
+        $html .= '<td><input type="checkbox" value="1" name="config_gallery_mode" ' . ($data_block['gallery_mode'] == 1 ? 'checked="checked"' : '') . ' /></td>';
+		$html .= '</tr>';
+		
 		return $html;
 	}
 
@@ -117,6 +122,7 @@ if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
  		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
  		$return['config']['width'] = $nv_Request->get_int( 'config_width', 'post', 0 );
 		$return['config']['height'] = $nv_Request->get_int( 'config_height', 'post', 0 );
+		$return['config']['gallery_mode'] = $nv_Request->get_int( 'config_gallery_mode', 'post', 0 );
 		return $return;
 	}
 
@@ -184,6 +190,8 @@ if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
 
 			$xtpl = new XTemplate( 'block_album_tab_new.tpl', NV_ROOTDIR . '/themes/' . $block_theme . '/modules/' . $mod_file );
 			$xtpl->assign( 'BLOCK_ID', $blockID );
+			$xtpl->assign( 'MODULE_FILE', $mod_file );
+			$xtpl->assign( 'TEMPLATE', $block_theme );
 
 			if( !empty( $array_data ) )
 			{
@@ -194,11 +202,20 @@ if( ! nv_function_exists( 'nv_block_album_tab_new' ) )
 
 					if( !empty( $data['photos'] ) )
 					{
-						foreach( $data['photos'] as $photo )
-						{
-							$xtpl->assign( 'DATA', $photo );
-							$xtpl->parse( 'main.tabs_data.loop' );
-						}
+							if($block_config['gallery_mode'] == 1){
+								foreach( $data['photos'] as $photo )
+								{
+									$xtpl->assign( 'DATA', $photo );
+									$xtpl->parse( 'main.tabs_data.gallery' );
+								}
+								$xtpl->parse( 'main.gallery_template' );
+							}else{
+								foreach( $data['photos'] as $photo )
+								{
+									$xtpl->assign( 'DATA', $photo );
+									$xtpl->parse( 'main.tabs_data.loop' );
+								}
+							}
 						$xtpl->parse( 'main.tabs_data' );
 					}
 				}
