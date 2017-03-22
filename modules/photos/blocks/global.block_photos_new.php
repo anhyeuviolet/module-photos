@@ -89,11 +89,6 @@ if( ! nv_function_exists( 'nv_block_photos_new' ) )
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
-		$html .= '<td>' . $lang_block['des_length'] . '</td>';
-		$html .= '<td><input type="text" class="form-control w200" name="config_des_length" size="5" value="' . $data_block['des_length'] . '"/></td>';
-		$html .= '</tr>';
-		
-		$html .= '<tr>';
 		$html .= '<td>' . $lang_block['slide_mode'] . '</td>';
 		$html .= '<td><input type="checkbox" class="form-control" name="config_slide_mode" value="1" ' . ($data_block['slide_mode'] == 1 ? 'checked="checked"' : '') . '"/></td>';
 		$html .= '</tr>';
@@ -109,7 +104,6 @@ if( ! nv_function_exists( 'nv_block_photos_new' ) )
 		$return['config'] = array();
  		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
  		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
- 		$return['config']['des_length'] = $nv_Request->get_int( 'config_des_length', 'post', 0 );
  		$return['config']['slide_mode'] = $nv_Request->get_int( 'config_slide_mode', 'post', 0 );
 		return $return;
 	}
@@ -155,7 +149,6 @@ if( ! nv_function_exists( 'nv_block_photos_new' ) )
 			{
 				$album['name'] = nv_clean60( $album['name'], $block_config['title_length'] );
 				$album['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $module_photo_category[$album['category_id']]['alias'] . '/' . $album['alias'] . '-' . $album['album_id'] . '/' . $album['row_id'] . $global_config['rewrite_exturl'];
-				$album['description'] =  strip_tags(nv_clean60( $album['description'], $block_config['des_length'] ) );
 				$album['date_added'] = nv_date( 'd/m/Y', $album['date_added'] );
 				$album['capturedate'] = nv_date( 'd/m/Y', $album['capturedate'] );
 				$album['thumb'] = photos_thumbs( $album['album_id'], $album['file'], $module, $thumb_width, $thumb_height, $thumb_quality );
