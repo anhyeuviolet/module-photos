@@ -36,6 +36,7 @@ if( ! empty( $savesetting ) )
 	$photo_setting['autologosize1'] = $nv_Request->get_int( 'autologosize1', 'post', 50 );
 	$photo_setting['autologosize2'] = $nv_Request->get_int( 'autologosize2', 'post', 40 );
 	$photo_setting['autologosize3'] = $nv_Request->get_int( 'autologosize3', 'post', 30 );
+	$photo_setting['logo_position'] = $nv_Request->get_title ( 'logo_position', 'post', 'bottom_right' );
 	$photo_setting['structure_upload'] = $nv_Request->get_title( 'structure_upload', 'post', '', 0 );
 	$photo_setting['maxupload'] = $nv_Request->get_int( 'maxupload', 'post', 0 );
 	$photo_setting['maxupload'] = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ), $photo_setting['maxupload']);
@@ -157,6 +158,29 @@ foreach( $array_structure_image as $type => $dir )
 		'selected' => $type == $structure_image_upload ? ' selected="selected"' : ''
 	) );
 	$xtpl->parse( 'main.structure_upload' );
+}
+
+
+$array_logoposition = array (
+		'' => $lang_module ['upload_logo_pos'],
+		'bottom_right' => $lang_module ['logoposbottomright'],
+		'bottom_left' => $lang_module ['logoposbottomleft'],
+		'bottom_center' => $lang_module ['logoposbottomcenter'],
+		'center_right' => $lang_module ['logoposcenterright'],
+		'center_left' => $lang_module ['logoposcenterleft'],
+		'center_center' => $lang_module ['logoposcentercenter'],
+		'top_right' => $lang_module ['logopostopright'],
+		'top_left' => $lang_module ['logopostopleft'],
+		'top_center' => $lang_module ['logopostopcenter'] 
+);
+
+// Vi tri Logo
+while ( list ( $logo_position, $title_logoposition ) = each ( $array_logoposition ) ) {
+	$sl = ($logo_position == $module_config [$module_name] ['logo_position']) ? ' selected="selected"' : '';
+	$xtpl->assign ( 'logo_position', $logo_position );
+	$xtpl->assign ( 'title_logoposition', $title_logoposition );
+	$xtpl->assign ( 'logopos', $sl );
+	$xtpl->parse ( 'main.logopos' );
 }
 
 

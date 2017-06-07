@@ -515,9 +515,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 								$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 								$newFilePath = $folder_album . '/' . strtolower ($basename);
 
-								$upload_logo = $rename = '';
+								$logo_pos = $upload_logo = $rename = '';
 								if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
 								{
+									$logo_pos = explode ( '_', $module_config [$module_name] ['logo_position'] );
 									$upload_logo = $module_config[$module_name]['module_logo'];
 									$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
 
@@ -541,18 +542,33 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										}
 									}
 
-									$h = ceil( $w * $logo_size[1] / $logo_size[0] );
-									$x = $photo['width'] - $w - 5;
-									$y = $photo['height'] - $h - 5;
-
-									$config_logo = array();
-									$config_logo['x'] = $photo['width'] - $w - 5;
-									$config_logo['y'] = $photo['height'] - $h - 5;
-									$config_logo['w'] = $w;
-									$config_logo['h'] = $h;
+									$h = ceil ( $w * $logo_size [1] / $logo_size [0] );
+									$x = $photo ['width'] - $w - 5;
+									$y = $photo ['height'] - $h - 5;
+									
+									$config_logo = array ();
+									$config_logo ['w'] = $w;
+									$config_logo ['h'] = $h;
+									
+									$config_logo ['x'] = $photo ['width'] - $w - 5; // Horizontal: Right
+									$config_logo ['y'] = $photo ['height'] - $h - 5; // Vertical: Bottom
+																						
+									// Logo vertical
+									if ($logo_pos [0] == "top") {
+										$config_logo ['y'] = 5;
+									} elseif ($logo_pos [0] == "center") {
+										$config_logo ['y'] = round ( ($photo ['height'] / 2) - ($h / 2) );
+									}
+									
+									// Logo horizontal
+									if ($logo_pos [1] == "left") {
+										$config_logo ['x'] = 5;
+									} elseif ($logo_pos [1] == "center") {
+										$config_logo ['x'] = round ( ($photo ['width'] / 2) - ($w / 2) );
+									}
 
 									$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-									$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
+									$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, 'left', 'bottom', $config_logo );
 									$createImage->save( $folder_album, $basename );
 									$rename = $createImage->is_destroy;
 								} 
@@ -744,9 +760,10 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 										$filePath = NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $photo['basename'];
 										$newFilePath = $folder_album . '/' . strtolower ($basename);
 										
-										$upload_logo = $rename = '';
+										$logo_pos = $upload_logo = $rename = '';
 										if( !empty($module_config[$module_name]['module_logo']) AND file_exists( NV_ROOTDIR . '/' . $module_config[$module_name]['module_logo'] ) AND $module_config[$module_name]['active_logo'] == 1 )
 										{
+											$logo_pos = explode ( '_', $module_config [$module_name] ['logo_position'] );
 											$upload_logo = $module_config[$module_name]['module_logo'];
 											$logo_size = getimagesize( NV_ROOTDIR . '/' . $upload_logo );
 	 
@@ -770,18 +787,33 @@ if( ACTION_METHOD == 'add' || ACTION_METHOD == 'edit'  )
 												}
 											}
 
-											$h = ceil( $w * $logo_size[1] / $logo_size[0] );
-											$x = $photo['width'] - $w - 5;
-											$y = $photo['height'] - $h - 5;
-
-											$config_logo = array();
-											$config_logo['x'] = $photo['width'] - $w - 5;
-											$config_logo['y'] = $photo['height'] - $h - 5;
-											$config_logo['w'] = $w;
-											$config_logo['h'] = $h;
+											$h = ceil ( $w * $logo_size [1] / $logo_size [0] );
+											$x = $photo ['width'] - $w - 5;
+											$y = $photo ['height'] - $h - 5;
+											
+											$config_logo = array ();
+											$config_logo ['w'] = $w;
+											$config_logo ['h'] = $h;
+											
+											$config_logo ['x'] = $photo ['width'] - $w - 5; // Horizontal: Right
+											$config_logo ['y'] = $photo ['height'] - $h - 5; // Vertical: Bottom
+																								
+											// Logo vertical
+											if ($logo_pos [0] == "top") {
+												$config_logo ['y'] = 5;
+											} elseif ($logo_pos [0] == "center") {
+												$config_logo ['y'] = round ( ($photo ['height'] / 2) - ($h / 2) );
+											}
+											
+											// Logo horizontal
+											if ($logo_pos [1] == "left") {
+												$config_logo ['x'] = 5;
+											} elseif ($logo_pos [1] == "center") {
+												$config_logo ['x'] = round ( ($photo ['width'] / 2) - ($w / 2) );
+											}
 
 											$createImage = new NukeViet\Files\Image( $filePath, NV_MAX_WIDTH, NV_MAX_HEIGHT );
-											$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, '', '', $config_logo );
+											$createImage->addlogo( NV_ROOTDIR . '/' . $upload_logo, 'left', 'bottom', $config_logo );
 											$createImage->save( $folder_album, $basename );
 											$rename = $createImage->is_destroy;
 										} 

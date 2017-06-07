@@ -172,3 +172,14 @@ $lang_module['album_last_modifier']='Chỉnh sửa';
 $lang_module['pick_category'] = 'Chọn chuyên mục';
 $lang_module['pick_albumname'] = 'Tên Album';
 $lang_module['pick_albumdate'] = 'Ngày đăng Album';
+
+$lang_module['upload_logo_pos'] = 'Vị trí của logo';
+$lang_module['logoposbottomright'] = 'Phía dưới, bên phải';
+$lang_module['logoposbottomleft'] = 'Phía dưới, bên trái';
+$lang_module['logoposbottomcenter'] = 'Phía dưới, ở giữa';
+$lang_module['logoposcenterright'] = 'Ở giữa, bên phải';
+$lang_module['logoposcenterleft'] = 'Ở giữa, bên trái';
+$lang_module['logoposcentercenter'] = 'Chính giữa ảnh';
+$lang_module['logopostopright'] = 'Phía trên, bên phải';
+$lang_module['logopostopleft'] = 'Phía trên, bên trái';
+$lang_module['logopostopcenter'] = 'Phía trên, ở giữa';

@@ -179,6 +179,16 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-sm-6 control-label">{LANG.upload_logo_pos}:</label>
+					<div class="col-sm-5">
+						<select class="form-control" name="logo_position">
+							<!-- BEGIN: logopos -->
+							<option value="{logo_position}" {logopos}>{title_logoposition}</option>
+							<!-- END: logopos -->
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="col-sm-6 control-label">{LANG.setting_max_size_upload}:</label>
 					<div class="col-sm-18">
 						<select class="form-control w250" name="maxupload">
