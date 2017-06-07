@@ -20,13 +20,13 @@ if (! defined('NV_IS_MOD_PHOTO'))
  */
 function home_view_grid_by_cat($array_cate)
 {
-    global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $op_file, $lang_module, $module_config, $module_info, $op;
+    global $global_config, $global_photo_cat, $module_name, $module_upload, $op_file, $lang_module, $module_config, $module_info, $op;
     
-    $xtpl = new XTemplate('home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
     $xtpl->assign('TEMPLATE', $module_info['template']);
-    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('MODULE_FILE', $module_info['module_file']);
     $xtpl->assign('OP', $op);
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
@@ -81,13 +81,13 @@ function home_view_grid_by_cat($array_cate)
  */
 function home_view_grid_by_album($array_album, $generate_page)
 {
-    global $global_config, $global_photo_cat, $module_name, $module_upload, $module_file, $op_file, $lang_module, $module_config, $module_info, $op;
+    global $global_config, $global_photo_cat, $module_name, $module_upload, $op_file, $lang_module, $module_config, $module_info, $op;
     
-    $xtpl = new XTemplate('home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('home_view_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
     $xtpl->assign('TEMPLATE', $module_info['template']);
-    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('MODULE_FILE', $module_info['module_file']);
     $xtpl->assign('OP', $op);
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
@@ -130,13 +130,13 @@ function home_view_grid_by_album($array_album, $generate_page)
  */
 function viewcat_grid($array_catpage, $generate_page)
 {
-    global $global_config, $category_id, $global_photo_cat, $client_info, $module_name, $module_upload, $module_file, $op_file, $lang_module, $module_config, $module_info, $op;
+    global $global_config, $category_id, $global_photo_cat, $client_info, $module_name, $module_upload, $op_file, $lang_module, $module_config, $module_info, $op;
     
-    $xtpl = new XTemplate('viewcat_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('viewcat_grid.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
     $xtpl->assign('TEMPLATE', $module_info['template']);
-    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('MODULE_FILE', $module_info['module_file']);
     $xtpl->assign('OP', $op);
     $xtpl->assign('CATALOG', $global_photo_cat[$category_id]);
     $xtpl->assign('SELFURL', $client_info['selfurl']);
@@ -180,12 +180,12 @@ function viewcat_grid($array_catpage, $generate_page)
  */
 function detail_album($album, $array_photo, $other_category_album, $content_comment, $generate_page = '', $page = 1)
 {
-    global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $module_file, $lang_module, $op_file, $module_config, $module_info, $op;
-    $xtpl = new XTemplate('detail_album.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    global $global_config, $category_id, $client_info, $global_photo_cat, $module_name, $module_upload, $lang_module, $op_file, $module_config, $module_info, $op;
+    $xtpl = new XTemplate('detail_album.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
     $xtpl->assign('TEMPLATE', $module_info['template']);
-    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('MODULE_FILE', $module_info['module_file']);
     $xtpl->assign('OP', $op);
     $xtpl->assign('CATALOG', $global_photo_cat[$category_id]);
     $xtpl->assign('SELFURL', $client_info['selfurl']);
@@ -266,13 +266,13 @@ function detail_album($album, $array_photo, $other_category_album, $content_comm
 
 function detail($row, $next_photo, $previous_photo)
 {
-    global $global_config, $category_id, $client_info, $global_photo_cat, $global_photo_album, $module_name, $module_upload, $module_file, $op_file, $lang_module, $module_config, $module_info, $op;
+    global $global_config, $category_id, $client_info, $global_photo_cat, $global_photo_album, $module_name, $module_upload, $op_file, $lang_module, $module_config, $module_info, $op;
     
-    $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('detail.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_BASE_SITEURL', NV_BASE_SITEURL);
     $xtpl->assign('TEMPLATE', $module_info['template']);
-    $xtpl->assign('MODULE_FILE', $module_file);
+    $xtpl->assign('MODULE_FILE', $module_info['module_file']);
     $xtpl->assign('OP', $op);
     $xtpl->assign('SELFURL', $client_info['selfurl']);
     
@@ -295,9 +295,9 @@ function detail($row, $next_photo, $previous_photo)
 
 function no_permission($no_permission)
 {
-    global $module_info, $module_file, $lang_module;
+    global $module_info, $lang_module;
     
-    $xtpl = new XTemplate('no_permission.tpl', NV_ROOTDIR . '/themes/default/modules/' . $module_file);
+    $xtpl = new XTemplate('no_permission.tpl', NV_ROOTDIR . '/themes/default/modules/' . $module_info['module_file']);
     
     $xtpl->assign('NO_PERMISSION', $no_permission);
     $xtpl->parse('no_permission');
@@ -307,9 +307,9 @@ function no_permission($no_permission)
 // Search
 function search_theme($key, $date_array, $array_cat_search)
 {
-    global $module_name, $module_info, $module_file, $lang_module, $module_name;
+    global $module_name, $module_info, $lang_module, $module_name;
     
-    $xtpl = new XTemplate('search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('NV_LANG_VARIABLE', NV_LANG_VARIABLE);
     $xtpl->assign('NV_LANG_DATA', NV_LANG_DATA);
@@ -333,9 +333,9 @@ function search_theme($key, $date_array, $array_cat_search)
 
 function search_result_theme($key, $numRecord, $per_pages, $page, $array_content, $catid)
 {
-    global $module_file, $module_info, $lang_module, $module_name, $module_upload, $global_photo_cat, $module_config, $global_config;
+    global $module_info, $lang_module, $module_name, $module_upload, $global_photo_cat, $module_config, $global_config;
     
-    $xtpl = new XTemplate('search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
+    $xtpl = new XTemplate('search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_file']);
     $xtpl->assign('LANG', $lang_module);
     $xtpl->assign('KEY', $key);
     $xtpl->assign('TITLE_MOD', $lang_module['search_module_title']);

@@ -52,7 +52,8 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 				$array_content = array();
 				while( list( $album_id, $category_id, $name, $alias, $capturelocal, $description, $num_photo, $date_added, $viewed, $author_id, $file, $thumb ) = $result->fetch( 3 ) )
 				{
-					
+					$author_upload = $author_image = '';
+
 					$sql = 'SELECT userid, username, first_name, last_name, photo FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1 AND userid= '. $author_id;
 					$array_user = $nv_Cache->db( $sql, 'userid', $module_name );
 					if( !empty($array_user))
@@ -67,6 +68,7 @@ if( $module_config[$module_name]['home_view'] == 'home_view_grid_by_cat' )
 							{
 								$author_upload = $array_user_i['username'];
 							}
+							
 							if( !empty($array_user_i['photo']) )
 							{
 								$author_image = $array_user_i['photo'];
