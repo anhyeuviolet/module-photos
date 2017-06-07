@@ -113,6 +113,12 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 		$html .= '<td>' . $lang_block['des_length'] . '</td>';
 		$html .= '<td><input type="text" class="form-control w200" name="config_des_length" size="5" value="' . $data_block['des_length'] . '"/></td>';
 		$html .= '</tr>';
+		
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['grid_mode'] . '</td>';
+        $html .= '<td><input type="checkbox" value="1" name="config_grid_mode" ' . ($data_block['grid_mode'] == 1 ? 'checked="checked"' : '') . ' /></td>';
+		$html .= '</tr>';
+
 		return $html;
 	}
 
@@ -126,6 +132,7 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
 		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
 		$return['config']['des_length'] = $nv_Request->get_int( 'config_des_length', 'post', 0 );
+		$return['config']['grid_mode'] = $nv_Request->get_int( 'config_grid_mode', 'post', 0 );
 		return $return;
 	}
 
@@ -179,11 +186,20 @@ if( ! nv_function_exists( 'nv_block_category_album' ) )
 				$album['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module . '/images/' . $album['file'];
 
 				$xtpl->assign( 'ALBUM', $album );
- 				$xtpl->parse( 'main.loop_album' );
+				if( $block_config['grid_mode'] == 1){
+					$xtpl->parse( 'grid.loop_album' );
+				}else{
+					$xtpl->parse( 'main.loop_album' );
+				}
 			}
 			
-			$xtpl->parse( 'main' );
-			return $xtpl->text( 'main' );
+			if( $block_config['grid_mode'] == 1){
+				$xtpl->parse( 'grid' );
+				return $xtpl->text( 'grid' );
+			}else{
+				$xtpl->parse( 'main' );
+				return $xtpl->text( 'main' );
+			}
 		}
 	}
 }
