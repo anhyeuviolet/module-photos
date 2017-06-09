@@ -295,7 +295,7 @@ function detail($row, $next_photo, $previous_photo)
 
 function no_permission($no_permission)
 {
-    global $module_info, $lang_module;
+    global $module_info;
     
     $xtpl = new XTemplate('no_permission.tpl', NV_ROOTDIR . '/themes/default/modules/' . $module_info['module_file']);
     
