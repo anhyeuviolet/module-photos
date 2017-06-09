@@ -171,10 +171,9 @@ if( ! nv_function_exists( 'nv_block_album_new' ) )
 			if( $block_config['grid_mode'] == 1){
 				$xtpl->parse( 'grid' );
 				return $xtpl->text( 'grid' );
-			}else{
-				$xtpl->parse( 'main' );
-				return $xtpl->text( 'main' );
 			}
+			$xtpl->parse( 'main' );
+			return $xtpl->text( 'main' );
 		}
 	}
 }
