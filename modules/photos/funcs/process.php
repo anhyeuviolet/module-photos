@@ -9,18 +9,16 @@
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if ( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
+if (!defined('NV_IS_MOD_PHOTO')) die('Stop!!!');
 
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 
 $array_data = array();
 
-
-
-$contents = nv_theme_photocenter_process( $array_data );
+$contents = nv_theme_photocenter_process($array_data);
 
 include NV_ROOTDIR . '/includes/header.php';
-echo nv_site_theme( $contents );
+echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
 

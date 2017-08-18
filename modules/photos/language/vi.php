@@ -9,7 +9,7 @@
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
-if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $lang_translator['author'] = "KENNY NGUYEN (nguyentiendat713@gmail.com)";
 $lang_translator['createdate'] = "18/09/2015, 10:41";
@@ -28,22 +28,22 @@ $lang_module['detail_rate_ok'] = 'Bạn đã đánh giá %s sao. Cám ơn bạn!
 $lang_module['detail_rate_timeout'] = 'Bạn đã bình luận rồi, hãy đợi %s phút để tiếp tục';
 $lang_module['detail_rate_unsuccess'] = 'Lỗi: Bạn không thể đánh giá !';
 
-$lang_module['album_model']='Kiểu mẫu';
-$lang_module['album_capturedate']='Ngày chụp';
-$lang_module['album_capturelocal']='Địa điểm chụp';
-$lang_module['album_rating']='Đánh giá';
-$lang_module['album_author_upload']='Người đăng';
+$lang_module['album_model'] = 'Kiểu mẫu';
+$lang_module['album_capturedate'] = 'Ngày chụp';
+$lang_module['album_capturelocal'] = 'Địa điểm chụp';
+$lang_module['album_rating'] = 'Đánh giá';
+$lang_module['album_author_upload'] = 'Người đăng';
 
-$lang_module['viewed']='Lượt xem';
-$lang_module['view_image']='Xem ảnh';
-$lang_module['view_album']='Xem Album';
-$lang_module['other_album']='Album cùng chuyên mục';
+$lang_module['viewed'] = 'Lượt xem';
+$lang_module['view_image'] = 'Xem ảnh';
+$lang_module['view_album'] = 'Xem Album';
+$lang_module['other_album'] = 'Album cùng chuyên mục';
 
-$lang_module['view_next']='Xem ảnh tiếp theo';
-$lang_module['view_previous']='Xem ảnh trước';
+$lang_module['view_next'] = 'Xem ảnh tiếp theo';
+$lang_module['view_previous'] = 'Xem ảnh trước';
 
-$lang_module['album']='Album';
-$lang_module['category']='Chuyên mục';
+$lang_module['album'] = 'Album';
+$lang_module['category'] = 'Chuyên mục';
 
 //Rating
 $lang_module['rating'] = 'Đánh giá bài viết';

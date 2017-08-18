@@ -8,8 +8,8 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
- 
-if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
+
+if (!defined('NV_ADMIN')) die('Stop!!!');
 
 $submenu['main'] = $lang_module['album'];
 $submenu['category'] = $lang_module['category'];

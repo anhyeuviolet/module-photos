@@ -9,7 +9,7 @@
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
+if (!defined('NV_IS_FILE_ADMIN')) die('Stop!!!');
 
 $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $mod_data . "_category ORDER BY sort_order ASC";
 $result = $db->query($sql);
