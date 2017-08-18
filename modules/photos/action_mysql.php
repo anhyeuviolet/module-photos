@@ -9,33 +9,30 @@
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if( ! defined( 'NV_IS_FILE_MODULES' ) ) die( 'Stop!!!' );
+if (!defined('NV_IS_FILE_MODULES')) die('Stop!!!');
 
 $sql_drop_module = array();
 $array_table = array(
-	'category',
-	'album',
-	'rows',
-	'rating',
-	'setting',
-	'favorite'
+    'category',
+    'album',
+    'rows',
+    'rating',
+    'setting',
+    'favorite'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
-$result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
-while( $item = $result->fetch( ) )
-{
-	$name = substr( $item['name'], strlen( $table ) + 1 );
-	if( preg_match( '/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name'] ) and ( preg_match( '/^([0-9]+)$/', $name ) or in_array( $name, $array_table ) ) )
-	{
-		$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
-	}
+$result = $db->query('SHOW TABLE STATUS LIKE ' . $db->quote($table . '_%'));
+while ($item = $result->fetch()) {
+    $name = substr($item['name'], strlen($table) + 1);
+    if (preg_match('/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name']) and (preg_match('/^([0-9]+)$/', $name) or in_array($name, $array_table))) {
+        $sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
+    }
 }
 
-$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'" );
+$result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'");
 $rows = $result->fetchAll();
-if( sizeof( $rows ) )
-{
-	$sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
+if (sizeof($rows)) {
+    $sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
 }
 
 $sql_create_module = $sql_drop_module;
@@ -73,7 +70,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	PRIMARY KEY (album_id),
 	KEY category_id (category_id),
 	KEY alias (alias)
-) ENGINE=MyISAM";	
+) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_category (
 	category_id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -103,7 +100,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	KEY parent_id (parent_id)
 ) ENGINE=MyISAM";
 
-
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
   row_id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   album_id mediumint(8) unsigned NOT NULL DEFAULT '0',
@@ -123,7 +119,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   date_modified int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (row_id)
 ) ENGINE=MyISAM";
-  
+
 // Module sidplay setting
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'origin_size_width', '1500')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'origin_size_height', '1500')";

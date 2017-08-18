@@ -9,15 +9,14 @@
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if ( ! defined( 'NV_IS_MOD_RSS' ) ) die( 'Stop!!!' );
+if (!defined('NV_IS_MOD_RSS')) die('Stop!!!');
 
 $rssarray = array();
 
 $sql = "SELECT category_id AS catid, parent_id AS parentid, name AS title, alias  FROM " . NV_PREFIXLANG . "_" . $mod_data . "_category ORDER BY sort_order";
-$list = $nv_Cache->db( $sql, '', $mod_name );
+$list = $nv_Cache->db($sql, '', $mod_name);
 
-foreach( $list as $value )
-{
-	$value['link'] = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $mod_name . "&amp;" . NV_OP_VARIABLE . "=" . $mod_info['alias']['rss'] . "/" . $value['alias'];
-	$rssarray[] = $value;
+foreach ($list as $value) {
+    $value['link'] = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $mod_name . "&amp;" . NV_OP_VARIABLE . "=" . $mod_info['alias']['rss'] . "/" . $value['alias'];
+    $rssarray[] = $value;
 }

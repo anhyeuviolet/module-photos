@@ -8,8 +8,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
-if (! defined('NV_IS_MOD_PHOTO'))
-    die('Stop!!!');
+if (!defined('NV_IS_MOD_PHOTO')) die('Stop!!!');
 
 /**
  * home_view_grid_by_cat()
@@ -31,14 +30,14 @@ function home_view_grid_by_cat($array_cate)
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
     
-    if (isset($module_config[$module_name]['home_layout']) && ! empty($module_config[$module_name]['home_layout'])) {
+    if (isset($module_config[$module_name]['home_layout']) && !empty($module_config[$module_name]['home_layout'])) {
         $module_info['layout_funcs'][$op_file] = $module_config[$module_name]['home_layout'];
     }
     
-    if (! empty($array_cate)) {
+    if (!empty($array_cate)) {
         foreach ($array_cate as $array_cat_i) {
             foreach ($array_cat_i['data'] as $album) {
-                if (isset($module_config[$module_name]['home_title_cut']) && ! empty($module_config[$module_name]['home_title_cut'])) {
+                if (isset($module_config[$module_name]['home_title_cut']) && !empty($module_config[$module_name]['home_title_cut'])) {
                     $album['name'] = nv_clean60($album['name'], $module_config[$module_name]['home_title_cut']);
                 }
                 $album['description'] = nv_clean60($album['description'], 100);
@@ -51,7 +50,7 @@ function home_view_grid_by_cat($array_cate)
                 $xtpl->set_autoreset();
             }
             
-            if (! empty($array_cat_i['subcatid'])) {
+            if (!empty($array_cat_i['subcatid'])) {
                 $array_cat_i['subcatid'] = explode(',', $array_cat_i['subcatid']);
                 foreach ($array_cat_i['subcatid'] as $subcatid) {
                     $items = $global_photo_cat[$subcatid];
@@ -92,13 +91,13 @@ function home_view_grid_by_album($array_album, $generate_page)
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
     
-    if (isset($module_config[$module_name]['home_layout']) && ! empty($module_config[$module_name]['home_layout'])) {
+    if (isset($module_config[$module_name]['home_layout']) && !empty($module_config[$module_name]['home_layout'])) {
         $module_info['layout_funcs'][$op_file] = $module_config[$module_name]['home_layout'];
     }
     
-    if (! empty($array_album)) {
+    if (!empty($array_album)) {
         foreach ($array_album as $album) {
-            if (isset($module_config[$module_name]['home_title_cut']) && ! empty($module_config[$module_name]['home_title_cut'])) {
+            if (isset($module_config[$module_name]['home_title_cut']) && !empty($module_config[$module_name]['home_title_cut'])) {
                 $album['name'] = nv_clean60($album['name'], $module_config[$module_name]['home_title_cut']);
             }
             $album['description'] = nv_clean60($album['description'], 100);
@@ -112,7 +111,7 @@ function home_view_grid_by_album($array_album, $generate_page)
         $xtpl->parse('main.grid_album');
     }
     
-    if (! empty($generate_page)) {
+    if (!empty($generate_page)) {
         $xtpl->assign('GENERATE_PAGE', $generate_page);
         $xtpl->parse('main.generate_page');
     }
@@ -142,8 +141,8 @@ function viewcat_grid($array_catpage, $generate_page)
     $xtpl->assign('SELFURL', $client_info['selfurl']);
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
-    if (! empty($array_catpage)) {
-        if (isset($global_photo_cat[$category_id]['layout']) && ! empty($global_photo_cat[$category_id]['layout'])) {
+    if (!empty($array_catpage)) {
+        if (isset($global_photo_cat[$category_id]['layout']) && !empty($global_photo_cat[$category_id]['layout'])) {
             $module_info['layout_funcs'][$op_file] = $global_photo_cat[$category_id]['layout'];
         }
         
@@ -158,7 +157,7 @@ function viewcat_grid($array_catpage, $generate_page)
         }
     }
     
-    if (! empty($generate_page)) {
+    if (!empty($generate_page)) {
         $xtpl->assign('GENERATE_PAGE', $generate_page);
         $xtpl->parse('main.generate_page');
     }
@@ -192,28 +191,28 @@ function detail_album($album, $array_photo, $other_category_album, $content_comm
     $per_line = 24 / $module_config[$module_name]['per_line'];
     $xtpl->assign('PER_LINE', $per_line);
     
-    if (! empty($album)) {
-        if (isset($album['layout']) && ! empty($album['layout'])) {
+    if (!empty($album)) {
+        if (isset($album['layout']) && !empty($album['layout'])) {
             $module_info['layout_funcs'][$op_file] = $album['layout'];
         }
         // $album['description'] = nv_clean60( $album['description'], 100 );
         $album['date_added'] = nv_date('d/m/Y', $album['date_added']);
         $xtpl->assign('ALBUM', $album);
-		
+        
         $per_page = $module_config[$module_name]['per_page_photo'];
         $num = 1;
-		if ($page > 1) $num = 1 + (( $page - 1 ) * $per_page);
-        if (! empty($array_photo)) {
+        if ($page > 1) $num = 1 + (($page - 1) * $per_page);
+        if (!empty($array_photo)) {
             foreach ($array_photo as $photo) {
                 $photo['thumb'] = photos_thumbs($photo['row_id'], $photo['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality']);
                 $photo['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $photo['file'];
-                $photo['description'] = ! empty($photo['description']) ? $photo['description'] : $photo['name'];
+                $photo['description'] = !empty($photo['description']) ? $photo['description'] : $photo['name'];
                 $photo['num'] = $num;
                 $photo['link_img'] = $global_photo_cat[$category_id]['link'] . '/' . $album['alias'] . '-' . $photo['album_id'] . '/' . $photo['row_id'] . $global_config['rewrite_exturl'];
                 $xtpl->assign('PHOTO', $photo);
                 $xtpl->parse('main.view_grid.loop_img');
                 $xtpl->parse('main.slider.loop_slide');
-                ++ $num;
+                ++$num;
             }
         }
     }
@@ -221,31 +220,31 @@ function detail_album($album, $array_photo, $other_category_album, $content_comm
         $xtpl->parse('main.social_tool');
     }
     
-    if (! empty($content_comment)) {
+    if (!empty($content_comment)) {
         $xtpl->assign('CONTENT_COMMENT', $content_comment);
         $xtpl->parse('main.comment');
     }
     
-    if (! empty($generate_page)) {
+    if (!empty($generate_page)) {
         $xtpl->assign('GENERATE_PAGE', $generate_page);
         $xtpl->parse('main.generate_page');
     }
     
     if ($module_config[$module_name]['album_view'] == 'album_view_grid') {
-        if (! empty($album['description'])) {
+        if (!empty($album['description'])) {
             $xtpl->parse('main.view_grid.description');
         }
         
         $xtpl->parse('main.view_grid');
     } elseif ($module_config[$module_name]['album_view'] == 'album_view_slider') {
-        if (! empty($album['description'])) {
+        if (!empty($album['description'])) {
             $xtpl->parse('main.slider.description');
         }
         
         $xtpl->parse('main.slider');
     }
     
-    if (! empty($other_category_album)) {
+    if (!empty($other_category_album)) {
         $key = 1;
         foreach ($other_category_album as $other) {
             $other['description'] = nv_clean60($other['description'], 100);
@@ -254,7 +253,7 @@ function detail_album($album, $array_photo, $other_category_album, $content_comm
             $other['file'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $other['file'];
             $other['key'] = $key;
             $xtpl->assign('OTHER', $other);
-            ++ $key;
+            ++$key;
             $xtpl->parse('main.other_album.loop_album');
         }
         $xtpl->parse('main.other_album');
@@ -276,8 +275,8 @@ function detail($row, $next_photo, $previous_photo)
     $xtpl->assign('OP', $op);
     $xtpl->assign('SELFURL', $client_info['selfurl']);
     
-    if (! empty($row)) {
-        if (isset($global_photo_album[$row['album_id']]['layout']) && ! empty($global_photo_album[$row['album_id']]['layout'])) {
+    if (!empty($row)) {
+        if (isset($global_photo_album[$row['album_id']]['layout']) && !empty($global_photo_album[$row['album_id']]['layout'])) {
             $module_info['layout_funcs'][$op_file] = $global_photo_album[$row['album_id']]['layout'];
         }
         
@@ -340,16 +339,16 @@ function search_result_theme($key, $numRecord, $per_pages, $page, $array_content
     $xtpl->assign('KEY', $key);
     $xtpl->assign('TITLE_MOD', $lang_module['search_module_title']);
     
-    if (! empty($array_content)) {
+    if (!empty($array_content)) {
         foreach ($array_content as $value) {
             $xtpl->assign('LINK', $global_photo_cat[$value['category_id']]['link'] . '/' . $value['alias'] . "-" . $value['album_id'] . $global_config['rewrite_exturl']);
             $xtpl->assign('TITLEROW', strip_tags(BoldKeywordInStr($value['name'], $key)));
-            if (! empty($value['description'])) {
+            if (!empty($value['description'])) {
                 $xtpl->assign('CONTENT', BoldKeywordInStr($value['description'], $key) . "...");
             }
             $xtpl->assign('TIME', nv_date('H:i d/m/Y', $value['date_added']));
             $value['src'] = photos_thumbs($value['album_id'], $value['file'], $module_upload, $module_config[$module_name]['cr_thumb_width'], $module_config[$module_name]['cr_thumb_height'], $module_config[$module_name]['cr_thumb_quality']);
-            if (! empty($value['src'])) {
+            if (!empty($value['src'])) {
                 $xtpl->assign('IMG_SRC', $value['src']);
                 $xtpl->parse('results.result.result_img');
             }
