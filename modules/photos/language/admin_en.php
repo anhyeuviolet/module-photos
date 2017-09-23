@@ -9,8 +9,9 @@
  * @Createdate May 31, 2016, 04:22:18 AM
  */
 
-if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+if( !defined( 'NV_ADMIN' ) or !defined( 'NV_MAINFILE' ) )
+{
+	die( 'Stop!!!' );
 }
 
 $lang_translator['author'] = '';
@@ -65,6 +66,7 @@ $lang_module['category_insert_success'] = 'Add successful.';
 $lang_module['category_update_success'] = 'Update successful.';
 $lang_module['category_delete_success'] = 'Removed.';
 $lang_module['category_error_album'] = 'Error: Cannot remove. This category have %s Album(s).';
+$lang_module['category_error_category'] = 'Error: Cannot remove. This category have %s Sub Category.';
 $lang_module['category_error_name'] = 'Error: Title is empty.';
 $lang_module['category_error_meta_title'] = 'Error: Meta title is empty.';
 $lang_module['category_error_warning'] = 'Error: Please check all fileds.';

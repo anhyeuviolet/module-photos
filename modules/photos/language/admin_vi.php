@@ -2,14 +2,15 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS 
+ * @Based on NukeViet CMS
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Wed, 21 Jan 2015 14:00:59 GMT
  */
 
-if (!defined('NV_MAINFILE')) die('Stop!!!');
+if( !defined( 'NV_MAINFILE' ) )
+	die( 'Stop!!!' );
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '22/07/2013, 21:41';
@@ -67,7 +68,8 @@ $lang_module['category_insert_success'] = 'Thêm Chuyên mục thành công';
 $lang_module['category_update_success'] = 'Cập nhật Chuyên mục thành công';
 $lang_module['category_delete_success'] = 'Chuyên mục đã xoá thành công';
 
-$lang_module['category_error_album'] = 'Lỗi: Không thể xoá. chuyên mục này đang được sử dụng ở %s Album';
+$lang_module['category_error_album'] = 'Lỗi: Không thể xoá. Chuyên mục này đang được sử dụng ở %s Album';
+$lang_module['category_error_category'] = 'Lỗi: Không thể xoá. Chuyên mục này có %s chuyên mục con';
 $lang_module['category_error_name'] = 'Lỗi: Tên chuyên mục không được để trống';
 $lang_module['category_error_meta_title'] = 'Lỗi: Thẻ meta title không được để trống';
 $lang_module['category_error_warning'] = 'Lỗi: Hãy kiểm tra các trường thông báo lỗi';

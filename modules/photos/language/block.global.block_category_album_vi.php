@@ -9,7 +9,8 @@
  * @Createdate Jun 22, 2010, 08:22:00 AM
  */
 
-if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) die('Stop!!!');
+if( !defined( 'NV_ADMIN' ) or !defined( 'NV_MAINFILE' ) )
+	die( 'Stop!!!' );
 
 $lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $lang_translator['createdate'] = '22/06/2010, 09:22';
@@ -22,4 +23,3 @@ $lang_block['numrow'] = 'Số Album hiển thị';
 $lang_block['title_length'] = 'Cắt tiêu đề';
 $lang_block['des_length'] = 'Cắt mô tả ngắn';
 $lang_block['grid_mode'] = 'Hiển thị dạng lưới';
- 

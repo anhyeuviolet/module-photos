@@ -2,37 +2,41 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS 
+ * @Based on NukeViet CMS
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if (!defined('NV_IS_FILE_MODULES')) die('Stop!!!');
+if( !defined( 'NV_IS_FILE_MODULES' ) )
+	die( 'Stop!!!' );
 
-$sql_drop_module = array();
+$sql_drop_module = array( );
 $array_table = array(
-    'category',
-    'album',
-    'rows',
-    'rating',
-    'setting',
-    'favorite'
+	'category',
+	'album',
+	'rows',
+	'rating',
+	'setting',
+	'favorite'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
-$result = $db->query('SHOW TABLE STATUS LIKE ' . $db->quote($table . '_%'));
-while ($item = $result->fetch()) {
-    $name = substr($item['name'], strlen($table) + 1);
-    if (preg_match('/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name']) and (preg_match('/^([0-9]+)$/', $name) or in_array($name, $array_table))) {
-        $sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
-    }
+$result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
+while( $item = $result->fetch( ) )
+{
+	$name = substr( $item['name'], strlen( $table ) + 1 );
+	if( preg_match( '/^' . $db_config['prefix'] . '\_' . $lang . '\_' . $module_data . '\_/', $item['name'] ) and (preg_match( '/^([0-9]+)$/', $name ) or in_array( $name, $array_table )) )
+	{
+		$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $item['name'];
+	}
 }
 
-$result = $db->query("SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'");
-$rows = $result->fetchAll();
-if (sizeof($rows)) {
-    $sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
+$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'" );
+$rows = $result->fetchAll( );
+if( sizeof( $rows ) )
+{
+	$sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
 }
 
 $sql_create_module = $sql_drop_module;
@@ -54,7 +58,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	layout varchar( 50 ) NOT NULL default '',
 	num_photo mediumint(3) unsigned NOT NULL default '0',
 	viewed mediumint(8) unsigned NOT NULL default '0',
-	weight int(11) unsigned NOT NULL default '0',
+	weight smallint(4) unsigned NOT NULL default '0',
+	sort mediumint(8) NOT NULL default '0',
 	allow_rating int(11) unsigned NOT NULL default '1',
 	total_rating int(11) NOT NULL default '0',
 	click_rating int(11) NOT NULL default '0',

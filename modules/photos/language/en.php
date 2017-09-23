@@ -9,8 +9,9 @@
  * @Createdate May 31, 2016, 04:22:18 AM
  */
 
-if (!defined('NV_MAINFILE')) {
-    die('Stop!!!');
+if( !defined( 'NV_MAINFILE' ) )
+{
+	die( 'Stop!!!' );
 }
 
 $lang_translator['author'] = '';

@@ -8,11 +8,10 @@
  * @Createdate Tue, 21 Jan 2014 01:32:02 GMT
  */
 
-if (!defined('NV_MAINFILE')) die('Stop!!!');
+if( !defined( 'NV_MAINFILE' ) )
+	die( 'Stop!!!' );
 
 // Cap nhat lai so luong comment duoc kich hoat
-$numf = $db->query('SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment where module= ' . $db->quote($row['module']) . ' AND id= ' . $row['id'] . ' AND status=1')
-    ->fetchColumn();
+$numf = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment where module= ' . $db->quote( $row['module'] ) . ' AND id= ' . $row['id'] . ' AND status=1' )->fetchColumn( );
 $query = 'UPDATE ' . NV_PREFIXLANG . '_' . $mod_info['module_data'] . '_album SET hitscm=' . $numf . ' WHERE album_id=' . $row['id'];
-$db->query($query);
-// Het Cap nhat lai so luong comment duoc kich hoat
+$db->query( $query );
