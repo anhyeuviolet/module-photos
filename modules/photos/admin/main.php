@@ -120,8 +120,8 @@ if( ACTION_METHOD == 'delete' )
 					}
 				}
 
-				@nv_deletefile( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $album['folder'] );
-				@rmdir( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $album['folder'] );
+				@nv_deletefile( $album['folder'] );
+				@rmdir( $album['folder'] );
 				$nv_Request->unset_request( $module_data . '_success', 'session' );
 				nv_insert_logs( NV_LANG_DATA, $module_name, 'log_del_album', $album['album_id'], $admin_info['userid'] );
 				$nv_Cache->delMod( $module_name );
