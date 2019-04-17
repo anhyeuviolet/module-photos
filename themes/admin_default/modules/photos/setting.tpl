@@ -183,7 +183,7 @@
 					<div class="col-sm-5">
 						<select class="form-control" name="logo_position">
 							<!-- BEGIN: logopos -->
-							<option value="{logo_position}" {logopos}>{title_logoposition}</option>
+							<option value="{logopos.key}" {logopos.selected}>{logopos.title}</option>
 							<!-- END: logopos -->
 						</select>
 					</div>

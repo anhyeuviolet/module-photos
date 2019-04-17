@@ -1,17 +1,16 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2016 VINADES.,JSC. All rights reserved
- * @Language English
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate May 31, 2016, 04:22:18 AM
- */
+* @Project NUKEVIET 4.x
+* @Author VINADES.,JSC <contact@vinades.vn>
+* @Copyright (C) 2017 VINADES.,JSC. All rights reserved
+* @Language English
+* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @Createdate Sep 23, 2017, 07:57:43 AM
+*/
 
-if( !defined( 'NV_ADMIN' ) or !defined( 'NV_MAINFILE' ) )
-{
-	die( 'Stop!!!' );
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
+    die('Stop!!!');
 }
 
 $lang_translator['author'] = '';
@@ -66,7 +65,6 @@ $lang_module['category_insert_success'] = 'Add successful.';
 $lang_module['category_update_success'] = 'Update successful.';
 $lang_module['category_delete_success'] = 'Removed.';
 $lang_module['category_error_album'] = 'Error: Cannot remove. This category have %s Album(s).';
-$lang_module['category_error_category'] = 'Error: Cannot remove. This category have %s Sub Category.';
 $lang_module['category_error_name'] = 'Error: Title is empty.';
 $lang_module['category_error_meta_title'] = 'Error: Meta title is empty.';
 $lang_module['category_error_warning'] = 'Error: Please check all fileds.';
@@ -101,6 +99,7 @@ $lang_module['album_step_2'] = 'Upload photo(s)';
 $lang_module['album_step_3'] = 'Update info';
 $lang_module['album_upload_require'] = 'Please update your Browser that supports HTML5.';
 $lang_module['album_allow_rating'] = 'Rating is allowed.';
+$lang_module['album_allow_comment'] = 'Allow comment';
 $lang_module['album_error_name'] = 'Error: Empty album name.';
 $lang_module['album_error_folder'] = 'Error: Empty album folder.';
 $lang_module['album_error_category'] = 'Error: Empty album Category.';
@@ -150,4 +149,4 @@ $lang_module['album_view_slider'] = 'Display as Slider.';
 $lang_module['album_view_grid'] = 'Display as grid.';
 $lang_module['album_upload_author'] = 'Author';
 $lang_module['album_last_modifier'] = 'Last edited';
-$lang_module['album_allow_comment'] = 'Allow comment';
+$lang_module['category_error_category'] = 'Error: Cannot remove. This category have %s Sub Category.';

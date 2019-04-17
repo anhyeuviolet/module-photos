@@ -197,14 +197,16 @@ $array_logoposition = array(
 );
 
 // Vi tri Logo
-while( list( $logo_position, $title_logoposition ) = each( $array_logoposition ) )
-{
-	$sl = ($logo_position == $module_config[$module_name]['logo_position']) ? ' selected="selected"' : '';
-	$xtpl->assign( 'logo_position', $logo_position );
-	$xtpl->assign( 'title_logoposition', $title_logoposition );
-	$xtpl->assign( 'logopos', $sl );
-	$xtpl->parse( 'main.logopos' );
+
+foreach ($array_logoposition as $key => $val) {
+    $xtpl->assign('logopos', array(
+        'key' => $key,
+        'title' => $val,
+        'selected' => $key == $module_config[$module_name]['logo_position'] ? ' selected="selected"' : ''
+    ));
+    $xtpl->parse('main.logopos');
 }
+
 
 $sys_max_size = min( nv_converttoBytes( ini_get( 'upload_max_filesize' ) ), nv_converttoBytes( ini_get( 'post_max_size' ) ) );
 $p_size = $sys_max_size / 100;

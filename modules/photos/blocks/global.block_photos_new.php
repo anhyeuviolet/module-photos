@@ -96,6 +96,11 @@ if( !nv_function_exists( 'nv_block_photos_new' ) )
 		$html .= '<td>' . $lang_block['slide_mode'] . '</td>';
 		$html .= '<td><input type="checkbox" class="form-control" name="config_slide_mode" value="1" ' . ($data_block['slide_mode'] == 1 ? 'checked="checked"' : '') . '"/></td>';
 		$html .= '</tr>';
+        
+		$html .= '<tr>';
+		$html .= '<td>' . $lang_block['slide_type'] . '</td>';
+		$html .= '<td><input type="checkbox" class="form-control" name="config_slide_type" value="1" ' . ($data_block['slide_type'] == 1 ? 'checked="checked"' : '') . '"/></td>';
+		$html .= '</tr>';
 
 		return $html;
 	}
@@ -109,6 +114,7 @@ if( !nv_function_exists( 'nv_block_photos_new' ) )
 		$return['config']['numrow'] = $nv_Request->get_int( 'config_numrow', 'post', 0 );
 		$return['config']['title_length'] = $nv_Request->get_int( 'config_title_length', 'post', 0 );
 		$return['config']['slide_mode'] = $nv_Request->get_int( 'config_slide_mode', 'post', 0 );
+		$return['config']['slide_type'] = $nv_Request->get_int( 'config_slide_type', 'post', 0 );
 		return $return;
 	}
 
@@ -125,7 +131,12 @@ if( !nv_function_exists( 'nv_block_photos_new' ) )
 		$mod_data = $site_mods[$module]['module_data'];
 		$mod_file = $site_mods[$module]['module_file'];
 
-		$db->sqlreset( )->select( 'r.*, a.alias, a.album_id, a.category_id, a.capturedate' )->from( NV_PREFIXLANG . '_' . $mod_data . '_rows r LEFT JOIN ' . NV_PREFIXLANG . '_' . $mod_data . '_album a ON ( r.album_id = a.album_id )' )->where( 'a.status= 1 AND r.status = 1' )->order( 'a.date_added DESC' )->limit( $block_config['numrow'] );
+		$db->sqlreset( )
+            ->select( 'r.*, a.alias, a.album_id, a.category_id, a.capturedate' )
+            ->from( NV_PREFIXLANG . '_' . $mod_data . '_rows r LEFT JOIN ' . NV_PREFIXLANG . '_' . $mod_data . '_album a ON ( r.album_id = a.album_id )' )
+            ->where( 'a.status= 1 AND r.status = 1' )
+            ->order( 'a.date_added DESC' )
+            ->limit( $block_config['numrow'] );
 
 		$list = $nv_Cache->db( $db->sql( ), 'row_id', $module );
 		if( !empty( $list ) )
@@ -155,13 +166,22 @@ if( !nv_function_exists( 'nv_block_photos_new' ) )
 				$xtpl->assign( 'ALBUM', $album );
 				if( $block_config['slide_mode'] == 1 )
 				{
-					if( !defined( 'PHOTOS_NEWS_SLIDE' ) )
-					{
-						define( 'PHOTOS_NEWS_SLIDE', true );
-						$xtpl->parse( 'slide.js' );
-					}
-					$xtpl->parse( 'slide.loop_album' );
-
+                    if( $block_config['slide_type'] == 1 )
+                    {
+                        if( !defined( 'PHOTOS_NEWS_SLIDE_jcarousel' ) )
+                        {
+                            define( 'PHOTOS_NEWS_SLIDE_jcarousel', true );
+                            $xtpl->parse( 'jcarousel.js' );
+                        }
+                        $xtpl->parse( 'jcarousel.loop_album' );
+                    }else{
+                        if( !defined( 'PHOTOS_NEWS_SLIDE_jcarousel' ) )
+                        {
+                            define( 'PHOTOS_NEWS_SLIDE_jcarousel', true );
+                            $xtpl->parse( 'slide.js' );
+                        }
+                        $xtpl->parse( 'slide.loop_album' );
+                    }
 				}
 				else
 				{
@@ -170,8 +190,14 @@ if( !nv_function_exists( 'nv_block_photos_new' ) )
 			}
 			if( $block_config['slide_mode'] == 1 )
 			{
-				$xtpl->parse( 'slide' );
-				return $xtpl->text( 'slide' );
+                if($block_config['slide_type'] == 1)
+                {
+                    $xtpl->parse( 'jcarousel' );
+                    return $xtpl->text( 'jcarousel' );
+                }else{
+                    $xtpl->parse( 'slide' );
+                    return $xtpl->text( 'slide' );
+                }
 			}
 			else
 			{

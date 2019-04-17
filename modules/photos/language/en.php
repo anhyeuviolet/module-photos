@@ -1,17 +1,16 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2016 VINADES.,JSC. All rights reserved
- * @Language English
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate May 31, 2016, 04:22:18 AM
- */
+* @Project NUKEVIET 4.x
+* @Author VINADES.,JSC <contact@vinades.vn>
+* @Copyright (C) 2017 VINADES.,JSC. All rights reserved
+* @Language English
+* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
+* @Createdate Sep 23, 2017, 07:57:43 AM
+*/
 
-if( !defined( 'NV_MAINFILE' ) )
-{
-	die( 'Stop!!!' );
+if (!defined('NV_MAINFILE')) {
+    die('Stop!!!');
 }
 
 $lang_translator['author'] = '';
@@ -40,6 +39,8 @@ $lang_module['view_album'] = 'View Album';
 $lang_module['other_album'] = 'Same Category';
 $lang_module['view_next'] = 'Next';
 $lang_module['view_previous'] = 'Previous';
+$lang_module['album'] = 'Album';
+$lang_module['category'] = 'Category';
 $lang_module['rating'] = 'Rating';
 $lang_module['rating_average'] = 'Average rating';
 $lang_module['rating_count'] = 'Review(s)';
@@ -88,5 +89,3 @@ $lang_module['photo_nums'] = 'Total photo(s)';
 $lang_module['photo_incat_nums'] = 'Total photo(s) in Category';
 $lang_module['next_photo'] = 'Next';
 $lang_module['prev_photo'] = 'Previous';
-$lang_module['album'] = 'Album';
-$lang_module['category'] = 'Category';

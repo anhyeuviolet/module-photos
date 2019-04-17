@@ -227,7 +227,8 @@
 											mime_types: [{
 												title: "Image files",
 												extensions: "jpg,gif,png,jpeg"
-											}, ]
+											},{ title : "Zip files", extensions : "zip" },
+                                            { title : "MP3 files", extensions : "mp3" }]
 										},
 										flash_swf_url: '{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/Moxie.swf',
 										silverlight_xap_url: '{NV_BASE_SITEURL}themes/admin_default/modules/{MODULE_FILE}/plupload/Moxie.xap',
