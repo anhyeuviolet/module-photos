@@ -39,3 +39,7 @@ Cập nhật tương thích NukeViet 4 Final (4.0.29).
 - Cài mới hoặc cài đè lên bản 1.3.08.
 --------------------------------
 + Yêu cầu phiên bản NukeViet từ 4.0.25 - NV RC1( Với Photos bản 1.3.08).
+
+----------------------------------
+Thank to original blueimp gallery library
+https://github.com/blueimp/Gallery
